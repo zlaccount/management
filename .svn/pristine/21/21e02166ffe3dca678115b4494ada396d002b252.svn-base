@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>门诊排班-门办审核</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="assets/laydate/need/laydate.css"/>
+    <link rel="stylesheet" href="lib/myPagination/page.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body style="height: 100%">
+	<div id="audit">
+        <div class="schedule_head">门办审核</div>
+        <div class="schedule_search">
+            <div class="schedule_name">
+                <lable>科室名称:</lable>
+                <input class="department" type="text" placeholder="请填写具体科室"/>
+                <ul class="queryDepart">
+                    <!-- <li>牙周科</li> -->
+                </ul>
+            </div>
+            <!-- <div class="schedule_name">
+                <lable>是否审核:</lable>
+                <select class="toExamine" class="audit_check">
+                    <option value="0">全部</option>
+                    <option value="1">是</option>
+                    <option value="2">否</option>
+                </select>
+            </div> -->
+            <!-- <div class="schedule_name">
+                <lable>排班日期:</lable>
+                <input class="inline laydate-icon" id="start">
+            </div> -->
+            <!-- <div class="schedule_name audit_time">
+                <lable>排班日期:</lable>
+                <input class="inline laydate-icon search_beginDate" id="time_start">
+            </div>
+            <div class="schedule_name">
+                <lable>—</lable>
+                <input class="inline laydate-icon search_endDate" id="time_end">
+            </div> -->
+            <div class="schedule_name">
+                <lable>排班日期:</lable>
+                <input class="doctor_time inline laydate-icon search_beginDate" id="start">
+            </div>
+            <button class="audit_query">查询</button>
+            <!-- <button onclick="remark()" class="audit_reset bac_red">重置</button> -->
+        </div>
+        <button class="table_backToUser" style="display:none;">返回</button>
+        <button class="table_backToList" style="display:none;">返回</button>
+	</div>
+    <div class="col-xs-12 schedule_table">
+        <div class="table-responsive">
+            <table class="table table-bordered table-responsive row table_schedule_doc" style="display:none">
+                 <caption>
+                   <!--   <p style="text-align: center">科室排班汇总</p> -->
+                     <p></p>
+                     <input type="hidden" class="recordId" value="">
+                     <input type="hidden" class="subId" value="">
+                     <span></span>
+                     <div class="choose_time" style="visibility: hidden;">
+                          <div class="half_year">半年排班</div>
+                          <div class="">一年排班</div>
+                     </div> 
+                 </caption>
+                <tbody>
+                <tr class="schedule_mess">
+                    <td colspan="13">
+                        <div class="mess_left">
+                            <!-- <div class="pull-left ">
+                                <img src="images/mess_03.png" alt=""/><a class="new_schedule"  href="javascript:void(0);">新建排班</a>
+                            </div> -->
+                            <div class="pull-left">
+                                <img src="images/mess_01.png" alt=""/><a class="export_table" href="javascript:void(0);">导出表格</a>
+                            </div>
+                           <!--  <div class="pull-left ">
+                                <img src="images/mess_03.png" alt=""/><a id="add_sourse" onclick="addSourse(this)" class="new_schedule" href="javascript:void(0);">应急增加</a>
+                            </div>
+                            <div class="pull-left ">
+                                <img src="images/mess_10.png" alt=""/><a id="doctor_sourse" onclick="addHandle(this)" class="modify_record" href="javascript:void(0);">医生应急处理</a>
+                            </div>  -->
+                        </div>
+                        <div class="pull-right mess_right">
+                            <div class="pull-right nervous_line">
+                                <i></i>
+                                <span>特需门诊</span>
+                            </div>
+                            <div class="pull-right nervous_line">
+                                <i class="back_blue"></i>
+                                <span>专家门诊</span>
+                            </div>
+
+                            <div class="pull-right has_line">
+                                <i class="back_black"></i>
+                                <span>普通门诊</span>
+                            </div>
+                            <div class="pull-right has_line">
+                                <i class="back_ddd"></i>
+                                <span>已提交</span>
+                            </div>
+                            <div class="pull-right none_line">
+                                <i></i>
+                                <span>未排号</span>
+                            </div>
+                        </div>
+
+                    </td>
+
+                </tr>
+                <tr class="schedule_tr">
+                    <!-- <td style="min-width: 40px; max-width:50px">序号</td>
+                    <td style="min-width: 80px; max-width:140px">科室名称</td>
+                    <td style="min-width: 80px; max-width:100px">上传人员</td>
+                    <td style="min-width: 80px; max-width:100px">上传时间</td>
+                    <td style="min-width: 80px; max-width:100px">操作</td> -->
+                    <td style="min-width: 40px; max-width:50px">序号</td>
+                    <td style="min-width: 80px; max-width:140px">医生姓名</td>
+                    <td style="min-width: 80px; max-width:100px">医生职称</td>
+                    <td style="width: 120px">门诊类别</td>
+                    <td style="min-width: 80px; max-width:100px">上/下午</td>
+                    <td colspan="7">
+                        <table class="table table_header schedule_tr_table">
+                            <tr>
+                            </tr>
+                        </table>
+                    </td>
+                    <td style="min-width:100px; max-width:140px">操作</td>
+                    
+                    <!-- <td style="min-width:100px; max-width:140px">审核</td> -->
+                </tr>
+                </tbody>
+                <tbody class="doc_mess">
+
+                </tbody>
+            </table>
+            <table class="table table-bordered table-responsive row table_schedule_user" style="display:none">
+                <tr class="schedule_tr">
+                    <td style="width: 120px">序号</td>
+                    <td style="width: 200px">科室名称</td>
+                    <td style="width: 200px">排班员</td>
+                    <td style="width: 200px">联系电话</td>
+                    <td style="width: 200px">提交时间</td>
+                    <td style="width: 200px">审核状态</td>
+                    <td style="width: 400px">操作</td>
+                    <!-- <td style="min-width:100px; max-width:140px">审核</td> -->
+                </tr>
+                <tbody class="user_mess">
+
+                </tbody>
+            </table>
+            <table class="table table-bordered table-responsive row table_schedule_list">
+                <tr class="schedule_tr">
+                    <!-- <td style="min-width: 40px; max-width:50px">序号</td>
+                    <td style="min-width: 80px; max-width:140px">科室名称</td>
+                    <td style="min-width: 80px; max-width:100px">上传人员</td>
+                    <td style="min-width: 80px; max-width:100px">上传时间</td>
+                    <td style="min-width: 80px; max-width:100px">操作</td> -->
+                    <td style="width: 120px;">序号</td>
+                    <td style="width: 200px">科室</td>
+                    <td style="width: 350px">最新提交时间</td>
+                    <td style="width: 200px">审核状态</td>
+                    <td style="width: 500px">操作</td>
+                    <!-- <td style="min-width:100px; max-width:140px">审核</td> -->
+                </tr>
+                <tbody class="list_mess">
+
+                </tbody>
+            </table>
+        </div>
+       <!--  <div class="table_submit"><button>全部提交</button></div> -->
+        <div class="table_submit_shen">
+            <button class="table_submit" style="display:none;">审核全部</button>
+            <button class="table_submit_one">审核全部</button>
+             <div class="schedule_user_down">
+            审核人：<span>张三</span>
+            </div>
+        </div> 
+        <!--分页-->
+        <div class="schedule_page page_style"> </div>
+    </div>
+    <div class="schedule_time_down">
+        <!-- 2017-06-27&nbsp;&nbsp;12:20:26 -->
+    </div>
+    <div id="smallAlert">
+        <!-- 遮罩层 -->
+        <div class="smallMask"></div>
+        <!--消息框-->
+        <div class="smallBox">
+            <div class="alertBox_top">
+                <p class="small-title">
+                    温馨提示
+                </p>
+            </div>
+            <div class="small_main">
+                <p class="small_text">将短信通知已挂号人员改签?</p>
+            </div>
+            <div class="small_btn">
+                <button class="btn_return">取消</button>
+                <button class="btn_sure">确认</button>
+            </div>
+        </div>
+         <!--loading 加载等待-->
+        <div class="waitingBox">
+        <!-- <p>加载中......请稍后</p> -->
+            <img src="images/waiting.gif" alt="">
+        </div>
+    </div>
+    <script src="public/js/jquery-1.11.3.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/laydate/laydate.js"></script>
+    <script src="lib/myPagination/jquery.myPagination6.0.js"></script>
+    <script src="public/js/base.js"></script>
+    <script src="js/audit.js"></script>
+    <script>
+     //   setInterval("time()",100);
+    setInterval("time()",100);
+        var start={
+            elem: '#start',
+            event: 'focus',
+            format:'YYYY-MM-DD',
+            istime: true,
+            istoday: true,
+            // start:laydate.now(0,'YYYY-MM-DD')
+            // min: laydate.now(), //-1代表昨天，-2代表前天，以此类推
+            // max: laydate.now(+28)
+        };
+        
+        // var goodsStartTime={
+        //     elem: '#time_start',
+        //     event: 'focus',
+        //     choose: function(datas){
+        //         goodsEndTime.min = datas; //开始日选好后，重置结束日的最小日期
+        //         goodsEndTime.start = datas //将结束日的初始值设定为开始日
+        //     }
+        // };
+        // var goodsEndTime={
+        //     elem: '#time_end',
+        //     event: 'focus',
+        //     istime: true,
+        //     istoday: false,
+        //     choose: function(datas){
+        //         goodsStartTime.max = datas; //结束日选好后，重置开始日的最大日期
+        //     }
+        // };
+        laydate(start);
+        // laydate(goodsStartTime);
+        // laydate(goodsEndTime);
+        $(function(){
+          // $('.schedule_table').hide();
+            $('.smallMask').hide();
+            $('.smallBox').hide();
+            var h=document.documentElement.clientHeight;
+            var w=document.documentElement.clientWidth;
+            var smallW=$('.smallBox').width();
+            var smallH=$('.smallBox').height();
+            $('.smallBox').css({ 'top': (h-smallH) / 2 + 'px', 'left': (w-smallW) / 2 + 'px' });
+
+            $('#start').val(currentDay);    
+            $('.schedule_user_down>span').text(sessionStorage.getItem('username'));
+            //console.log( $('#start').val());
+            $(".choose_time >div").click(function () {
+                $(this).addClass("half_year").siblings().removeClass("half_year");
+            });
+           
+           getAllSchduling();
+        });
+    </script>
+</body>
+</html>

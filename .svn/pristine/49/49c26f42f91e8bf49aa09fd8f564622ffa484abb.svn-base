@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>财务管理</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="lib/myPagination/page.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" href="css/withdraw.css">
+    <style>
+        .set_content tr{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="set">
+        <div class="schedule_head">
+            <span>财务管理</span>
+            <i class="fa fa-angle-right fr" style="margin: 10px"></i>
+            <span>提现</span>
+        </div>
+        <div class="content">
+            <div class="content_top">
+                <div class="content_left">
+                    <span>确认提现信息</span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="chooseBankCard">
+                <div class="banklist">
+                    <span>银行卡信息：</span>
+                    <div class="bankinfo">
+                        <span>方小美</span>
+                        <div>
+                            <img src="images/nybank.png" alt="">
+                            <span>中国农业银行</span>
+                            <span>(**** **** 1234)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="withdrawNum">
+                    <span>提现金额：</span>
+                    <span style="color:#FE4A22">20.00</span>元
+                </div>
+                <div class="accountTime">
+                    <span>到账时间：</span>
+                    <span>2018-12-06 11:00:00</span>
+                </div>
+                <div class="accountTime">
+                    <span>支付密码：</span>
+                    <input type="text"><a href="#">忘记密码？</a>
+                </div>
+                <button class="nextStep">确认提现</button>
+                <a href="withdraw.html">返回修改</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="mask">
+        <div class="withdrawtips">
+            <img src="images/submit.png" alt="">
+            <p>提现申请已提交，等待银行处理中</p>
+        </div>
+    </div>
+
+<script src="public/js/jquery-1.11.3.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/laydate/laydate.js"></script>
+<script src="lib/myPagination/jquery.myPagination6.0.js"></script>
+<!-- <script src="js/schedule.js"></script> -->
+<script src="js/confirmwithdraw.js"></script>
+<script>
+    $('.set_btn').css("margin-top","10px")
+    $(function(){
+        $('.alertMask').hide();
+        $('.alertBox').hide();
+        // setUp(1,"","");
+        // dapart();
+        $('.smallMask').hide();
+        $('.smallBox').hide();
+        // 获取弹窗宽高
+        var width=$('.alertBox').width();
+        var height=$('.alertBox').height();
+        // 获取浏览器窗口宽高
+        var h=document.documentElement.clientHeight;
+        var w=document.documentElement.clientWidth;
+        var smallW=$('.smallBox').width();
+        var smallH=$('.smallBox').height();
+        $('.alertBox').css({ 'top': (h-height) / 2 + 'px', 'left': (w-width) / 2 + 'px' });
+        $('.alert-close').click(function(){
+            $('.alertMask').hide();
+            $('.alertBox').hide();
+        })
+        $('.smallBox').css({ 'top': (h-smallH) / 2 + 'px', 'left': (w-smallW) / 2 + 'px' });
+        $('.btn_return').click(function(){
+            $('.smallMask').hide();
+            $('.smallBox').hide();
+        })
+    })
+</script>
+</body>
+</html>

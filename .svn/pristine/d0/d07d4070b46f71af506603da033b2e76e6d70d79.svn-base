@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>住院部审查</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" href="assets/laydate/need/laydate.css"/>
+</head>
+<body>
+    <div id="examination">
+        <div class="schedule_head">住院部审查</div>
+        <div class="schedule_search">
+            <div class="schedule_name">
+                <lable>科室:</lable>
+                <input type="text" placeholder="请填写" id="doctor_name"/>
+            </div>
+            <div class="schedule_name">
+                <lable>日期:</lable>
+                <input class="inline laydate-icon" id="start">
+            </div>
+            <div class="schedule_name">
+                <lable>提交人:</lable>
+                <input type="text" placeholder="请填写" id="sourceDate"/>
+            </div>
+            <button>查询</button>
+        </div>
+        <div class="table-responsive examine_table">
+            <table class="table table-bordered">
+                <tbody>
+                <tr class="schedule_mess">
+                    <td  colspan="10">
+                        <div class="pull-right mess_right">
+                            <div class=" pull-right">
+                                <i class="bgcolor_ba"></i>
+                                <span>审核通过</span>
+                            </div>
+
+                            <div class="pull-right">
+                                <i class="bgcolor_2f"></i>
+                                <span>点击进行审核床位</span>
+                            </div>
+                            <div class="pull-right">
+                                <i class="bgcolor_ee"></i>
+                                <span>审核未通过</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="schedule_tr">
+                    <td style="width: 70px">序号</td>
+                    <td style="width: 230px">日期</td>
+                    <td style="width: 185px">科室名称</td>
+                    <td style="width: 150px">床位总数量</td>
+                    <td style="width: 145px">
+                        VIP床位数量
+                    </td>
+                    <td style="width: 145px">
+                        普通床数量
+                    </td>
+                    <td style="width:145px;">
+                        特需床数量
+                    </td>
+                    <td style="width:140px;">
+                        其他(加床)
+                    </td>
+                    <td style="width:115px;">
+                        提交人
+                    </td>
+                    <td style="">
+                        操作
+                    </td>
+                </tr>
+                </tbody>
+                <tbody class="examine_list">
+                    <tr>
+                        <td class="examine_num">1</td>
+                        <td class="examine_data">2017-06-15(周四)</td>
+                        <td class="examine_title">内科</td>
+                        <td class="examine_count">245</td>
+                        <td class="examine_spe">24</td>
+                        <td class="examine_norm">23</td>
+                        <td class="examine_need">55</td>
+                        <td class="examine_other">55</td>
+                        <td class="examine_name">李四</td>
+                        <td class="examine_do"><button class="examine_do_ready">已审核</button></td>
+                    </tr>
+                    <tr>
+                        <td class="examine_num">1</td>
+                        <td class="examine_data">2017-06-15(周四)</td>
+                        <td class="examine_title">内科</td>
+                        <td class="examine_count">245</td>
+                        <td class="examine_spe">24</td>
+                        <td class="examine_norm">23</td>
+                        <td class="examine_need">55</td>
+                        <td class="examine_other">55</td>
+                        <td class="examine_name">李四</td>
+                        <td class="examine_do"><button class="examine_do_key">一键审核</button></td>
+                    </tr>
+                    <tr>
+                        <td class="examine_num">1</td>
+                        <td class="examine_data">2017-06-15(周四)</td>
+                        <td class="examine_title">内科</td>
+                        <td class="examine_count">245</td>
+                        <td class="examine_spe">24</td>
+                        <td class="examine_norm">23</td>
+                        <td class="examine_need">55</td>
+                        <td class="examine_other">55</td>
+                        <td class="examine_name">李四</td>
+                        <td class="examine_do"><button class="examine_do_no">未通过</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="public/js/jquery-1.11.3.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="js/index.js"></script>
+    <script src="assets/laydate/laydate.js"></script>
+    <script>
+        $(function () {
+//日期选择
+            var goodsStartTime={
+                elem: '#start',
+                event: 'focus',
+                istime: true,
+                istoday: false
+            };
+            laydate(goodsStartTime);
+        })
+    </script>
+</body>
+</html>

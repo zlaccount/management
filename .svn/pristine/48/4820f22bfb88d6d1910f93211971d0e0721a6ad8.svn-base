@@ -1,0 +1,177 @@
+
+/* @media screen and (min-width: 1280px) and (max-width: 1600px) {
+    .welcome{
+        font-size:38px;
+    }
+} */
+.loginBox{
+    /* height: 100%; */
+    height: 1080px;
+    width: 100%;
+    position:relative;
+    background: url('../images/new_login.png') no-repeat center;
+}
+.welcome{
+    position: absolute;
+    top:124px;
+    left:50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color:#0f7d7e;
+    font-size:48px;
+    padding-bottom:104px;
+}
+.welcome span{
+    margin-left:32px;
+    font-weight:bold;
+}
+.loginMes{
+    padding:58px 40px 67px 38px;
+    background:#fff;
+    position:absolute;
+    top:314px;
+     left:50%;
+      transform: translateX(20%);  
+}
+.loginMes .loginInner h3{
+    margin-bottom:52px;
+    font-size:24px;
+    color:#333;
+    font-weight: normal;
+}
+.loginMes .loginInner ul .username,.loginMes .loginInner ul .password{
+    width: 440px;
+    padding-left:75px;
+    box-sizing:border-box;
+    height: 66px;
+    line-height: 66px;
+    border:1px solid #dedede;
+    font-size:20px;
+    /* color:#bababa; */
+    border-radius:3px;
+}
+.loginMes ul li:nth-of-type(1){
+    margin-bottom:26px;
+   position:relative;
+}
+.loginMes ul li:nth-of-type(1) img{
+    position: absolute;
+    top:26px;
+    left:26px;
+}
+ .loginMes .loginInner ul li:nth-of-type(2){
+    position:relative;
+}
+ .loginMes .loginInner ul li:nth-of-type(2) img{
+    position: absolute;
+    top:26px;
+    left:26px; 
+ }
+.loginMes .userTip, .loginMes .pwdTip{  
+    display:none;
+}
+.loginMes .userTip{
+    margin-bottom:10px;
+}
+.loginMes .pwdTip{
+   margin-top:10px;  
+}
+.loginMes .enter{
+    display: block;
+    width: 440px;
+    height: 60px;
+    line-height:60px;
+    text-align: center;
+    margin-top:46px;
+    color:#fff;
+    font-size:24px;
+    cursor: pointer;
+    /* background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(#3ed0d4), to(#50d8ba)); */
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(#3ed0d4), to(#50d8ba));
+      background: -webkit-linear-gradient(top, #3ed0d4, #50d8ba);
+        FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#3ed0d4, endColorStr=#50d8ba); /*IE 6 7 8*/
+   background: -ms-linear-gradient(top, #3ed0d4, #50d8ba);        /* IE 10 */
+      background:-moz-linear-gradient(top, #3ed0d4, #50d8ba);/*火狐*/
+}
+.loginMes .eyesTip{
+     position: absolute;
+     top:25px;
+     right:25px;
+      width: 22px;
+    height: 16px;
+}
+.loginMes .eyesTip span{
+    display:block;
+}
+.loginMes .eyesTip .eyes{
+      width: 22px;
+    height: 16px;
+     background: url('../images/eyes.png') no-repeat center;
+    display:none;
+    }
+ .loginMes .eyesTip .grayeyes{
+      width: 22px;
+    height: 16px;
+     background: url('../images/grayeyes.png') no-repeat center;
+}
+.foot{
+     position: absolute;
+     bottom:54px;
+     left:50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color:#0ea082;
+}
+.foot p:nth-of-type(1){
+    font-size:22px;  
+}
+.foot p:nth-of-type(2){
+    font-size:12px;  
+}
+/* 
+ .loginView ul li:nth-of-type(2) span{
+     position: absolute;
+     top:10px;
+     right:10px;
+      width: 16px;
+    height: 16px;
+     background: url('../images/eyes.png') no-repeat center;
+   
+ }
+.loginView ul li input{
+    border:0 none;
+    font-size:12px;
+}
+.loginView ul p{
+    height: 30px;
+    line-height: 30px;
+}
+.loginView .forgetPs{
+    color:#666;
+    display: block;
+    padding:10px;
+    font-size:12px;
+    text-align: right;
+    text-decoration: underline;
+
+}
+.loginView .enter{
+     display: block;
+     width: 100%;
+     height: 40px;
+     line-height: 40px;
+     font-size:18px;
+     margin-top:20px;
+     color:#fff;
+     text-align: center;
+      background-color: #00cdb1;
+      cursor: pointer;
+}
+.loginView .userTip, .loginView .pwdTip{
+    display:none;
+}
+.footer{
+    width: 100%;
+    height: 5%;
+     background-color: #00cdb1;
+} */

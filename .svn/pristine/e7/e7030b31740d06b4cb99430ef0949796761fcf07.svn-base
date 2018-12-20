@@ -1,0 +1,299 @@
+body {
+	background-image: url(../images/takeNumber.png);
+}
+
+.header {
+	position: relative;
+	margin: auto auto;
+}
+
+.header img {
+	position: absolute;
+	top: 50px;
+	left: 80px;
+}
+
+.header a {
+	text-decoration: none;
+}
+
+.header p {
+	font-size: 72px;
+	text-align: center;
+	color: #fff;
+	padding-top: 234px;
+}
+
+#head .left_d {
+	height: 100px;
+	line-height: 100px;
+	float: left;
+	color: #fff;
+	font-size: 54px;
+	position: absolute;
+	top: 0;
+	left: 70px;
+}
+
+#head .right_w {
+	height: 100px;
+	line-height: 160px;
+	float: right;
+	color: #fff;
+	font-size: 36px;
+	position: absolute;
+	top: 0;
+	right: 40px;
+}
+
+#foot {
+	position: absolute;
+	bottom: 20px;
+	right: 40px;
+}
+
+#foot span {
+	font-size: 30px;
+	/*color: #fff;*/
+}
+/*第一步扫描身份证*/
+#alertPop .alert_one .alert_head button {
+	font-size: 28px;
+	width: 160px;
+	height: 70px;
+	background: #10f1c0;
+	border-radius: 10px;
+	box-shadow: 5px 5px 5px #1fb793;
+	color: #fff;
+	cursor: pointer;
+}
+#alertPop .alert_one .alert_head button a{
+	color: #fff;
+}
+#alertPop .alert_one .alert_head .alert_l {
+	position: absolute;
+	top: 20px;
+	left: 70px;
+}
+#alertPop .alert_one .alert_head .alert_r {
+	position: absolute;
+	top: 20px;
+	right: 70px;
+}
+/*#alertPop .alert_one .alert_head .help_take img{
+	position: absolute;
+	top: 15px;
+	left: 480px;
+}*/
+#alertPop .alert_one .alert_head .help_take{
+	position: absolute;
+	top: 15px;
+	left: 480px;
+	width: 948px;
+	height: 58px;
+}
+#alertPop .alert_one .alert_head .help_take_two{
+	position: absolute;
+	top: 15px;
+	left: 480px;
+	width: 948px;
+	height: 58px;
+}
+#alertPop .alert_one .alert_head .help_ps p{
+	position: absolute;
+	top: 22px;
+	left: 447px;
+	width: 1020px;
+	margin-top: 50px;	
+	display: initial;
+	font-size: 24px;
+	color: #fff;
+}
+#alertPop .alert_one .alert_head .help_ps p a {
+	font-size: 16px;
+	color: #fff;
+}
+#alertPop .alert_one .alert_head .help_take p:nth-of-type(1){
+	margin-right: 35px;
+}
+#alertPop .alert_one .alert_head .help_take p:nth-of-type(2){
+	margin-right: 190px;
+}
+#alertPop .alert_one .alert_head .help_take p:nth-of-type(3){
+	margin-right: 200px;
+}
+#alertPop .alert_one .alert_head .help_take p a{
+	font-size: 16px;
+	color: #fff;
+}
+#alertPop .alert_mian_l {
+    position: absolute;
+    top: 285px;
+    left: 238px;
+    width: 526px;
+    height: 480px;
+}
+#alertPop .alert_mian_l button {
+    width: 155px;
+    height: 45px;
+    background: #12dbae;
+    font-size: 32px;
+    color: #fff;
+    border-radius: 5px;
+    margin: 55px 0 0 165px;
+    cursor: pointer;
+}
+#alertPop .alert_mian_r {
+	width: 510px;
+	height: 590px;
+	background-color: rgba(255, 255, 255, .5);
+	position: absolute;
+	top: 200px;
+	right: 340px;
+	
+} 
+#alertPop .alert_mian_r h3 {
+	text-align: center;
+	font-size: 33px;
+	color: #13e7b8;
+	padding-top: 55px ;
+}
+/*120 55*/
+#alertPop .alert_mian_r .alert_idmian {
+	width: 405px;
+	height: 433px;
+	background: #fff;
+	margin: 65px 53px 0 53px;
+	font-size: 18px;
+}
+#alertPop .alert_mian_r .alert_idmian .id_set>p{
+    display: initial;
+    color: #000;
+}
+#alertPop .alert_mian_r .alert_idmian .id_set{
+	padding: 30px 0 0px 40px;
+}
+#alertPop .alert_mian_r .alert_idmian .id_chan{
+	margin-top: 45px;
+}
+#alertPop .alert_mian_r .alert_idmian p:nth-child(4) {
+	font-size: 15px;
+	color: #13e7b8;
+	text-align: center;
+	padding-top: 45px;
+}
+#alertPop .alert_mian_r .alert_idmian button {
+	width: 155px;
+	height: 45px;
+	background: #12dbae;
+	font-size: 32px;
+	color: #fff;
+	border-radius: 5px;
+    margin: 55px 0 0 120px;
+	cursor: pointer;
+}
+/*遮罩层*/
+#alertPop {
+	display: none;
+}
+/*遮罩层2*/
+.saomiaoMes{
+	display: none;
+}
+/*.mask{
+	display: none;
+}*/
+.table_info {
+	margin-top: 150px;
+	position: absolute;
+	left: 95px;
+}
+.table > thead:first-child > tr:first-child > th , 
+.table-bordered > tbody > tr > td{
+	text-align: center;
+	width: 105px;
+	height: 50px;
+	line-height: 50px;
+	background: #fff;
+}
+#alert_two {
+	width: 420px;
+	height: 640px;
+	position: absolute;
+	right: 45px;
+	top: 170px;
+	border-left: 1px solid #fc8d46;
+	display: none;
+}
+#alert_two .alert_number{
+	text-align: center;
+	margin-top: 60px;
+}
+#alert_two .alert_number a {
+	font-size: 31px;
+	color: #fc8d46;
+}
+#alert_two .alert_number p {
+	width: 200px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 27px;
+    margin-top: 15px;
+    margin-left: 105px;
+    border: 1px solid #fc8d46;
+    border-radius: 5px;
+}
+#alert_two .alert_fot button {
+	font-size: 32px;
+	width: 150px;
+	height: 45px;
+	color: #fc8d46;
+	font-weight:  500;
+	background: #fff;
+	box-shadow: 5px 5px 5px #bbb;
+	border-radius: 5px;
+    position: absolute;
+    bottom: 30px;
+    left: 130px;
+    cursor: pointer;
+}
+.help_take {
+	background-image: url(../images/help_one.png);
+	background-position: 0 0px;
+}
+.help_take_two {
+	background-image: url(../images/help_two.png);
+}
+/*取号弹窗格式*/
+.mask {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,.5);
+   	/*display:none;*/
+}
+ .mask .check {
+ 	background-color: #fff; 
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    z-index:1;
+    width: 290px;
+    height: 375px;
+ }
+.mask .check .title{
+	font-size: 32px;
+	text-align: center;
+    height: 30px;
+    line-height: 30px;
+    margin-top: 30px
+ }
+.mask .check .title p {
+	margin-top: 10px;
+}
+.mask .checkMes_box .checkMes {
+	margin-top: 60px;
+}

@@ -1,0 +1,2164 @@
+
+$(function(){
+
+   var baseUrl = 'http://www.51edoctor.cn/';
+ // var baseUrl = 'http://192.168.1.138:8333/';
+    // var baseUrl = 'http://192.168.1.202:8110/';
+  //样式
+    $('#register_window').height()<600? $('#register_window').height('auto'):$('#register_window').css('overflow','scroll');
+    
+    //公用方法
+      //已知门诊类型数字对应文本
+      var outpatientType = function(outpatientTypeNum){
+            switch (outpatientTypeNum){
+                  case 0:
+                  return '普通门诊';
+                  break;
+                  case 1:
+                  return '专家门诊';
+                  break;
+                  case 2:
+                  return '特需门诊';
+                  break;
+                  default:
+                  return '';
+                  break;
+                }
+      };
+            //已知门诊类型文本输出数字
+       var outpatientType_text = function(outpatientType_text){
+           switch (outpatientType_text){
+                case '普通门诊':
+                return '0';
+                break;
+                case '专家门诊':
+                return '1';
+                break;
+                case '特需门诊':
+                return '2';
+                break;
+                default:
+                return '';
+                break;
+              }
+       };
+
+             //格式化费用
+       function formatFee(fee){
+          return (fee/100).toFixed(2);
+       };
+       //每次扫描身份证后应该清空上一次的查询挂号的所有信息,还原到默认状态
+    //    function emptyGuahaoSelect(){
+    //         $('.step1 .sourceTime option:selected').val('上午');
+    //         $('.step1 .subjectName option:first-child').nextAll().remove();
+    //         $('.step1 .patientType option:first-child').nextAll().remove();
+    //         $('.step1 .queryDoc').val('');
+    //    };
+
+    //挂号的时候科室change和门诊change渲染表格的回调
+       function renderguahaoRes(list){
+              //获取该科室对应的号源数组
+              if(list == [] || list.length == 0){
+                    swal({
+                        title: "温馨提示：",
+                        text: "查询失败，请重新选择就诊信息。",
+                        timer: 2000,
+                        showConfirmButton: false
+                        });
+                    return false;
+              }
+            var guahao_info = ''; 
+            for(var i=0;i<list.length;i++){
+                //出现表格信息               
+                 guahao_info += '<tr>'
+                    + '<td>'+(i+1)+'</td>'
+                    + '<td>'+$('.step1 .defaultTime').val() + '(' +$('.step1 .sourceTime option:selected').text()+ ')'+'</td>'
+                    + '<td>'+list[i].subjectName+'</td>'
+                    + '<td>'+outpatientType(list[i].outpatientType)+'</td>'
+                    + '<td>'+list[i].doctorName+'</td>'
+                    + '<td>'+formatFee(list[i].totalMoney)+'</td>'
+                    + '<td>'+'<button class="guahaoBtn mainBg">挂号</button>'+'</td>'
+                    +'</tr>';             
+            };
+            $('.step1 .saomiaoMes').hide();      
+            $('.step1 .guahaoMes').show();
+            // $('.addSourse_box').show();
+            $('.step1 .guahaoInfo').html(guahao_info);
+                //无号源的和医生临时有变是灰色（sourceState=2不正常，=1正常）,同时加上号源id
+            for(var j=0;j<list.length;j++){
+                 $('.step1 .guahaoInfo tr').eq(j).find('.guahaoBtn').attr(
+                        {'sourceId':list[j].sourceId}
+                    ); 
+                if(list[j].inventoryNum <=0 || list[j].sourceDate == 2){
+                    $('.step1 .guahaoInfo tr').eq(j).find('.guahaoBtn').removeClass('mainBg');  
+                    $('.step1 .guahaoInfo tr').eq(j).find('.guahaoBtn').attr('disabled',true);       
+                } 
+            }
+       };
+
+       //改签的时候科室change和门诊change渲染表格信息
+       function rendergaiqianRes(list,oldMoney){
+             if(list == [] || list.length == 0){
+                    swal({
+                        title: "温馨提示：",
+                        text: "查询失败，请重新选择就诊信息。",
+                        timer: 2000,
+                        showConfirmButton: false
+                        });
+                    return false;
+              }
+            var gaiqian_info = '';  
+            for(var i=0;i<list.length;i++){
+                    var xianjia = list[i].totalMoney;      
+                    var difference = formatFee(xianjia - oldMoney);                             
+                    //出现表格信息          
+                    gaiqian_info += '<tr>'
+                    + '<td>'+(i+1)+'</td>'
+                    + '<td>'+$('.step2 .changeDate').val() + '(' +$('.step2 .sourceTime option:selected').text()+ ')'+'</td>'
+                    + '<td>'+list[i].subjectName+'</td>'
+                    + '<td>'+outpatientType(list[i].outpatientType)+'</td>'
+                    + '<td>'+list[i].doctorName+'</td>'
+                    + '<td>'+'改签差价:'+difference+ '('+ '现价：'+formatFee(xianjia) +')'+'</td>'
+                    + '<td>'+'<button class="gaiqianBtn blueBg">改签</button>'+'</td>'
+                    +'</tr>';             
+            };
+            $('.step2 .table_info').show();
+            $('.step2 .gaiqianMes').html(gaiqian_info);
+            //有号源的就显示挂号，无号源的可以加号
+            for(var j=0;j<list.length;j++){
+                $('.step2 .gaiqianMes tr').eq(j).children('td').eq(5).attr('xianjia',formatFee(list[j].totalMoney));
+                 $('.step2 .gaiqianMes tr').eq(j).find('.gaiqianBtn').attr('sourceId',list[j].sourceId); //每条可以挂号的信息标记号源Id
+                 if(list[j].inventoryNum <=0 || list[j].sourceDate == 2){
+                    $('.step2 .gaiqianMes tr').eq(j).find('.gaiqianBtn').removeClass('blueBg');  
+                    $('.step2 .gaiqianMes tr').eq(j).find('.gaiqianBtn').attr('disabled',true);       
+                } 
+            }
+       };
+
+        //挂号完毕还原搜索框
+        var restoreSelect = function(){      
+             $('.step1 .subjectName option:first-child').nextAll().attr('selected',false);  
+            $('.step1 .subjectName option:first-child').attr('selected',true);
+             $('.step1 .patientType option:first-child').nextAll().attr('selected',false);;
+            $('.step1 .patientType option:first-child').attr('selected',true);;
+            $('.step1 .queryDoc').val(''); 
+        };
+
+        //改签搜索之前清空预约日期之后有选过的内容
+        var emptyChange = function(){
+            $(".step2 .sourceTime option:first-child").nextAll().remove();       
+            $('.step2 .subjectName option:first-child').nextAll().remove();
+            $('.step2 .patientType option:first-child').nextAll().remove();
+            $('.step2 .queryDoc').val(''); 
+        };
+
+        //查询是否挂过号,挂过的显示，没挂提示
+        var hasGuahao = function(){
+            var name = $('.step1 .user_name').val(),
+                idCardNo = $('.step1 .user_id').val();
+            //判断身份信息不完整的重新扫描
+            if(!name || !idCardNo){
+                swal({
+                    title: "温馨提示：",
+                    text: "信息扫描失败！请重新扫描。",
+                    timer: 2000,
+                    showConfirmButton: false
+                    });
+                    return false;
+            }
+            $.ajax({
+                    type:'GET',
+                    url:baseUrl+'E2306_admin/admin/order/selectOrder',
+                    data:{
+                      name:name,
+                      idCardNo:idCardNo,
+                      hospitalId:sessionStorage.getItem('hospitalId')
+                    },
+                    success:function(data){
+                          //没挂号提示
+                          if( data.length ==0){
+                            swal({
+                                title: "温馨提示：",
+                                text: "您还未挂号，请先行挂号!",
+                                timer: 2000,
+                                showConfirmButton: false
+                              });
+                               // console.log('您还未挂号，请先行挂号!');
+                             $('.step1 .saomiaoMes').css({'display':'none'}); 
+                               $('.registerInfo').empty();  //要把之前出现的挂号信息清除
+                               $('.step1 .subjectName').focus();
+                              return;
+                          } 
+                      //挂过号出现扫描的表格并渲染表格信息
+                          $('.step1 .saomiaoMes').css({'display':'block'}); 
+                          $('.step1 .guahaoMes').css({'display':'none'}); 
+                          //$('.addSourse_box').hide();
+                            $('.registerInfo').empty();
+                           var register_tds = '';                         
+                          for(var i =0;i<data.length;i++){         
+                                var item = data[i];
+                                register_tds = '<tr>'
+                                    +'<td>'+(i+1)+'</td>'
+                                  +'<td>'+item.registrationId+'</td>'
+                                  +'<td>'+item.registrationDate+'</td>'+'<td>'+(item.dateTime=='pm'?'下午':'上午')+'</td>'
+                                  +'<td>'+item.subjectName+'</td>' +'<td>'+(outpatientType(item.outpatientType))+'</td>' +'<td>'+item.doctorName+'</td>'
+                                  +'<td>'+formatFee(item.totlePay)+'</td>' +'<td>'+item.contactName+'</td>' +'<td>'+(item.appointmentType==0?'APP':'窗口')+'</td>'
+                                  +'<td class="operate">'
+                                  + '<button class="checkBtn m_5" index="0">取号</button>' 
+                                  + '<button class="changeBtn m_5" index="1">改签</button>'
+                                  + '<button class="quitBtn m_5" index="2">退号</button>'
+                                  +'</td>'
+                                  +'</tr>';  
+                                     //不能无限append，如果有订单Id一样就提示重复
+                                 if(item.registrationId ==  $('.registerInfo .operate').eq(i).children('button').attr('regisId')){
+                                  //  alert('重复订单');
+                                      swal({
+                                        title: "温馨提示：",
+                                        text: "您的信息已扫描成功，请勿重复扫描!",
+                                        timer: 2000,
+                                        showConfirmButton: false
+                                      });
+                                      return false;
+                                 }  
+                                $('.registerInfo').append(register_tds);      
+                                  //给每条操作按钮都加上订单Id，每个科室td加上科室id
+                                $('.registerInfo .operate').eq(i).children('button').attr('regisId',item.registrationId); 
+                                $('.registerInfo tr').eq(i).children('td').eq(4).attr('subjectId',item.subjectId);   
+                                //根据订单状态显示按钮颜色
+                                  if(item.orderStatus == '1'){
+                                   // alert(1)
+                                        $('.registerInfo .operate').eq(i).children('.checkBtn').addClass('mainBg');
+                                      $('.registerInfo .operate').eq(i).children('.changeBtn').addClass('blueBg');
+                                      $('.registerInfo .operate').eq(i).children('.quitBtn').addClass('redBg');//已支付，取改退
+                                  }else if(item.orderStatus == '2'){
+                                    //    alert(2)
+                                    //           $('.registerInfo .operate').eq(i).children('.changeBtn').addClass('blueBg');
+                                      $('.registerInfo .operate').eq(i).children('.quitBtn').addClass('redBg'); //已取号 只有退号
+                                     $('.registerInfo .operate').eq(i).children('.checkBtn').removeAttr('index'); //取过号再点击遮罩就打不开
+                                      $('.registerInfo .operate').eq(i).children('.changeBtn').removeAttr('index');
+                                    } else if(item.orderStatus == '5'){
+                                       //alert(5) //已改签 窗口只有退号，app取 退
+                                        if(item.appointmentType == '1'){  
+                                          //  alert('ck')
+                                             $('.registerInfo .operate').eq(i).children('.checkBtn').removeAttr('index');     
+                                        }
+                                        if(item.appointmentType == '0'){
+                                            //alert('app')
+                                             $('.registerInfo .operate').eq(i).children('.checkBtn').addClass('mainBg');
+                                        }
+                                         $('.registerInfo .operate').eq(i).children('.changeBtn').removeAttr('index');
+                                        $('.registerInfo .operate').eq(i).children('.quitBtn').addClass('redBg');
+                                    }            
+                        };  
+                   },
+             });
+       };
+
+
+        //扫描身份证，挂号过的出现挂号信息，没挂号的进入挂号搜索选择挂号
+    $('.step1 .btn_scan').click(function(){
+            //如果扫描Ok，那么信息会自动填充到输入框,如果扫描信息失败，就要给出提示信息要自己手动输入
+            // $('.step1 .user_name').val('乐欣');
+            // $('.step1 .user_id').val('421087198612073238'); 
+          
+          hasGuahao();
+           // emptyGuahaoSelect();
+    });
+
+    //按订单号查询挂号记录
+    function hasRegisId(){
+         var user_regisId =  $('.step1 .user_regisId').val();
+        $.ajax({
+            type:'GET',
+          //  url:baseUrl+'E2306_admin/admin/order/selectOrderById',
+            url:baseUrl + 'E2306_admin/admin/order/selectOrder',
+            data:{
+                hospitalId:sessionStorage.getItem('hospitalId'),
+                registrationId:user_regisId
+            },
+            success:function(data){
+                for(var i = 0;i<data.length;i++){
+                    if(!(data[i].registrationId)) return false;
+                    $('.step1 .saomiaoMes').css({'display':'block'}); 
+                    $('.step1 .guahaoMes').css({'display':'none'}); 
+                    $('.registerInfo').empty();          
+                    var register_tds = $('<tr>'
+                        +'<td>'+(i+1)+'</td>'
+                        +'<td>'+data[i].registrationId+'</td>'
+                        +'<td>'+data[i].registrationDate+'</td>'+'<td>'+(data[i].dateTime=='pm'?'下午':'上午')+'</td>'
+                        +'<td>'+data[i].subjectName+'</td>' +'<td>'+(outpatientType(data[i].outpatientType))+'</td>' +'<td>'+data[i].doctorName+'</td>'
+                        +'<td>'+formatFee(data[i].totlePay)+'</td>' +'<td>'+data[i].contactName+'</td>' +'<td>'+(data[i].appointmentType==0?'APP':'窗口')+'</td>'
+                        +'<td class="operate">'
+                        + '<button class="checkBtn m_5" index="0">取号</button>' 
+                        + '<button class="changeBtn m_5" index="1">改签</button>'
+                        + '<button class="quitBtn m_5" index="2">退号</button>'
+                        +'</td>'
+                        +'</tr>');  
+                    $('.registerInfo').append(register_tds);      
+                    //给每条操作按钮都加上订单Id，每个科室td加上科室id
+                    $('.registerInfo .operate').eq(i).children('button').attr('regisId',data[i].registrationId); 
+                    $('.registerInfo tr').eq(i).children('td').eq(4).attr('subjectId',data[i].subjectId);   
+                //根据订单状态显示按钮颜色
+                    if(data[i].orderStatus == '1'){
+                    // alert(1)
+                        $('.registerInfo .operate').eq(i).children('.checkBtn').addClass('mainBg');
+                        $('.registerInfo .operate').eq(i).children('.changeBtn').addClass('blueBg');
+                        $('.registerInfo .operate').eq(i).children('.quitBtn').addClass('redBg');//已支付，取改退
+                    }else if(data[i].orderStatus == '2'){
+                    //   alert(2)
+                        $('.registerInfo .operate').eq(i).children('.quitBtn').addClass('redBg'); //已取号 只有退号
+                        $('.checkBtn').removeAttr('index'); //取过号再点击遮罩就打不开
+                    }else if(data[i].orderStatus == '5'){
+                        //alert(5) //已改签 窗口只有退号，app取 退
+                            if(data[i].appointmentType == '1'){  
+                            //  alert('ck')
+                                $('.registerInfo .operate').eq(i).children('.checkBtn').removeAttr('index');     
+                            }
+                            if(data[i].appointmentType == '0'){
+                                //alert('app')
+                                $('.registerInfo .operate').eq(i).children('.checkBtn').addClass('mainBg');
+                            }
+                            $('.registerInfo .operate').eq(i).children('.changeBtn').removeAttr('index');
+                            $('.registerInfo .operate').eq(i).children('.quitBtn').addClass('redBg');
+                    }   
+                }
+            }
+        });
+    };
+      
+// 只要输入了内容就检测单号查询
+    $('.step1 .user_regisId').keyup(function(){
+           hasRegisId();  
+    });
+
+   //step1页面点击取号 
+     $(".registerInfo").on('click','.operate .checkBtn',function(){
+              var self = this;
+              var index = $(self).attr('index');
+             // alert(index);
+              var zIndex = 1;
+                    zIndex ++; 
+            //传入订单id返回订单数据 渲染
+              $.ajax({
+                  type:'GET',
+                  url:baseUrl + 'E2306_admin/admin/order/selectTakeOrder',
+                  data:{registrationId: $(self).attr('regisId')},
+                  success:function(data){
+                      var checkBtn_info = $('<h5>'+"编号 ："+'<span>'+data.code+'</span>'+"（窗）"+'</h5>'
+                          + '<li>'+data.registrationDate + "&nbsp;&nbsp;&nbsp;" +(data.dateTime=='pm'?'下午':'上午')+'</li>'
+                          + '<li>' + "门诊类别 ：" + '<span>'+(outpatientType(data.outpatientType))+'</span>'+"&nbsp;&nbsp;&nbsp;" + '<span>'+data.subjectName+'</span>'+'<li>'
+                          + '<li>' + "主治医师 ：" + data.doctorName+'</li>'
+                          + '<li>' + "就诊人 ：" + data.contactName+"&nbsp;&nbsp;&nbsp;"+'<span>'+formatIdenticard(data.contactIdcard)+'</span>'
+                          +'<li class="hidden">'+data.registrationId+'</li>'
+                          +'</li>');
+                        $('.checkBtn_ul').html(checkBtn_info);   
+                          data.HospitalLogo?$('.check .hospi_logo').attr('src',baseUrl+'E2306'+data.HospitalLogo):$('.check .hospi_logo').css({'display':'none'});
+                          //点击的取号如果是灰色代表已经取过号了就不能再打开遮罩
+                        if(!($(self).hasClass('mainBg'))){
+                            return false;
+                        }
+                          $('.mask>div').eq(index).show();
+                          $('.mask>div').eq(index).siblings().hide();   
+                          $('.mask>div').eq(index).css('z-index',zIndex);
+                          $('.mask').css({'display':'block'});
+                  },
+            });         
+     });
+
+      //点击取号弹窗的确认取号按钮
+      $('.mask .confirmCheck').click(function(){
+          closeMask();
+          $.ajax({
+              type:"post",
+               //url:'http://192.168.1.138:8333/E2306_admin/admin/order/takeOrder',
+              url:baseUrl + 'E2306_admin/admin/order/takeOrder',
+              data:{registrationId:$('.checkBtn_ul li').eq(5).text()},
+              success:function(data){
+                  if(data.result == 1){
+                    swal({
+                    title: "温馨提示：",
+                    text: "您已取号成功!",
+                    timer: 2000,
+                    showConfirmButton: false
+                  });
+                    //取过号了的这条订单就不能再取或改了 遮罩也打不开 只有退
+                    //alert('取号'); 
+                      var checkBtns = $('.registerInfo').find('.checkBtn');
+                      checkBtns.each(function(index,element){
+                          if($(element).attr('regisId')==$('.checkBtn_ul li').eq(5).text()){
+                            //alert('这条订单取过了');
+                              $(element).removeClass('mainBg');
+                              $(element).attr('disabled',true);
+                              $(element).next().removeClass('blueBg');
+                              $(element).next().attr('disabled',true);
+                              return false;
+                          }   
+                      });
+                  }
+              },
+              error:function(){
+                 swal({
+                    title: "温馨提示：",
+                    text: "取号失败!",
+                    timer: 2000,
+                    showConfirmButton: false
+                  });
+              }
+          });
+      });
+  
+      //step1页面点击的是改签
+     $(".registerInfo").on('click','.operate .changeBtn',function(){
+            var self = this;
+            $.ajax({
+                  type:'GET',
+                  url:baseUrl + 'E2306_admin/admin/order/selectTakeOrder',
+                  data:{registrationId: $(self).attr('regisId')},
+                  success:function(data){
+                   //点击的改签如果是灰色代表已经改过了就不能再打开遮罩
+                  // console.log(data);
+                      if(!($(self).hasClass('blueBg'))){
+                          return false;
+                      }
+                        $('.step1').hide();
+                        $('.step2').show();
+                        $('#register_window>.divider').css({'top':'165px'});
+                        $('.step2 .table_info').hide();
+                        $('.step2 .changeDate').val(data.registrationDate);
+                        $('.step2 .sourceTime option:selected').text(data.dateTime=='pm'?'下午':'上午');
+                        $('.step2 .subjectName option:selected').text(data.subjectName); 
+                        $('.step2 .subjectName option:selected').attr('subjectId',data.subjectId);   
+                        $('.step2 .patientType option:selected').text(outpatientType(data.outpatientType));
+                        //  $('.step2 .queryDoc').val(data.doctorName);
+                        //订单Id以及被改签订单的费用放到隐藏的input里
+                        $('.step2 .hiddenRegisId').val($(self).attr('regisId')); //改签的搜索信息出来后改签确认支付需要的参数
+                        $('.step2 .hiddenRegisId').attr('oldMoney',data.totlePay);
+                        showAllChange(); //展示step2改签界面                 
+                  },
+            });
+     });
+       
+         //step1页面点击的是退号
+     $(".registerInfo").on('click','.operate .quitBtn',function(){
+            var self = this;
+              var index = $(self).attr('index');
+              var zIndex = 1;
+                    zIndex ++; 
+            $.ajax({
+                  type:'GET',
+                  url:baseUrl + 'E2306_admin/admin/order/selectTakeOrder',
+                  data:{registrationId: $(self).attr('regisId')},
+                  success:function(data){
+                    //点击的改签如果是灰色代表已经改过了就不能再打开遮罩
+                      if(!($(self).hasClass('redBg'))){
+                          return false;
+                      }
+                        $('.mask>div').eq(index).show();
+                        $('.mask>div').eq(index).siblings().hide();   
+                        $('.mask>div').eq(index).css('z-index',zIndex);
+                        $('.mask').css({'display':'block'});
+                        var bookMes_info =
+                          $('<li class="col-xs-6">'+ "科室名称 ：" + '<span>' + data.subjectName + '</span>' + '</li>'
+                              + '<li class="col-xs-6">' + "门诊类别 ：" + '<span>'+(outpatientType(data.outpatientType))+'</span>' +'</li>'
+                              + '<li class="col-xs-6">' + "医生姓名 ：" + data.doctorName+'</li>'
+                              +  '<li class="col-xs-6">'+ "就诊时间 ：" +data.registrationDate + "&nbsp;&nbsp;&nbsp;" +(data.dateTime=='pm'?'下午':'上午')+'</li>'
+                              + '<li class="col-xs-6">' + "挂号途径 ：" + (data.appointmentType==0?'APP':'窗口')+'</li>'  
+                              + '<li class="col-xs-6">' + "退款金额 ：" + formatFee(data.totlePay)+"元"+'</li>'
+                            );
+                        $('.quitMes_box .bookMes').html(bookMes_info);
+                        $('.mask .confirmQuit').attr('registrationId',data.registrationId);
+                  }
+            });    
+     });
+    
+         //点击退号弹窗的确认退号按钮
+      $('.mask .confirmQuit').click(function(){
+          var self = this;
+          closeMask();
+          $.ajax({
+              type:'post',
+              url:baseUrl + 'E2306_admin/admin/order/returnOrder',
+              data:{
+                registrationId:$(self).attr('registrationId')
+              },
+              success:function(data){
+                    if(data.result == 1){
+                      swal({
+                      title: "温馨提示：",
+                      text: "您已退号成功!",
+                      timer: 2000,
+                      showConfirmButton: false
+                    });
+                      //退过号了的这条订单就灰色点不了 遮罩也打不开  
+                      var quitBtns = $('.registerInfo').find('.quitBtn');
+                      quitBtns.each(function(index,element){
+                          if($(element).attr('regisId')==$(self).attr('registrationId')){
+                            //alert('这条订单要退号');
+                              $(element).parent('.operate').children('.checkBtn').removeClass('mainBg');
+                              $(element).parent('.operate').children('.changeBtn').removeClass('blueBg');
+                              $(element).removeClass('redBg');
+                              $(element).parent('.operate').children('button').attr('disabled','true');
+                              return false;
+                          }   
+                      });
+                      getNum();
+                      calculateMoney();
+                    }
+              },
+              error:function(){
+                swal({
+                    title: "温馨提示：",
+                    text: "退号失败，请重新操作!",
+                    timer: 2000,
+                    showConfirmButton: false
+                  });
+            }
+      });
+    });
+
+
+    //鼠标经过显示叉叉 移出影藏
+    $('.check').on('mouseenter','.title',function(){
+         $('.close_checkMask').fadeIn();
+    });
+     $('.check').on('mouseleave','.title',function(){
+         $('.close_checkMask').fadeOut();
+    });
+
+      $('.takenum').on('mouseenter','.title',function(){
+         $('.takenum .close_takenumMask').fadeIn();
+    });
+     $('.takenum').on('mouseleave','.title',function(){
+         $('.takenum .close_takenumMask').fadeOut();
+    });
+
+    $('.takenum_gaiqian').on('mouseenter','.title',function(){
+         $('.takenum_gaiqian .close_takenumMask').fadeIn();
+    });
+     $('.takenum_gaiqian').on('mouseleave','.title',function(){
+         $('.takenum_gaiqian .close_takenumMask').fadeOut();
+    });
+    //点击右上角叉叉 关闭遮罩 重置样式
+      $('.close_mask').click(function(){
+            closeMask();
+        });
+       $('.close_checkMask').click(function(){
+            closeMask();
+        }); 
+         $('.close_takenumMask').click(function(){
+            close_takenumMask();
+        }); 
+        
+
+    //关闭遮罩方法
+      function closeMask(){
+            $('.mask').hide();     
+            var index = $(this).parent().parent().attr('index');
+            $('.mask>div').eq(index).css('z-index',1);  
+      }
+    function close_takenumMask(){
+            $('.takenumMask').hide();     
+           // var index = $(this).parent().parent().attr('index');
+          //  $('.mask>div').eq(index).css('z-index',1);  
+      }
+
+ //预约挂号 条件搜索step1
+        $('.defaultTime').val(currentDay); 
+        //  $('.defaultTime').val('2017-08-23'); 
+        var currentPage_subject = 1,
+            currentPage_patient = 1,
+            currentPage_doctor = 1;
+          var pageNum = 8;
+        function selectGuahao(){
+             var defaultDate = $('.step1 .defaultTime').val(); //挂号只显示当天
+              // var defaultDate = '2017-08-23';
+              renderSubject();
+              //进入页面就把所有科室选项渲染进来
+              function renderSubject(){
+                 // alert('渲染科室');
+                   $.ajax({
+                        type:'post',
+                       // url:'http://192.168.1.202:8110/E2306_admin/admin/source/getSourceByDateTime',
+                        url:baseUrl + 'E2306_admin/admin/source/getSourceByDateTime',
+                        data:{
+                          hospitalId:sessionStorage.getItem('hospitalId'),   
+                          sourceDate:defaultDate,
+                          sourceTime: $(".step1 .sourceTime option:selected").text() == '上午'?'am':'pm' 
+                        },  
+                        success:function(data){
+                            //console.log(data);
+                            for(var i=0;i<data.length;i++){
+                                //拿到挂号科室值
+                              var subject_option = $('<option>'+data[i].subjectName+'</option>');
+                                subject_option.attr('departID',data[i].departmentId); //给下拉框的挂号科室加上科室id
+                              $('.step1 .subjectName').append(subject_option);  
+                            }
+                        }
+                  });
+              };
+              
+              //时间改变的时候，重新渲染科室 和表格信息
+              $('.step1 .sourceTime').on('change',function(){
+                  $('.step1 .subjectName option:first-child').nextAll().remove(); //render之前删除默认渲染的科室
+                  renderSubject();
+               
+              });
+
+              //选择具体科室出现该科室的所有号源信息以及门诊 begin
+              $('.step1 .subjectName').on('change',function(){
+                  currentPage_subject = 1;
+                   renderSubjectMes();
+                   addPatientType();
+              });
+            
+              //选了科室按分页出现该科室所有号源表格信息
+              function renderSubjectMes(){
+                    var doctorName = $('.step1 .queryDoc').val();
+                     doctorName =doctorName?doctorName:'';
+                   $.ajax({
+                        type:'post',
+                         url:baseUrl + 'E2306_admin/admin/source/getSourceByParams',
+                        data:{
+                          hospitalId:sessionStorage.getItem('hospitalId'),   
+                          sourceDate:defaultDate,
+                          sourceTime:$(".step1 .sourceTime option:selected").text() == '上午'?'am':'pm',
+                          departmentId:$('.step1 .subjectName option:selected').attr('departID'),
+                          doctorName:doctorName,
+                          pageNum:currentPage_subject,
+                          pageSize:pageNum
+                        },  
+                        success:function(data){     
+                            console.log(data);
+                            //  alert('传入具体科室出现该科室下的门诊和医生ok');
+                             var dId = $('.step1 .subjectName option:selected').attr('departID');  //如果没选择科室就查不到
+                             if(!dId ||dId == undefined ){
+                                    swal({
+                                        title: "温馨提示：",
+                                        text: "请选择具体科室",
+                                        timer: 2000,
+                                        showConfirmButton: false
+                                        });
+                                     return false;
+                             }
+                            var totalPage = data.count; // 获取总页数
+                            hasguahaoPage_subject(currentPage_subject,totalPage);
+                             renderguahaoRes(data.list);                  
+                        }
+                  });
+              };
+
+                  //挂号搜索科室是否显示分页
+            function hasguahaoPage_subject(nowPage,totalPageNum){
+                if(totalPageNum > 1){
+                    $('#guahaoPage').show();
+                    $('#guahaoPage').myPagination({
+                        currPage:nowPage,
+                        pageCount:totalPageNum,
+                        pageSize:pageNum,
+                            panel: {
+                            tipInfo_on: true,
+                            tipInfo: '&nbsp;&nbsp;跳转至{input}/{sumPage}页',
+                            prev:'上一页',
+                            next:'下一页',
+                            prev_on:true,
+                            next_on:true,
+                            tipInfo_css: {
+                                width: '25px',
+                                height: "20px",
+                                border: "2px solid #f0f0f0",
+                                padding: "0 0 0 5px",
+                                margin: "0 5px 0 5px",
+                                color: "#01cdb2"
+                            }
+                        },
+                        ajax:{
+                            onClick:function(pageNo){
+                               // alert('分页返回当前的页数'+pageNo);
+                                currentPage_subject = pageNo;
+                                renderSubjectMes();
+
+                            }
+                        }
+                    });
+                }else{
+                    $('#guahaoPage').hide();
+                }
+            };
+
+               //选了科室出现该科室下所有门诊
+              function addPatientType(){
+                   $.ajax({
+                        type:'post',
+                        // url:'http://192.168.1.138:8333/E2306_admin/admin/source/getSourceByDepartment',
+                         url:baseUrl + 'E2306_admin/admin/source/getSourceByDepartment',
+                        data:{
+                          hospitalId:sessionStorage.getItem('hospitalId'),   
+                          sourceDate:defaultDate,
+                          sourceTime:$(".step1 .sourceTime option:selected").text() == '上午'?'am':'pm',
+                          departmentId:$('.step1 .subjectName option:selected').attr('departID'),
+                        },  
+                        success:function(data){     
+                            //  alert('传入具体科室出现该科室下的门诊');
+                            // console.log(data);
+                             var dId = $('.step1 .subjectName option:selected').attr('departID');  //如果没选择科室就查不到
+                             if(!dId ||dId == undefined ){
+                                    swal({
+                                        title: "温馨提示：",
+                                        text: "请选择具体科室",
+                                        timer: 2000,
+                                        showConfirmButton: false
+                                        });
+                                     return false;
+                             }
+                             var patient_option = '';  
+                            for(var i=0;i<data.length;i++){
+                                //渲染门诊类别
+                                 patient_option += '<option>'+outpatientType(data[i])+'</option>';                                    
+                            };
+                              $('.step1 .patientType option:first-child').nextAll().remove();
+                            $('.step1 .patientType').append(patient_option);
+                        }
+                  });
+              };          
+         //选择具体科室出现该科室的所有号源信息以及门诊 end
+
+              //选择具体门诊类型出现所有号源信息begin
+              $('.step1 .patientType').on('change',function(){
+                  currentPage_patient = 1;
+                   changePatientType();
+              });
+
+              function changePatientType(){
+                 // alert('输入门诊');
+                   var doctorName = $('.step1 .queryDoc').val();
+                     doctorName = doctorName?doctorName:'';
+                  $.ajax({
+                        type:'post',
+                      //  url:'http://192.168.1.138:8333/E2306_admin/admin/source/getSourceByParams',
+                        url:baseUrl + 'E2306_admin/admin/source/getSourceByParams',
+                        data:{
+                          hospitalId:sessionStorage.getItem('hospitalId'),   
+                          sourceDate:defaultDate,
+                          sourceTime:$(".step1 .sourceTime option:selected").text() == '上午'?'am':'pm',
+                          departmentId:$('.step1 .subjectName option:selected').attr('departID'),
+                          outpatientType:outpatientType_text($('.step1 .patientType option:selected').text()),
+                          doctorName:doctorName,
+                          pageNum:currentPage_patient,
+                          pageSize:pageNum
+                        },  
+                        success:function(data){
+                            //alert('选择门诊类别渲染具体科室和门诊对应号源');
+                            var totalPage = data.count; // 获取总页数
+                             hasguahaoPage_patient(currentPage_patient,totalPage);
+                            renderguahaoRes(data.list);
+                        }
+                  });
+              };
+
+                //挂号搜索门诊类别是否显示分页
+            function hasguahaoPage_patient(nowPage,totalPageNum){
+                if(totalPageNum > 1){
+                    $('#guahaoPage').show();
+                    $('#guahaoPage').myPagination({
+                        currPage:nowPage,
+                        pageCount:totalPageNum,
+                        pageSize:pageNum,
+                            panel: {
+                            tipInfo_on: true,
+                            tipInfo: '&nbsp;&nbsp;跳转至{input}/{sumPage}页',
+                            prev:'上一页',
+                            next:'下一页',
+                            prev_on:true,
+                            next_on:true,
+                            tipInfo_css: {
+                                width: '25px',
+                                height: "20px",
+                                border: "2px solid #f0f0f0",
+                                padding: "0 0 0 5px",
+                                margin: "0 5px 0 5px",
+                                color: "#01cdb2"
+                            }
+                        },
+                        ajax:{
+                            onClick:function(pageNo){
+                               // alert('分页返回当前的页数'+pageNo);
+                                currentPage_patient = pageNo;
+                                changePatientType();
+
+                            }
+                        }
+                    });
+                }else{
+                    $('#guahaoPage').hide();
+                }
+            };
+
+           //选择具体门诊类型出现所有号源信息end
+
+            //按医生姓名搜索 begin
+              //输入医生姓名查询时 一边输入一边检索
+                $('.step1 .queryDoc').keyup(function(){
+                      currentPage_doctor = 1;
+                    queryDoctor();
+                    renderDoctors();
+              });   
+                //点击了回车键 没有查询到对应医生的提示
+
+            $('.step1 .queryDoc').keydown(function(e){
+                var event = e || window.event;
+                if(event.keyCode == 13){
+                    //  alert('点击了回车键')
+                         var doctorName = $('.step1 .queryDoc').val();
+                        var departmentId = $('.step1 .subjectName option:selected').attr('departID');
+                        departmentId?departmentId:'';
+                        var outpatientType = outpatientType_text($('.step1 .patientType option:selected').text());
+                        outpatientType?outpatientType:'';
+                        $.ajax({
+                            type:'post',
+                            //  url:'http://192.168.1.138:8333/E2306_admin/admin/source/getSourceByParams',
+                                url:baseUrl + 'E2306_admin/admin/source/getSourceByParams',
+                                data:{
+                                hospitalId:sessionStorage.getItem('hospitalId'),  
+                                sourceDate:defaultDate,
+                                sourceTime:$(".step1 .sourceTime option:selected").text() == '上午'?'am':'pm',
+                                departmentId: departmentId,
+                                outpatientType:outpatientType,
+                                doctorName:doctorName, 
+                                },  
+                                success:function(data){
+                                    if(data.count == 0|| data.list == [] || data.list.length == 0){
+                                            swal({
+                                                title: "温馨提示：",
+                                                text: "没有查询到您搜索的医生",
+                                                timer: 2000,
+                                                showConfirmButton: false
+                                            });
+                                        return false;
+                                    }
+                                    var doctors ='';
+                                    var list = data.list;
+                                    for(var i=0;i<list.length;i++){
+                                        doctors += '<li>'+list[i].doctorName+'</li>';
+                                    }
+                                    $('.step1 .queryDoc_list').slideDown();
+                                    $('.step1 .queryDoc_list').css('zIndex','100');
+                                    $('.step1 .queryDoc_list').html(doctors);
+                                }
+                         });
+                }
+            });
+                    
+             $('.step1 .queryDoc').on('blur',function(){
+                 
+                  renderDoctors();
+                 $('.step1 .queryDoc_list').slideUp();
+             });
+
+             //根据输入内容检索出对应医生列表 
+              function queryDoctor(){
+                    var doctorName = $('.step1 .queryDoc').val();
+                    var departmentId = $('.step1 .subjectName option:selected').attr('departID');
+                    departmentId?departmentId:'';
+                    var outpatientType = outpatientType_text($('.step1 .patientType option:selected').text());
+                    outpatientType?outpatientType:'';
+                    $.ajax({
+                        type:'post',
+                      //  url:'http://192.168.1.138:8333/E2306_admin/admin/source/getSourceByParams',
+                        url:baseUrl + 'E2306_admin/admin/source/getSourceByParams',
+                        data:{
+                          hospitalId:sessionStorage.getItem('hospitalId'),  
+                          sourceDate:defaultDate,
+                          sourceTime:$(".step1 .sourceTime option:selected").text() == '上午'?'am':'pm',
+                          departmentId: departmentId,
+                          outpatientType:outpatientType,
+                          doctorName:doctorName, 
+                        },  
+                        success:function(data){
+                            if(data.count == 0|| data.list == [] || data.list.length == 0){
+                                    // swal({
+                                    //     title: "温馨提示：",
+                                    //     text: "没有查询到您搜索的医生",
+                                    //     timer: 2000,
+                                    //     showConfirmButton: false
+                                    // });
+                                return false;
+                            }
+                             var doctors ='';
+                             var list = data.list;
+                             for(var i=0;i<list.length;i++){
+                                 doctors += '<li>'+list[i].doctorName+'</li>';
+                             }
+                            $('.step1 .queryDoc_list').slideDown();
+                             $('.step1 .queryDoc_list').css('zIndex','100');
+                            $('.step1 .queryDoc_list').html(doctors);
+                        }
+                  });
+              
+              };
+   
+            //选择了医生列表的的具体医生查询
+            $('.step1 .queryDoc_list').on('click','li',function(){
+                $('.step1 .queryDoc').val($(this).text());
+                $('.step1 .queryDoc_list').slideUp();
+                renderDoctors();        
+            });
+            function renderDoctors(){
+                var doctorName = $('.step1 .queryDoc').val();
+                 var departmentId = $('.step1 .subjectName option:selected').attr('departID');
+                    departmentId?departmentId:'';
+                    var outpatientType = outpatientType_text($('.step1 .patientType option:selected').text());
+                    outpatientType?outpatientType:''; 
+                $.ajax({
+                    type:'post',
+                   // url:'http://192.168.1.138:8333/E2306_admin/admin/source/getSourceByParams',
+                    url:baseUrl + 'E2306_admin/admin/source/getSourceByParams',
+                    data:{
+                      hospitalId:sessionStorage.getItem('hospitalId'),   
+                      sourceDate:defaultDate,
+                      sourceTime:$(".step1 .sourceTime option:selected").text() == '上午'?'am':'pm',
+                      doctorName:doctorName, 
+                      departmentId: departmentId,
+                      outpatientType:outpatientType,
+                      pageNum:currentPage_doctor,
+                      pageSize:pageNum
+                    }, 
+                    success:function(data){
+                         //alert('搜索医生查找Ok');
+                         if(data.count == 0|| data.list == [] || data.list.length == 0){
+                            //   swal({
+                            //             title: "温馨提示：",
+                            //             text: "没有查询到您搜索的医生",
+                            //             timer: 2000,
+                            //             showConfirmButton: false
+                            //         });
+                            return false;
+                         }
+                         var totalPage = data.count; // 获取总页数
+                         hasguahaoPage_doctor(currentPage_doctor,totalPage);
+                         renderguahaoRes(data.list);
+                    } 
+                });
+            };
+
+           //搜索医生是否显示分页
+            function hasguahaoPage_doctor(nowPage,totalPageNum){
+                if(totalPageNum > 1){
+                    $('#guahaoPage').show();
+                    $('#guahaoPage').myPagination({
+                        currPage:nowPage,
+                        pageCount:totalPageNum,
+                        pageSize:pageNum,
+                            panel: {
+                            tipInfo_on: true,
+                            tipInfo: '&nbsp;&nbsp;跳转至{input}/{sumPage}页',
+                            prev:'上一页',
+                            next:'下一页',
+                            prev_on:true,
+                            next_on:true,
+                            tipInfo_css: {
+                                width: '25px',
+                                height: "20px",
+                                border: "2px solid #f0f0f0",
+                                padding: "0 0 0 5px",
+                                margin: "0 5px 0 5px",
+                                color: "#01cdb2"
+                            }
+                        },
+                        ajax:{
+                            onClick:function(pageNo){
+                               // alert('分页返回当前的页数'+pageNo);
+                                currentPage_doctor = pageNo;
+                               // alert(currentPage);
+                                renderDoctors();
+                            }
+                        }
+                    });
+                }else{
+                    $('#guahaoPage').hide();
+                }
+            };
+            //按医生姓名搜索 end
+
+        };
+
+        selectGuahao();
+
+       //点击挂号按钮begin
+    function guahaoCaozuo(){
+         //点击挂号按钮找到当前行对应文本
+        function getSourceText(sourceBtn){
+            var sourceText_obj;
+            var sourceId=  sourceBtn.attr('sourceId'); //拿到被点击按钮的号源Id和科室id
+            // var departId = sourceBtn.attr('departId');
+            //找到此条号源信息对应的tr,拿到里面的文本
+            var tr = sourceBtn.parent().parent(); 
+            var time = tr.children('td').eq(1).text();
+                time = time.substring(0,time.length-1);
+            var timeArr = time.split('(');
+                sourceText_obj = {
+                    sourceTime:timeArr[1],
+                  //  departmentId:departId,
+                    subjectName:tr.children('td').eq(2).text(),
+                    outPatient: tr.children('td').eq(3).text(),  //outpatientType_text
+                    doctorName: tr.children('td').eq(4).text(),
+                    fee:tr.children('td').eq(5).text()
+                }    
+            return sourceText_obj;                 
+        };
+
+        //渲染此条号源信息
+        function renderSourceMes(ele){
+            //重新渲染表格信息
+              var guahao_info = '';     
+                guahao_info += '<tr>'
+                + '<td>'+1+'</td>'
+                + '<td>'+$('.step1 .defaultTime').val() + '(' +getSourceText(ele).sourceTime+ ')'+'</td>'
+                + '<td>'+getSourceText(ele).subjectName+'</td>'
+                + '<td>'+getSourceText(ele).outPatient+'</td>'
+                + '<td>'+getSourceText(ele).doctorName+'</td>'
+                + '<td>'+getSourceText(ele).fee+'</td>'
+                + '<td>'+'<button class="guahaoBtn mainBg">挂号</button>'+'</td>'
+                +'</tr>';                
+            $('.step1 .guahaoInfo').html(guahao_info); 
+            $('.step1 .guahaoInfo').find('.guahaoBtn').attr('sourceId',ele.attr('sourceId'));
+        };
+        //将点击的该条号源信息给搜索框
+        function replaceSelectText(ele){
+            var sourceTime_option = $('.step1 .sourceTime option');
+            sourceTime_option.each(function(index,element){
+                if(getSourceText(ele).sourceTime == $(element).text()){
+                     $(element).attr('selected',true);
+                }
+            });
+             var subject_option = $('.step1 .subjectName option');
+            subject_option.each(function(index,element){
+                if(getSourceText(ele).subjectName == $(element).text()){
+                    $(element).attr('selected',true);
+                }
+            });
+            var patientType_option = $('.step1 .patientType option');
+            var addPatient_option = $('<option>'+getSourceText(ele).outPatient+'</option>');
+            $('.step1 .patientType').append(addPatient_option);
+             addPatient_option.attr('selected',true);
+            patientType_option.each(function(index,element){
+                if(addPatient_option.text() == $(element).text()){
+                    addPatient_option.remove();
+                    $(element).attr('selected',true);
+                    return false;
+                }
+            });    
+            $('.step1 .queryDoc').val(getSourceText(ele).doctorName);      
+        };
+
+        //点击挂号按钮,还要判断同一科室同一就诊人只可以挂一个号
+         var guahaoTimer;
+        $('.guahaoInfo').on('click','.guahaoBtn',function(){
+            var self = this;
+            var subjectName = $(self).parent().parent().find('td').eq(2).text();
+            if(!($('.user_name').val())|| !($('.user_id').val())){
+                swal({
+                        title: "温馨提示：",
+                        text: "挂号前请先扫描身份证信息",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                        return false;
+            } 
+            //若调用扫描接口返回的subjectName和此条挂号信息的科室一样说明该科室该就诊人之前挂号过--不可以再挂
+            $.ajax({
+                    type:'GET',
+                    url:baseUrl+'E2306_admin/admin/order/selectOrder',
+                    data:{
+                      name:$('.user_name').val(),
+                      idCardNo:$('.user_id').val(),
+                      hospitalId:sessionStorage.getItem('hospitalId')
+                    },
+                    success:function(data){
+                      //挂过号拿到挂过的科室                       
+                          for(var i =0;i<data.length;i++){         
+                                var item = data[i];
+                                if(subjectName == item.subjectName){
+                                   // alert('该科室您已经挂过号了，不能重复挂号');
+                                    swal({
+                                        title: "温馨提示：",
+                                        text: "该科室您已经挂过号了，同一科室不能重复挂号",
+                                        timer: 2000,
+                                        showConfirmButton: false
+                                    });
+                                    return false;
+                                }
+                          }   
+                            // alert('buzaizou');
+                           renderSourceMes($(self));
+                            $('#guahaoPage').hide();
+                            replaceSelectText($(self));   
+                            //新增挂号订单 拿到此订单data
+                            $.ajax({
+                                type:'post',
+                            // url:baseUrl + 'E2306_admin/admin/order/addOrder',
+                                url:baseUrl + 'E2306_admin/admin/order/clickAddOrder',
+                                data:{
+                                    contactName:$('.step1 .user_name').val(),
+                                    contactIdcard:$('.step1 .user_id').val(),
+                                    sourceId:  $(self).attr('sourceId')
+                                },
+                                success:function(data){ 
+                                // console.log(data); // 返回所需要的数据
+                                    $('.takenumMask').css({'display':'block'});
+                                    $('.takenumMask .takenum').css({'display':'block'});
+                                    $('.takenumMask .takenum_gaiqian').css({'display':'none'});
+                                    data.addStatus==1?$('.takenum .jiahao').show():$('.takenum .jiahao').hide();
+                                    guahaoTimer = setTimeout(function(){
+                                        $('.takenumMask').css({'display':'none'});
+                                    },5000)
+                                    var takenum_info = $('<h5>'+"编号 ："+'<span>'+data.code+'</span>'+"（窗）"+'</h5>'
+                                        + '<li>'+ "就诊时间 ： " +data.registrationDate + "&nbsp;&nbsp;&nbsp;" +(data.dateTime=='pm'?'下午':'上午')+'</li>'
+                                        + '<li>' + "门诊类别 ：" + '<span>'+(outpatientType(data.outpatientType))+'</span>'+"&nbsp;&nbsp;&nbsp;" + '<span>'+data.subjectName+'</span>'+'<li>'
+                                        + '<li>' + "主治医师 ：" + data.doctorName+'</li>'
+                                        + '<li>' + "就诊人 ：" + data.contactName+"&nbsp;&nbsp;&nbsp;"+'<span>'+formatIdenticard(data.contactIdcard)+'</span>'
+                                        // +'<li class="hidden">'+data.registrationId+'</li>'
+                                        +'</li>');
+                                    $('.takenum .takenum_ul').html(takenum_info); 
+                                    data.HospitalLogo?$('.takenum .hospi_logo').attr('src',baseUrl+'E2306'+data.HospitalLogo):$('.takenum .hospi_logo').css({'display':'none'}); 
+                                     $('.takenum .confirmTakenum').attr({'sourceId':$(self).attr('sourceId')});  
+                                },
+                                error:function(data){
+                                    swal({
+                                        title: "温馨提示：",
+                                        text: "挂号失败",
+                                        timer: 2000,
+                                        showConfirmButton: false
+                                        });
+                                }
+                            });     
+                   },
+             });
+   
+        });
+
+         //点击取号弹窗的确认取号和支付
+        $('.takenum .confirmTakenum').click(function(){
+             clearTimeout(guahaoTimer);
+            $('.takenumMask').css({'display':'none'});
+            var self = this;
+            //支付
+            $.ajax({
+                    type:'post',
+                    //url:baseUrl + 'E2306_admin/admin/payment/finishPayByAddOrder',
+                    url:baseUrl +'E2306_admin/admin/order/addTakeOrder',
+                    data:{
+                        contactName:$('.step1 .user_name').val(),
+                        contactIdcard:$('.step1 .user_id').val(),
+                        sourceId:  $(self).attr('sourceId')
+                    },
+                    success:function(data){
+                       // console.log(data)
+                        if(data.result == 'succeed'){
+                            swal({
+                                title: "温馨提示：",
+                                text: "您已取号成功!",
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                            guahaoOver();
+                            restoreSelect();
+                            getNum();
+                            calculateMoney();
+                        }
+                    }
+            });       
+        });
+
+        //挂号支付完毕，就要到扫描界面也就是展现此挂号人的所有挂号信息      
+        var guahaoOver = function(){
+                var name = $('.step1 .user_name').val(),
+                    idCardNo = $('.step1 .user_id').val();
+                $.ajax({
+                        type:'GET',
+                        url:baseUrl+'E2306_admin/admin/order/selectOrder',
+                        data:{
+                            name:name,
+                            idCardNo:idCardNo,
+                            hospitalId:sessionStorage.getItem('hospitalId')
+                        },
+                        success:function(data){
+                            $('.step1 .saomiaoMes').css({'display':'block'}); 
+                            $('.step1 .guahaoMes').css({'display':'none'});     
+                            $('.registerInfo').empty();                              
+                            for(var i =0;i<data.length;i++){         
+                                    var item = data[i];
+                                    var register_tds = $('<tr>'
+                                        +'<td>'+(i+1)+'</td>'
+                                    +'<td>'+item.registrationId+'</td>'
+                                    +'<td>'+item.registrationDate+'</td>'+'<td>'+(item.dateTime=='pm'?'下午':'上午')+'</td>'
+                                    +'<td>'+item.subjectName+'</td>' +'<td>'+(outpatientType(item.outpatientType))+'</td>' +'<td>'+item.doctorName+'</td>'
+                                    +'<td>'+formatFee(item.totlePay)+'</td>' +'<td>'+item.contactName+'</td>' +'<td>'+(item.appointmentType==0?'APP':'窗口')+'</td>'
+                                    +'<td class="operate">'
+                                    + '<button class="checkBtn m_5" index="0">取号</button>' 
+                                    + '<button class="changeBtn m_5" index="1">改签</button>'
+                                    + '<button class="quitBtn m_5" index="2">退号</button>'
+                                    +'</td>'
+                                    +'</tr>');   
+                                    $('.registerInfo').append(register_tds); 
+                                    //给每条操作按钮都加上订单Id，每个科室td加上科室id
+                                    $('.registerInfo .operate').eq(i).children('button').attr('regisId',item.registrationId); 
+                                    $('.registerInfo tr').eq(i).children('td').eq(4).attr('subjectId',item.subjectId);     
+                                    //
+                                    if(item.orderStatus == '1'){
+                                    //  alert(1)
+                                            $('.registerInfo .operate').eq(i).children('.checkBtn').addClass('mainBg');
+                                        $('.registerInfo .operate').eq(i).children('.changeBtn').addClass('blueBg');
+                                        $('.registerInfo .operate').eq(i).children('.quitBtn').addClass('redBg');//已支付，取改退
+                                    }else if(item.orderStatus == '2'){
+                                        //   alert(2)
+                                        // $('.registerInfo .operate').eq(i).children('.changeBtn').addClass('blueBg');
+                                        $('.registerInfo .operate').eq(i).children('.quitBtn').addClass('redBg'); //已取号 退
+                                       $('.registerInfo .operate').eq(i).children('.checkBtn').removeAttr('index'); //取过号再点击遮罩就打不开
+                                       $('.registerInfo .operate').eq(i).children('.changeBtn').removeAttr('index');
+                                        }else if(item.orderStatus == '5'){
+                                        //  alert(5)
+                                        $('.registerInfo .operate').eq(i).children('.quitBtn').addClass('redBg'); //已改签 退
+                                        $('.registerInfo .operate').eq(i).children('.checkBtn').removeAttr('index'); //取过号再点击遮罩就打不开
+                                        $('.registerInfo .operate').eq(i).children('.changeBtn').removeAttr('index');
+                                        }           
+                                };                  
+                    },
+                });
+        };
+    };
+    guahaoCaozuo();
+   //点击挂号按钮end
+
+    //挂号的应急增加号源
+    var add;
+    //开启增加号源
+    $('.addSourse_box').on('click','#add_sourse',function(){
+        var dot_name = $('.step1 .queryDoc').val();
+        if(!dot_name){
+            swal({
+                title: "温馨提示：",
+                text: "请填写增加号源的医生姓名。",
+                timer: 3000,
+                showConfirmButton: false
+                });
+            return false;
+        }
+         add = true;
+        // alert('cancel');
+        addSourse($(this));
+        $('.guahaoInfo .guahaoBtn').hide();
+        $('.guahaoInfo .guahaoBtn').parent().append('<button class="jiahaoBtn redBg">加号</button>');
+        $('.guahaoInfo .jiahaoBtn').attr('sourceId', $('.guahaoInfo .guahaoBtn').attr('sourceId'));
+    });
+    function addSourse(e){
+        if(add){
+             e.parent().append('<a id="cancel_sourse" class="new_add" href="javascript:void(0);">取消增加</a>');
+            e.remove();
+        }
+    };
+    //
+    $('.addSourse_box').on('click','#cancel_sourse',function(){
+        // alert('add it')
+        cancelSourse($(this));
+    });
+    function cancelSourse(e) {
+        add=false;
+        if(!add){
+            //<a id="add_sourse" class="new_add" href="javascript:void(0);">应急增加</a>
+            e.parent().append('<a id="add_sourse" class="new_add" href="javascript:void(0);">应急加号</a>');
+            e.remove();
+            $('.guahaoInfo .guahaoBtn').next().remove();
+        }
+    }
+
+    //点击加号操作
+    function jiahaoCaozuo(){
+            //点击加号按钮找到当前行对应文本
+            function getJiahaoText(sourceBtn){
+                var sourceText_obj;
+                var sourceId=  sourceBtn.attr('sourceId'); //拿到被点击按钮的号源Id和科室id
+                // var departId = sourceBtn.attr('departId');
+                //找到此条号源信息对应的tr,拿到里面的文本
+                var tr = sourceBtn.parent().parent(); 
+                var time = tr.children('td').eq(1).text();
+                    time = time.substring(0,time.length-1);
+                var timeArr = time.split('(');
+                    sourceText_obj = {
+                        sourceTime:timeArr[1],
+                    //  departmentId:departId,
+                        subjectName:tr.children('td').eq(2).text(),
+                        outPatient: tr.children('td').eq(3).text(),  //outpatientType_text
+                        doctorName: tr.children('td').eq(4).text(),
+                        fee:tr.children('td').eq(5).text()
+                    }    
+                return sourceText_obj;                 
+            };
+            //将点击的该条加号号源信息给搜索框
+            function replaceSelect(ele){
+                var sourceTime_option = $('.step1 .sourceTime option');
+                sourceTime_option.each(function(index,element){
+                    if(getJiahaoText(ele).sourceTime == $(element).text()){
+                        $(element).attr('selected',true);
+                    }
+                });
+                var subject_option = $('.step1 .subjectName option');
+                subject_option.each(function(index,element){
+                    if(getJiahaoText(ele).subjectName == $(element).text()){
+                        $(element).attr('selected',true);
+                    }
+                });
+                var patientType_option = $('.step1 .patientType option');
+                var addPatient_option = $('<option>'+getJiahaoText(ele).outPatient+'</option>');
+                $('.step1 .patientType').append(addPatient_option);
+                addPatient_option.attr('selected',true);
+                patientType_option.each(function(index,element){
+                    if(addPatient_option.text() == $(element).text()){
+                        addPatient_option.remove();
+                        $(element).attr('selected',true);
+                        return false;
+                    }
+                });    
+            // $('.step1 .queryDoc').val(getSourceText(ele).doctorName);      
+            };
+
+            //点击加号默认就是挂号
+        var jiahaoTimer;
+        $('.guahaoInfo').on('click','.jiahaoBtn',function(){
+                var self = this;
+                var subjectName = $(self).parent().parent().find('td').eq(2).text();
+                if(!($('.user_name').val())|| !($('.user_id').val())){
+                    swal({
+                            title: "温馨提示：",
+                            text: "挂号前请先扫描身份证信息",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                            return false;
+                } 
+                
+                //若调用扫描接口返回的subjectName和此条加号信息的科室一样说明该科室该就诊人之前挂号过--不可以再挂
+                $.ajax({
+                        type:'GET',
+                        url:baseUrl+'E2306_admin/admin/order/selectOrder',
+                        data:{
+                        name:$('.user_name').val(),
+                        idCardNo:$('.user_id').val(),
+                        hospitalId:sessionStorage.getItem('hospitalId')
+                        },
+                        success:function(data){
+                        //挂过号拿到挂过的科室                       
+                            for(var i =0;i<data.length;i++){         
+                                    var item = data[i];
+                                    if(subjectName == item.subjectName){
+                                    // alert('该科室您已经挂过号了，不能重复挂号');
+                                        swal({
+                                            title: "温馨提示：",
+                                            text: "该科室您已经挂过号了，同一科室不能重复挂号",
+                                            timer: 2000,
+                                            showConfirmButton: false
+                                        });
+                                        return false;
+                                    }
+                            }   
+                           replaceSelect($(self));   
+                                //新增该加号订单 拿到此订单data
+                                $.ajax({
+                                    type:'post',
+                                    url:baseUrl + 'E2306_admin/admin/order/clickAddOrder',
+                                    data:{
+                                        contactName:$('.step1 .user_name').val(),
+                                        contactIdcard:$('.step1 .user_id').val(),
+                                        sourceId:  $(self).attr('sourceId')
+                                    },
+                                    success:function(data){ 
+                                    // console.log(data); // 返回所需要的数据
+                                        $('.takenumMask').css({'display':'block'});
+                                        $('.takenumMask .takenum').css({'display':'block'});
+                                        $('.takenumMask .takenum_gaiqian').css({'display':'none'});
+                                        data.addStatus==1?$('.takenum .jiahao').show():$('.takenum .jiahao').hide();
+                                        jiahaoTimer = setTimeout(function(){
+                                            $('.takenumMask').css({'display':'none'});
+                                        },5000)
+                                        var takenum_info = $('<h5>'+"编号 ："+'<span>'+data.code+'</span>'+"（窗）"+'</h5>'
+                                            + '<li>'+ "就诊时间 ： " +data.registrationDate + "&nbsp;&nbsp;&nbsp;" +(data.dateTime=='pm'?'下午':'上午')+'</li>'
+                                            + '<li>' + "门诊类别 ：" + '<span>'+(outpatientType(data.outpatientType))+'</span>'+"&nbsp;&nbsp;&nbsp;" + '<span>'+data.subjectName+'</span>'+'<li>'
+                                            + '<li>' + "主治医师 ：" + data.doctorName+'</li>'
+                                            + '<li>' + "就诊人 ：" + data.contactName+"&nbsp;&nbsp;&nbsp;"+'<span>'+formatIdenticard(data.contactIdcard)+'</span>'
+                                            // +'<li class="hidden">'+data.registrationId+'</li>'
+                                            +'</li>');
+                                        $('.takenumMes .jiahao').show();
+                                        $('.takenum .takenum_ul').html(takenum_info); 
+                                        data.HospitalLogo?$('.takenum .hospi_logo').attr('src',baseUrl+'E2306'+data.HospitalLogo):$('.takenum .hospi_logo').css({'display':'none'});
+                                       $('.takenum .confirmTakenum').hide();
+                                      $('.takenum .confirmTakegaiqiannum').hide();
+                                     $('.takenum .confirmTakejiahaonum').show();
+                                    $('.takenum .confirmTakejiahaonum').attr({'sourceId':$(self).attr('sourceId')}); 
+                                        //  $('.takenum .confirmTakenum').attr({'sourceId':$(self).attr('sourceId')});  
+                                    },
+                                    error:function(data){
+                                        swal({
+                                            title: "温馨提示：",
+                                            text: "挂号失败",
+                                            timer: 2000,
+                                            showConfirmButton: false
+                                            });
+                                    }
+                                });     
+                    },
+                });
+        });
+        
+         //点击取号弹窗的确认取号和支付
+        $('.takenum .confirmTakejiahaonum').click(function(){
+             clearTimeout(jiahaoTimer);
+            $('.takenumMask').css({'display':'none'});
+            var self = this;
+            //支付
+            $.ajax({
+                    type:'post',
+                    //url:baseUrl + 'E2306_admin/admin/payment/finishPayByAddOrder',
+                    url:baseUrl +'E2306_admin/admin/order/addTakeOrder',
+                    data:{
+                        contactName:$('.step1 .user_name').val(),
+                        contactIdcard:$('.step1 .user_id').val(),
+                        sourceId:  $(self).attr('sourceId')
+                    },
+                    success:function(data){
+                      //  console.log(data)         
+                        if(data.result == 'succeed'){
+                            swal({
+                                title: "温馨提示：",
+                                text: "您已取号成功!",
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                     
+                            jiahaoOver();
+                            restoreSelect();
+                            getNum();
+                            calculateMoney();
+                        }
+                    }
+            });       
+        });
+
+        //挂号支付完毕，就要到扫描界面也就是展现此挂号人的所有挂号信息      
+        var jiahaoOver = function(){
+                var name = $('.step1 .user_name').val(),
+                    idCardNo = $('.step1 .user_id').val();
+                $.ajax({
+                        type:'GET',
+                        url:baseUrl+'E2306_admin/admin/order/selectOrder',
+                        data:{
+                            name:name,
+                            idCardNo:idCardNo,
+                            hospitalId:sessionStorage.getItem('hospitalId')
+                        },
+                        success:function(data){
+                            $('.step1 .saomiaoMes').css({'display':'block'}); 
+                            $('.step1 .guahaoMes').css({'display':'none'});     
+                            $('.registerInfo').empty();                              
+                            for(var i =0;i<data.length;i++){         
+                                    var item = data[i];
+                                    var register_tds = $('<tr>'
+                                        +'<td>'+(i+1)+'</td>'
+                                    +'<td>'+item.registrationId+'</td>'
+                                    +'<td>'+item.registrationDate+'</td>'+'<td>'+(item.dateTime=='pm'?'下午':'上午')+'</td>'
+                                    +'<td>'+item.subjectName+'</td>' +'<td>'+(outpatientType(item.outpatientType))+'</td>' +'<td>'+item.doctorName+'</td>'
+                                    +'<td>'+formatFee(item.totlePay)+'</td>' +'<td>'+item.contactName+'</td>' +'<td>'+(item.appointmentType==0?'APP':'窗口')+'</td>'
+                                    +'<td class="operate">'
+                                    + '<button class="checkBtn m_5" index="0">取号</button>' 
+                                    + '<button class="changeBtn m_5" index="1">改签</button>'
+                                    + '<button class="quitBtn m_5" index="2">退号</button>'
+                                    +'</td>'
+                                    +'</tr>');   
+                                    $('.registerInfo').append(register_tds); 
+                                    //给每条操作按钮都加上订单Id，每个科室td加上科室id
+                                    $('.registerInfo .operate').eq(i).children('button').attr('regisId',item.registrationId); 
+                                    $('.registerInfo tr').eq(i).children('td').eq(4).attr('subjectId',item.subjectId);     
+                                    //
+                                    if(item.orderStatus == '1'){
+                                    //  alert(1)
+                                            $('.registerInfo .operate').eq(i).children('.checkBtn').addClass('mainBg');
+                                        $('.registerInfo .operate').eq(i).children('.changeBtn').addClass('blueBg');
+                                        $('.registerInfo .operate').eq(i).children('.quitBtn').addClass('redBg');//已支付，取改退
+                                    }else if(item.orderStatus == '2'){
+                                        //   alert(2)
+                                        // $('.registerInfo .operate').eq(i).children('.changeBtn').addClass('blueBg');
+                                        $('.registerInfo .operate').eq(i).children('.quitBtn').addClass('redBg'); //已取号 退
+                                    $('.registerInfo .operate').eq(i).children('.checkBtn').removeAttr('index'); //取过号再点击遮罩就打不开
+                                    $('.registerInfo .operate').eq(i).children('.changeBtn').removeAttr('index');
+                                        }else if(item.orderStatus == '5'){
+                                        //  alert(5)
+                                        $('.registerInfo .operate').eq(i).children('.quitBtn').addClass('redBg'); //已改签 退
+                                        $('.registerInfo .operate').eq(i).children('.checkBtn').removeAttr('index'); //取过号再点击遮罩就打不开
+                                        $('.registerInfo .operate').eq(i).children('.changeBtn').removeAttr('index');
+                                        }           
+                                };                  
+                    },
+                });
+        };
+    };
+    jiahaoCaozuo();
+
+    //改签---回到step2界面，应该展示当前信息里可供选择的下拉框选项 
+        //展示挂号科室
+        var showDepart= function(){
+                //alert('展示对应科室');
+                $.ajax({
+                    type:'post',
+                    url:baseUrl + 'E2306_admin/admin/source/getSourceByDateTime',
+                    data:{
+                        hospitalId:sessionStorage.getItem('hospitalId'),   
+                        sourceDate:$('.step2 .changeDate').val(),
+                        sourceTime:$(".step2 .sourceTime option:selected").text() == '上午'?'am':'pm'  
+                    },
+                    success:function(data){ 
+                        $('.step2 .subjectName option:first-child').nextAll().remove(); //每次加入新数据之前先把之前的删掉
+                        for(var i= 0;i<data.length;i++){
+                            //拿到挂号科室值
+                            var subject_option = $('<option>'+data[i].subjectName+'</option>')[0];
+                            subject_option.setAttribute('subjectId',data[i].departmentId); 
+                            //有和当前科室一样的就不要
+                            if($(subject_option).text() ==  $('.step2 .subjectName option:selected').text()){
+                                continue; 
+                            }
+                            $('.step2 .subjectName').append(subject_option);    
+                        }
+                    }
+                });  
+        };
+
+    function showAllChange(){
+           //展示上下午
+           $('.step2 .sourceTime option:first-child').nextAll().remove();//每次进去之前就清空掉上一次遗留的
+           var showGaiqianTime = function(){
+             var sourceTime = $('.step2 .sourceTime option:selected').text();
+             if(sourceTime == '上午'){
+                //  alert('出现下午')
+                 $('.step2 .sourceTime').append($('<option value="">下午</option>'));
+             }else{
+                  $('.step2 .sourceTime').append($('<option value="">上午</option>'));
+             }
+           };
+            showGaiqianTime();
+            showDepart();
+
+            //展示门诊类别
+            var showPatientType = function(){
+                 $.ajax({
+                    type:'post',
+                  //  url:'http://192.168.1.138:8333/E2306_admin/admin/source/getSourceByDepartment',
+                    url:baseUrl+'E2306_admin/admin/source/getSourceByDepartment',
+                    data:{
+                      hospitalId:sessionStorage.getItem('hospitalId'),   
+                      sourceDate:$('.step2 .changeDate').val(),
+                      sourceTime:$(".step2 .sourceTime option:selected").text() == '上午'?'am':'pm',
+                      departmentId:$('.step2 .subjectName option:selected').attr('subjectId')
+                    },
+                    success:function(data){
+                           // alert('移除之前门诊');
+                            $('.step2 .patientType option:selected').nextAll().remove(); 
+                            for(var i= 0; i< data.length; i++){   
+                                //渲染门诊类别
+                                   var patient_option = '<option>'+outpatientType(data[i])+'</option>';  
+                                    if($(patient_option).text() ==  $('.step2 .patientType option:selected').text()){
+                                      continue;
+                                    } //每个和当前显示去重
+                                    $('.step2 .patientType').append(patient_option);        
+                            };                            
+                    }
+                });
+            };
+             showPatientType();
+
+    };
+
+   //改签---点击确认改签后的条件搜索
+   var currentGaiqianPage_subject = 1,
+        currentGaiqianPage_patient = 1,
+        currentGaiqianPage_doctor = 1;
+   function changeSearch(){ 
+            //改变时间的时候也要重新渲染科室
+             $('.step2 .sourceTime').on('change',function(){
+                  $('.step2 .subjectName').empty();
+                  $('.step2 .subjectName').append($('<option value="">-请选择</option>'));
+                   showDepart();
+             });         
+
+           //选择具体科室按分页出现该科室的所有表格信息和所有门诊 begin
+          $('.step2 .subjectName').on('change',function(){
+              currentGaiqianPage_subject = 1;
+                changeSubject();
+                $('.step2 .patientType option:first-child').text('-不限');
+                addPatientType();
+          });
+          //按分页出现科室对应号源
+          function changeSubject(){
+                var doctorName = $('.step2 .queryDoc').val();
+                doctorName?doctorName:'';
+                $.ajax({
+                    type:'post',
+                   // url:'http://192.168.1.138:8333/E2306_admin/admin/source/getSourceByParams',
+                    url:baseUrl + 'E2306_admin/admin/source/getSourceByParams',
+                    data:{
+                      hospitalId:sessionStorage.getItem('hospitalId'),   
+                      sourceDate:$('.step2 .changeDate').val(),
+                      sourceTime:$('.step2 .sourceTime option:selected').text()=='上午'?'am':'pm',
+                      departmentId:$('.step2 .subjectName option:selected').attr('subjectId'),
+                      doctorName:doctorName,
+                      pageNum:currentGaiqianPage_subject,
+                      pageSize:pageNum
+                    },  
+                    success:function(data){
+                        var totalPage = data.count; // 获取总页数
+                        hasgaiqianPage_subject(currentGaiqianPage_subject,totalPage);
+                        var oldMoney = $('.step2 .hiddenRegisId').attr('oldMoney');
+                          rendergaiqianRes(data.list,oldMoney);
+                    }
+              });
+          };
+
+          //根据科室添加门诊
+          function addPatientType(){
+                $.ajax({
+                    type:'post',
+                       // url:'http://192.168.1.138:8333/E2306_admin/admin/source/getSourceByDepartment',
+                     url:baseUrl + 'E2306_admin/admin/source/getSourceByDepartment',
+                    data:{
+                        hospitalId:sessionStorage.getItem('hospitalId'),   
+                        sourceDate:$('.step2 .changeDate').val(),
+                        sourceTime:$(".step2 .sourceTime option:selected").text() == '上午'?'am':'pm',
+                        departmentId:$('.step2 .subjectName option:selected').attr('subjectId'),
+                    },  
+                    success:function(data){     
+                        //  alert('传入具体科室出现该科室下的门诊');
+                        // console.log(data);
+                            var dId = $('.step2 .subjectName option:selected').attr('subjectId');  //如果没选择科室就查不到
+                            if(!dId ||dId == undefined ){
+                                swal({
+                                    title: "温馨提示：",
+                                    text: "请选择具体科室",
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                    });
+                                    return false;
+                            }
+                            var patient_option = '';  
+                        for(var i=0;i<data.length;i++){
+                            //渲染门诊类别
+                                patient_option += '<option>'+outpatientType(data[i])+'</option>';                                    
+                        };
+                         $('.step2 .patientType option:first-child').nextAll().remove();
+                        $('.step2 .patientType').append(patient_option);
+                    }
+                });
+        };  
+
+            //改签科室是否显示分页
+        function hasgaiqianPage_subject(nowPage,totalPageNum){
+            if(totalPageNum > 1){
+                $('#gaiqianPage').show();
+                $('#gaiqianPage').myPagination({
+                    currPage:nowPage,
+                    pageCount:totalPageNum,
+                    pageSize:10,
+                        panel: {
+                        tipInfo_on: true,
+                        tipInfo: '&nbsp;&nbsp;跳转至{input}/{sumPage}页',
+                        prev:'上一页',
+                        next:'下一页',
+                        prev_on:true,
+                        next_on:true,
+                        tipInfo_css: {
+                            width: '25px',
+                            height: "20px",
+                            border: "2px solid #f0f0f0",
+                            padding: "0 0 0 5px",
+                            margin: "0 5px 0 5px",
+                            color: "#00cdb1"
+                        }
+                    },
+                    ajax:{
+                        onClick:function(pageNo){
+                        //   alert('当前页是：'+pageNo);
+                            currentGaiqianPage_subject = pageNo;
+                            changeSubject();
+                        }
+                    }
+                });
+            }else{
+                $('#gaiqianPage').hide();
+            }
+        };  
+    //选择具体科室按分页出现该科室的所有表格信息和所有门诊end
+
+        //选择具体门诊类别出现的所有号源信息begin
+          $('.step2 .patientType').on('change',function(){
+              currentGaiqianPage_patient = 1;
+                changePatientType();
+          });
+        
+          function changePatientType(){
+               // alert('改签门诊');
+                var doctorName = $('.step2 .queryDoc').val();
+                doctorName?doctorName:'';
+                $.ajax({
+                    type:'post',
+                  //  url:'http://192.168.1.138:8333/E2306_admin/admin/source/getSourceByParams',
+                    url:baseUrl + 'E2306_admin/admin/source/getSourceByParams',
+                    data:{
+                      hospitalId:sessionStorage.getItem('hospitalId'),   
+                      sourceDate:$('.step2 .changeDate').val(),
+                      sourceTime:$('.step2 .sourceTime option:selected').text()=='上午'?'am':'pm',
+                      departmentId:$('.step2 .subjectName option:selected').attr('subjectId'),
+                      outpatientType:outpatientType_text($('.step2 .patientType option:selected').text()),
+                      doctorName:doctorName,
+                      pageNum:currentGaiqianPage_patient,
+                      pageSize:pageNum
+                    },  
+                    success:function(data){
+                        var totalPage = data.count; // 获取总页数
+                        hasgaiqianPage_patient(currentGaiqianPage_patient,totalPage);
+                        var oldMoney = $('.step2 .hiddenRegisId').attr('oldMoney');
+                         rendergaiqianRes(data.list,oldMoney);
+                    }
+              });
+          };
+
+        //改签门诊是否显示分页
+        function hasgaiqianPage_patient(nowPage,totalPageNum){
+            if(totalPageNum > 1){
+                $('#gaiqianPage').show();
+                $('#gaiqianPage').myPagination({
+                    currPage:nowPage,
+                    pageCount:totalPageNum,
+                    pageSize:pageNum,
+                        panel: {
+                        tipInfo_on: true,
+                        tipInfo: '&nbsp;&nbsp;跳转至{input}/{sumPage}页',
+                        prev:'上一页',
+                        next:'下一页',
+                        prev_on:true,
+                        next_on:true,
+                        tipInfo_css: {
+                            width: '25px',
+                            height: "20px",
+                            border: "2px solid #f0f0f0",
+                            padding: "0 0 0 5px",
+                            margin: "0 5px 0 5px",
+                            color: "#00cdb1"
+                        }
+                    },
+                    ajax:{
+                        onClick:function(pageNo){
+                        // alert('当前页是：'+pageNo);
+                            currentGaiqianPage_patient = pageNo;
+                            changePatientType();
+                        }
+                    }
+                });
+            }else{
+                $('#gaiqianPage').hide();
+            }
+        };   
+       //选择具体门诊类别出现的所有号源信息end
+
+        //输入医生姓名查询 begin
+        //输入医生姓名查询时 一边输入一边检索
+        $('.step2 .queryDoc').keyup(function(){
+            currentGaiqianPage_doctor =1;
+                queryDoctor();
+                 renderDoctors();
+        });
+
+        $('.step2 .queryDoc').on('blur',function(){
+                renderDoctors();
+                $('.step2 .queryDoc_list').slideUp();
+            });
+
+        //根据输入内容检索出对应医生列表 
+        function queryDoctor(){
+            var doctorName = $('.step2 .queryDoc').val();
+            var departmentId = $('.step2 .subjectName option:selected').attr('subjectId');
+                departmentId?departmentId:'';
+                var outpatientType = outpatientType_text($('.step2 .patientType option:selected').text());
+                outpatientType?outpatientType:''; 
+            $.ajax({
+                type:'post',
+               // url:'http://192.168.1.138:8333/E2306_admin/admin/source/getSourceByParams',
+                url:baseUrl + 'E2306_admin/admin/source/getSourceByParams',
+                data:{
+                    hospitalId:sessionStorage.getItem('hospitalId'),  
+                    sourceDate:$('.step2 .changeDate').val(),
+                    sourceTime:$('.step2 .sourceTime option:selected').text()=='上午'?'am':'pm',
+                    departmentId: departmentId,
+                    outpatientType:outpatientType,
+                    doctorName:doctorName, 
+                },  
+                success:function(data){
+                    if(data.count == 0|| data.list == [] || data.list.length == 0){
+                        return false;
+                    }
+                   // console.log(data);
+                        var doctors ='';
+                        var list = data.list;
+                        for(var i=0;i<list.length;i++){
+                            doctors += '<li>'+list[i].doctorName+'</li>';
+                        }
+                    $('.step2 .queryDoc_list').slideDown();
+                    $('.step2 .queryDoc_list').html(doctors);
+                }
+            });
+        
+        };
+
+           //选择了医生姓名的的具体医生
+            $('.step2 .queryDoc_list').on('click','li',function(){
+                $('.step2 .queryDoc').val($(this).text());
+                $('.step2 .queryDoc_list').slideUp();
+                renderDoctors();
+            });
+
+            function renderDoctors(){
+                var doctorName = $('.step2 .queryDoc').val();
+                var departmentId = $('.step2 .subjectName option:selected').attr('subjectId');
+                    departmentId?departmentId:'';
+                var outpatientType = outpatientType_text($('.step2 .patientType option:selected').text());
+                        outpatientType?outpatientType:''; 
+                    $.ajax({
+                        type:'post',
+                        //url:'http://192.168.1.138:8333/E2306_admin/admin/source/getSourceByParams',
+                        url:baseUrl +'E2306_admin/admin/source/getSourceByParams',
+                        data:{
+                        hospitalId:sessionStorage.getItem('hospitalId'),  
+                        sourceDate:$('.step2 .changeDate').val(),
+                        sourceTime:$('.step2 .sourceTime option:selected').text()=='上午'?'am':'pm',
+                        doctorName:doctorName, 
+                        departmentId:departmentId,
+                        outpatientType:outpatientType,
+                        pageNum:currentGaiqianPage_doctor,
+                        pageSize:pageNum
+                        }, 
+                        success:function(data){
+                            if(data.count == 0|| data.list == [] || data.list.length == 0){
+                                return false;
+                            }
+                            var totalPage = data.count; // 获取总页数
+                            hasgaiqianPage_doctor(currentGaiqianPage_doctor,totalPage);
+                            var oldMoney = $('.step2 .hiddenRegisId').attr('oldMoney');
+                            rendergaiqianRes(data.list,oldMoney);
+                        } 
+                    });
+            };
+
+               //改签选择医生是否显示分页
+            function hasgaiqianPage_doctor(nowPage,totalPageNum){
+                if(totalPageNum > 1){
+                    $('#gaiqianPage').show();
+                    $('#gaiqianPage').myPagination({
+                        currPage:nowPage,
+                        pageCount:totalPageNum,
+                        pageSize:pageNum,
+                            panel: {
+                            tipInfo_on: true,
+                            tipInfo: '&nbsp;&nbsp;跳转至{input}/{sumPage}页',
+                            prev:'上一页',
+                            next:'下一页',
+                            prev_on:true,
+                            next_on:true,
+                            tipInfo_css: {
+                                width: '25px',
+                                height: "20px",
+                                border: "2px solid #f0f0f0",
+                                padding: "0 0 0 5px",
+                                margin: "0 5px 0 5px",
+                                color: "#00cdb1"
+                            }
+                        },
+                        ajax:{
+                          onClick:function(pageNo){
+                            // alert('当前页是：'+pageNo);
+                             currentGaiqianPage_doctor = pageNo;
+                             renderDoctors();
+                          }
+                        }
+                    });
+                }else{
+                  $('#gaiqianPage').hide();
+                }
+            };   
+
+   };
+   changeSearch();
+
+    function gaiqianCaozuo(){
+        var gaiqianTimer;
+            function getSourceText(sourceBtn){
+                    var sourceText_obj;
+                    var sourceId=  sourceBtn.attr('sourceId'); //拿到被点击按钮的号源Id
+                    //找到此条号源信息对应的tr,拿到里面的文本
+                    var tr = sourceBtn.parent().parent(); 
+                    var time = tr.children('td').eq(1).text();
+                        time = time.substring(0,time.length-1);
+                    var payMoney  =tr.children('td').eq(5).text();
+                    var payMoneyArr = payMoney.split('(');
+                    var payDifference = payMoneyArr[0].substring(5,payMoneyArr[0].length);
+                    var timeArr = time.split('(');
+                        sourceText_obj = {
+                            sourceTime:timeArr[1],
+                            subjectName:tr.children('td').eq(2).text(),
+                            outPatient: tr.children('td').eq(3).text(),  //outpatientType_text
+                            doctorName: tr.children('td').eq(4).text(),
+                            fee:tr.children('td').eq(5).text()
+                        }    
+                    return sourceText_obj;                 
+            };
+
+            //渲染此条号源信息
+            function renderSourceMes(ele){
+                //重新渲染表格信息
+                var gaiqian_info = '';     
+                    gaiqian_info += '<tr>'
+                    + '<td>'+1+'</td>'
+                    + '<td>'+$('.step1 .defaultTime').val() + '(' +getSourceText(ele).sourceTime+ ')'+'</td>'
+                    + '<td>'+getSourceText(ele).subjectName+'</td>'
+                    + '<td>'+getSourceText(ele).outPatient+'</td>'
+                    + '<td>'+getSourceText(ele).doctorName+'</td>'
+                    + '<td>'+getSourceText(ele).fee+'</td>'
+                    + '<td>'+'<button class="gaiqianBtn blueBg">改签</button>'+'</td>'
+                    +'</tr>';                
+                $('.step2 .gaiqianMes').html(gaiqian_info); 
+                $('.step2 .gaiqianMes').find('.gaiqianBtn').attr('sourceId',ele.attr('sourceId'));
+            };
+            //将点击的该条号源信息给搜索框
+            function replaceSelectText(ele){
+                var sourceTime_option = $('.step2 .sourceTime option');
+                sourceTime_option.each(function(index,element){
+                    if(getSourceText(ele).sourceTime == $(element).text()){
+                        $(element).attr('selected',true);
+                    }
+                });
+                var subject_option = $('.step2 .subjectName option');
+                subject_option.each(function(index,element){
+                    if(getSourceText(ele).subjectName == $(element).text()){
+                        $(element).attr('selected',true);
+                    }
+                });
+                var patientType_option = $('.step2 .patientType option');
+                var addPatient_option = $('<option>'+getSourceText(ele).outPatient+'</option>');
+                $('.step2 .patientType').append(addPatient_option);
+                addPatient_option.attr('selected',true);
+                patientType_option.each(function(index,element){
+                    if(addPatient_option.text() == $(element).text()){
+                        addPatient_option.remove();
+                        $(element).attr('selected',true);
+                        return false;
+                    }
+                });    
+                $('.step2 .queryDoc').val(getSourceText(ele).doctorName);      
+            };
+
+            //点击改签按钮,
+            $('.gaiqianMes').on('click','.gaiqianBtn',function(){
+                    var self = this;
+                renderSourceMes($(self));
+                replaceSelectText($(self));
+                $('#gaiqianPage').hide();
+                $.ajax({
+                    type:"post",
+                    //url:baseUrl + 'E2306_admin/admin/order/updateOrder',
+                    url:baseUrl + 'E2306_admin/admin/order/clickAddOrder',
+                    data:{
+                    // registrationId: $('.step2 .regis_details .hiddenRegisId').val(), //原订单Id
+                        contactName:$('.step1 .user_name').val(),
+                        contactIdcard:$('.step1 .user_id').val(),
+                        sourceId: $(self).attr('sourceId')
+                        },
+                    success:function(data){
+                        // alert('click gaiqianBtn');
+                        //console.log(data);
+                        $('.takenumMask').css({'display':'block'});
+                        $('.takenum').css({'display':'none'});
+                        $('.takenum_gaiqian').css({'display':'block'});
+                        data.addStatus==1?$('.takenum_gaiqian .jiahao').show():$('.takenum_gaiqian .jiahao').hide();
+                        gaiqianTimer = setTimeout(function(){
+                            $('.takenumMask').css({'display':'none'});
+                        },5000);
+                        var takenum_info = $('<h5>'+"编号 ："+'<span>'+data.code+'</span>'+"（窗）"+'</h5>'
+                        + '<li>'+ "就诊时间 ： " +data.registrationDate + "&nbsp;&nbsp;&nbsp;" +(data.dateTime=='pm'?'下午':'上午')+'</li>'
+                        + '<li>' + "门诊类别 ：" + '<span>'+(outpatientType(data.outpatientType))+'</span>'+"&nbsp;&nbsp;&nbsp;" + '<span>'+data.subjectName+'</span>'+'<li>'
+                        + '<li>' + "主治医师 ：" + data.doctorName+'</li>'
+                        + '<li>' + "就诊人 ：" + data.contactName+"&nbsp;&nbsp;&nbsp;"+'<span>'+formatIdenticard(data.contactIdcard)+'</span>'
+                        +'<li class="hidden">'+data.registrationId+'</li>'
+                        +'</li>');
+                        $('.takenum_gaiqian .takenum_ul').html(takenum_info);  
+                        data.HospitalLogo?$('.takenum_gaiqian .hospi_logo').attr('src',baseUrl+'E2306'+data.HospitalLogo):$('.takenum_gaiqian .hospi_logo').css({'display':'none'});
+                    // $('.takenum_gaiqian .hospi_logo').attr('src',data.HospitalLogo);
+                        $('.takenum .confirmTakenum').hide();
+                        $('.takenum .confirmTakejiahaonum').hide();
+                       $('.takenum .confirmTakegaiqiannum').show();
+                       $('.takenum_gaiqian .confirmTakegaiqiannum').attr({'sourceId':$(self).attr('sourceId')});
+                     //   $('.takenum_gaiqian .confirmTakenum').attr({'sourceId':$(self).attr('sourceId')});
+                    },
+                });
+                
+            })
+
+            //确认改签,支付和取号
+            $('.takenum_gaiqian .confirmTakegaiqiannum').click(function(){
+                clearInterval(gaiqianTimer);
+                $('.takenumMask').css({'display':'none'});
+                var self = this;
+                $.ajax({
+                    type:"post",
+                    url:baseUrl +'E2306_admin/admin/order/updateTakeOrder',
+                    data:{
+                            registrationId: $('.step2 .regis_details .hiddenRegisId').val(), //原订单Id
+                            contactName:$('.step1 .user_name').val(),
+                            contactIdcard:$('.step1 .user_id').val(),
+                            sourceId: $(self).attr('sourceId')
+                    },
+                    success:function(data){
+                            console.log(data);
+                            swal({
+                                title: "温馨提示：",
+                                text: "您已改签成功!",
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                            $('.step2 .gaiqianMes').find('.gaiqianBtn').removeClass('blueBg'); 
+                            $('.step2 .gaiqianMes').find('.gaiqianBtn').attr('disabled',true);
+                            $('.step2').hide();
+                            emptyChange(); //把step2页面的搜索框信息清空
+                            $('.step1').css({'display':'block'});
+                            $('#register_window>.divider').css({'top':'225px'}); 
+                            gaiqianOver();
+                            getNum();
+                            calculateMoney();
+                    }
+                });
+            });
+
+            //改签结束后回到扫描界面 渲染此条信息
+            var gaiqianOver = function(){
+                var name = $('.step1 .user_name').val(),
+                    idCardNo = $('.step1 .user_id').val();
+                $.ajax({
+                        type:'GET',
+                        url:baseUrl+'E2306_admin/admin/order/selectOrder',
+                        data:{
+                            name:name,
+                            idCardNo:idCardNo,
+                            hospitalId:sessionStorage.getItem('hospitalId')
+                        },
+                        success:function(data){   
+                            $('.registerInfo').empty();                           
+                            for(var i =0;i<data.length;i++){         
+                                    var item = data[i];
+                                    var register_tds = $('<tr>'
+                                        +'<td>'+(i+1)+'</td>'
+                                    +'<td>'+item.registrationId+'</td>'
+                                    +'<td>'+item.registrationDate+'</td>'+'<td>'+(item.dateTime=='pm'?'下午':'上午')+'</td>'
+                                    +'<td>'+item.subjectName+'</td>' +'<td>'+(outpatientType(item.outpatientType))+'</td>' +'<td>'+item.doctorName+'</td>'
+                                    +'<td>'+formatFee(item.totlePay)+'</td>' +'<td>'+item.contactName+'</td>' +'<td>'+(item.appointmentType==0?'APP':'窗口')+'</td>'
+                                    +'<td class="operate">'
+                                    + '<button class="checkBtn m_5" index="0">取号</button>' 
+                                    + '<button class="changeBtn m_5" index="1">改签</button>'
+                                    + '<button class="quitBtn m_5" index="2">退号</button>'
+                                    +'</td>'
+                                    +'</tr>');   
+                                    $('.registerInfo').append(register_tds); 
+                                    //给每条操作按钮都加上订单Id，每个科室td加上科室id
+                                    $('.registerInfo .operate').eq(i).children('button').attr('regisId',item.registrationId); 
+                                    $('.registerInfo tr').eq(i).children('td').eq(4).attr('subjectId',item.subjectId);     
+                                    //
+                                    if(item.orderStatus == '1'){
+                                    //  alert(1)
+                                        $('.registerInfo .operate').eq(i).children('.checkBtn').addClass('mainBg');
+                                        $('.registerInfo .operate').eq(i).children('.changeBtn').addClass('blueBg');
+                                        $('.registerInfo .operate').eq(i).children('.quitBtn').addClass('redBg');//已支付，取改退
+                                    }else if(item.orderStatus == '2'){
+                                        //   alert(2)
+                                        $('.registerInfo .operate').eq(i).children('.quitBtn').addClass('redBg'); //已取号 退
+                                        $('.registerInfo .operate').eq(i).children('.checkBtn').removeAttr('index'); //取过号再点击遮罩就打不开
+                                    // $('.registerInfo .operate').eq(i).children('.changeBtn').removeAttr('index');
+                                        }else if(item.orderStatus == '5'){
+                                        //  alert(5)
+                                        $('.registerInfo .operate').eq(i).children('.quitBtn').addClass('redBg'); //已改签 退
+                                        $('.registerInfo .operate').eq(i).children('.checkBtn').removeAttr('index'); //取过号再点击遮罩就打不开
+                                        $('.registerInfo .operate').eq(i).children('.changeBtn').removeAttr('index');
+                                        } 
+                                        
+                                };                  
+                    },
+                });
+            };
+    };
+    gaiqianCaozuo();
+
+    //点击step2返回到step1,且step2页面操作复原
+    $('.btn_back').click(function(){
+        $('.step2').hide();
+        $('#register_window>.divider').css({'top':'225px'});
+        $('#gaiqianPage').hide();
+        emptyChange();
+        $('.step1').show();
+    });
+
+      //底部统计数量
+      function getNum(){
+          $.ajax({
+            type:'get',
+            //url:'http://192.168.1.202:8110/E2306_admin/admin/order/getNumBydate',
+           // url: 'http://192.168.1.51:8333/E2306_admin/admin/order/getNumBydate',
+            url: baseUrl + 'E2306_admin/admin/order/getNumBydate',
+            data:{hospitalId:sessionStorage.getItem('hospitalId')},
+            success:function(data){
+                var regis_mesHtml = 
+                  $('<li class="fl">'+"当前窗口挂号"+'<span class="orange">'+data.orderNumWindow+'</span>'+"&nbsp;张; "+'</li>'
+                    + '<li class="fl">'+"改签"+'<span class="red">'+data.changeNumWindow+'</span>&nbsp;张；'+'</li>'
+                    + '<li class="fl">'+"退号"+'<span class="blue">'+data.returnNumWindow+'</span>&nbsp;张；'+'</li>'	 	
+                    + '<li class="fl">'+"费用"+'<span class="red">'+formatFee(data.windowPay)+'</span>&nbsp;元；'+'</li>');	 					
+                $('.regis_num').html(regis_mesHtml);
+                var app_mesHtml = 
+                  $('<li class="fl">'+"当前app取号"+'<span class="orange">'+data.orderNumApp+'</span>'+"&nbsp;张;"+'</li>'
+                    + '<li class="fl">'+"改签"+'<span class="red">'+data.changeNumApp+'</span>&nbsp;张；'+'</li>'
+                    + '<li class="fl">'+"退号"+'<span class="blue">'+(data.returnNumApp==null?0.00:data.returnNumApp)+'</span>&nbsp;张；'+'</li>'	
+                    + '<li class="fl">'+"费用"+'<span class="red">'+formatFee(data.appPay)+'</span>&nbsp;元；'+'</li>');	 		
+                $('.app_num').html(app_mesHtml);
+              }
+          });
+      };
+      getNum();
+
+      //底部收款显示
+//       function calculateMoney(){
+//         $.ajax({
+//             type:'get',
+//            //  http://192.168.1.51:8333/
+//             //url:'http://192.168.1.51:8333/E2306_admin/admin/payment/getMoneyBydate',
+//              url:baseUrl +'E2306_admin/admin/payment/getMoneyBydate',
+//              data:{hospitalId:sessionStorage.getItem('hospitalId')},
+//             success:function(data){
+//               $('.regis_pay>span').text(formatFee(data.totalPay));
+//             }
+//         });
+//       };
+//       calculateMoney();
+// });
+      function calculateMoney(){
+        $.ajax({
+            type:'get',
+           //  http://192.168.1.51:8333/
+            //url:'http://192.168.1.51:8333/E2306_admin/admin/payment/getMoneyBydate',
+             url:baseUrl +'E2306_admin/admin/order/getNumBydate',
+             data:{hospitalId:sessionStorage.getItem('hospitalId')},
+            success:function(data){
+              $('.regis_pay>span').text(formatFee(data.windowPay));
+            }
+        });
+      };
+      calculateMoney();
+});
+

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN" >
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1"/>
+    <meta name="keywords" content="E2306后台管理系统" />
+    <meta name="description" content="E2306后台管理系统" />
+    <title>登录</title>
+    <link rel="shortcut icon" href="../images/small.ico" type="image/x-icon"/> 
+    <link href="../public/css/base.css" rel="stylesheet" type="text/css">
+    <link href="../css/login.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="loginBox">
+        <div class="welcome">
+            <span>医院科室排班系统</span>
+        </div>  
+        <div class="loginMes">
+             <div class="loginInner">
+                <!-- <h3>登录界面</h3> -->
+                 <p class="loginTitle">
+                    <span class="loginTitle_zh">登录界面</span>
+                    <span class="loginTitle_en">UserLogin</span>
+                </p>               
+                <ul>
+                    <li>
+                        <img src="../images/user.png" alt="">
+                        <input type="text" class="username" placeholder="用户名">
+                    </li>
+                    <p class="userTip red">123132</p>
+                    <li>
+                        <img src="../images/psw.png" alt="">
+                        <input type="password" class="password" placeholder="密码">
+                        <div class="eyesTip">
+                            <span class="grayeyes"></span>
+                            <span class="eyes"></span>
+                        </div>
+                    </li>
+                    <p class="pwdTip red">123545654</p>
+                </ul> 
+                <a class="enter">登录</a>
+            </div>  
+        </div>
+        <!-- <div class="foot">
+            <p>湖 北 百 穗 健 康 科 技 有 限 公 司</p>
+            <p>Hubei fortune Health Technology Co., Ltd.</p>
+        </div> -->
+    </div>
+    <!--[if lt IE10]> 
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="../assets/js/jquery-1.10.2.min.js"></script>
+    <script src="../js/login.js"></script>
+    <script type="text/javascript">
+        // document.documentElement.addBehavior('#default#userdata');
+    </script>
+</body>
+</html>
+

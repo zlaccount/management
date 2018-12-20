@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.info{
+			width: 400px;
+			height: 500px;
+			margin: 150px auto;
+			border: 1px solid #000;
+		}
+		ul{
+			list-style: none;
+		}
+		ul li{
+			margin-top: 20px;
+			font-size: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div class="info">
+		<ul>
+			
+		</ul>
+	</div>
+	
+</body>
+<script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script>
+<script>
+	var subjectName = localStorage.getItem("subjectName")
+    var registrationDate = localStorage.getItem("registrationDate")
+    var contactName = localStorage.getItem("contactName")
+    var doctorName = localStorage.getItem("doctorName")
+    var receiptId = localStorage.getItem("receiptId")
+    var totlePay = localStorage.getItem("totlePay")
+    var dateTime = localStorage.getItem("dateTime")
+    var contactIdcard = localStorage.getItem("contactIdcard")
+    var code = localStorage.getItem("code")
+    var outpatientType = localStorage.getItem("outpatientType")
+    var hospitalName = localStorage.getItem("hospitalName")
+          //格式化费用
+       function formatFee(fee){
+          return (fee/100).toFixed(2);
+       };
+    
+      function outpatient(outpatientTypeNum){
+      	if(outpatientTypeNum==0){
+      		return "普通门诊"
+      	}else if(outpatientTypeNum==1){
+      		return "专家门诊"
+      	}else if(outpatientTypeNum==2){
+      		return "特需门诊"
+      	}
+      }
+
+      function formatIdenticard(identicard){
+          //422129199310120562
+          var start = identicard.substring(0,6),
+            birthday = identicard.substring(6,14),
+            end = identicard.substring(14,identicard.length);
+            birthday = '********';
+            identicard = start + birthday + end;
+          return identicard;
+       };
+      
+      var takenum_info =$('<h2 style="list-style:none;text-align:center;font-weight:bold;font-size:22px;">'+hospitalName+'</h2>'
+                +'<li style="list-style:none;padding-left:30px;">'+"取号排序 ："+'<span>'+code+'</span>'+"(窗)"+'</li>'
+                +'<li style="list-style:none;padding-left:30px;">'+"就诊时间："+registrationDate + "&nbsp;&nbsp;&nbsp;" +(dateTime=='pm'?'下午':'上午')+'</li>'
+                +'<li style="list-style:none;padding-left:30px;">'+"就诊科室："+'<span>'+subjectName+'</li>'
+                +'<li style="list-style:none;padding-left:30px;">' + "门诊类别 ：" + '<span>'+outpatient(outpatientType)+'</span>'+'<li>'
+                +'<li style="list-style:none;padding-left:30px;">'+"挂号费用："+'<span>'+formatFee(totlePay)+'</li>'
+                +'<li style="list-style:none;padding-left:30px;">' + "主治医师 ：" + doctorName+'</li>'
+                +'<li style="list-style:none;padding-left:30px;">' + "就诊人 ：" + contactName+'</li>'
+                +'<li style="list-style:none;padding-left:30px;">' + "身份证号 ："+'<span>'+formatIdenticard(contactIdcard)+'</span></li>'
+                +'</li>')
+        $('.info ul').html(takenum_info);
+
+        setInterval(function(){
+        	window.location.reload()
+        },1000)
+</script>
+</html>

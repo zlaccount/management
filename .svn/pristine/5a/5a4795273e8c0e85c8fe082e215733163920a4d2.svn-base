@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>医生信息</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="lib/myPagination/page.css"/>
+    <link rel="stylesheet" href="assets/laydate/need/laydate.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body>
+    <div id="doctor">
+        <div class="schedule_head">医生信息管理</div>
+        <div class="schedule_search">
+            <div class="schedule_name pos_rel">
+                <lable>医生姓名:</lable>
+                <input class="expert" type="text" placeholder="请填写" id="doctor_name"/>
+                <div class="name_suggest">
+                    <ul>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="schedule_name">
+                <lable>医生职称:</lable>
+                <select class="doctor_title" id="doctor_duty">
+                    <option value=" ">全部</option>
+                    <option value="4">主任医师</option>
+                    <option value="3">副主任医师</option>
+                    <option value="2">主治医师</option>
+                    <option value="1">医师</option>
+                    <option value="0">其他</option>
+                </select>
+            </div>
+            <div class="schedule_name">
+                <lable>医生性别:</lable>
+                <select  class="doctor_sex">
+                    <option value="">全部</option>
+                    <option value="0">男</option>
+                    <option value="1">女</option>
+                </select>
+            </div>
+            <!--<div class="schedule_name">-->
+                <!--<lable>医生年龄:</lable>-->
+                <!--<input id="doctor_age" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="3" type="text" placeholder="请填写"/>-->
+            <!--</div>-->
+            <button onclick="doctor('1');">查询</button>
+        </div>
+        <div class="table-responsive doctor_table">
+            <table class="table table-responsive doctor_mess table-bordered" >
+                <caption><p>XX科室值班表</p><span></span></caption>
+                <tbody>
+                    <tr class="doctor_mess">
+                        <td colspan="7">
+                            <div class="pull-left">
+                                <img src="images/mess_03.png" >
+                                <a onclick="build()" href="javascript:void(0)">增加医生信息</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="doctor_tr">
+                        <td style="width: 70px">序号</td>
+                        <td style="width: 90px">医生姓名</td>
+                        <td style="width: 90px">医生职称</td>
+                        <td style="width: 100px">医生职务</td>
+                        <td style="width: 70px">
+                            性别
+                        </td>
+                        <td style="">
+                           擅长
+                        </td>
+                        <td style="width: 185px">
+                            操作
+                        </td>
+
+                    </tr>
+                </tbody>
+                <tbody id="doctor_amount">
+                <input type="hidden" class="expertMoney" value="'+val.expertMoney+'"/>
+                <input type="hidden" class="plainMoney" value="'+val.plainMoney+'"/>
+                <input type="hidden" class="specialMoney" value="'+val.specialMoney+'"/><!--<tr class="doctor_list">-->
+                        <!--<td class="doctor_num">1</td>-->
+                        <!--<td class="doctor_name">张扬</td>-->
+                        <!--<td class="doctor_tit">主治医生</td>-->
+                        <!--<td class="doctor_mal">男</td>-->
+                        <!--<td class="doctor_age">45</td>-->
+                        <!--<td class="doctor_skill">11</td>-->
+                        <!--<td class="doctor_act">-->
+                            <!--<div class="pull-left">-->
+                                <!--<img src="images/mess_08.png" alt=""/>-->
+                                <!--<a href="javascript:void(0)">修改</a>-->
+                            <!--</div>-->
+                            <!--<div class="pull-left">-->
+                                <!--<img src="images/del_03.png" alt=""/>-->
+                                <!--<a href="javascript:void(0)">删除</a>-->
+                            <!--</div>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                </tbody>
+            </table>
+            <div class="doctor_page page_style"></div>
+        </div>
+
+        <div class="schedule_time_down">
+            <!-- 2017-06-27&nbsp;&nbsp;12:20:26 -->
+        </div>
+    </div>
+    <div id="alertPop">
+        <!-- 遮罩层 -->
+        <div class="alertMask"></div>
+        <!-- 消息框 -->
+        <div class="alertBox">
+            <div class="alertBox_top">
+                <p class="alert-title">
+                    医生信息
+                    <i class="alert-close"></i>
+                </p>
+            </div>
+            <div class="alertBox_main">
+                <div class="alert-img">
+                    <lable class="pull-left"><span style="color:red;margin-left: -9px;padding-right: 4px">*</span>医生头像:</lable>
+                    <div class="img_content pull-left">
+                        <!--<input type="hidden" class="doc_head_way"/>-->
+                        <!--<img class="doc_head" src="images/doctor_03.png" alt=""/>-->
+                        <!--<img class="doc_head_del" src="images/shanchu.png" alt=""/>-->
+                    </div>
+                    <div class="imgDiv imghide pull-left">
+                        <input type="file" class="doctor_img_input" id="doctor_img" onchange="doctorImg()"/>
+                    </div>
+                    <span style="color: #b2b2b2; margin-top: 18px;display: inline-block;margin-left: 10px;">(只能上传1张2寸免冠彩色登记照，每张图大小不能超过3M)</span>
+                </div>
+                <div class="main_top clearfix">
+                    <div class="alertBox_name pull-left">
+                        <span style="color:red;margin-left: -9px;">*</span>
+                        <lable>医生姓名:</lable>
+                        <input type="hidden" class="list_id"/>
+                        <input type="hidden" class="doctorId"/>
+                        <input  class="doc_name" type="text"/>
+                    </div>
+                    <div class="alertBox_name pull-left" style="margin-left: 120px;">
+                        <span style="color:red;margin-left: -9px;">*</span>
+                        <lable>手机号码:</lable>
+                        <input type="hidden" class="tell_id"/>
+                        <input type="hidden" class="tellId"/>
+                        <input placeholder="对外联络电话" class="doc_tell" type="text"/>
+                    </div>
+                </div>
+                <div class="main_top clearfix">
+                    <!--<div class="alertBox_name pull-left">-->
+                        <!--<lable>医生姓名:</lable>-->
+                        <!--<input type="hidden" class="list_id"/>-->
+                        <!--<input type="hidden" class="doctorId"/>-->
+                        <!--<input  class="doc_name" type="text"/>-->
+                    <!--</div>-->
+                    <div class="alertBox_duty pull-left">
+                        <span style="color:red;margin-left: -9px;">*</span>
+                        <lable>医生职称:</lable>
+                        <select id="duty">
+                            <option value="4">主任医师</option>
+                            <option value="3">副主任医师</option>
+                            <option value="2">主治医师</option>
+                            <option value="1">医师</option>
+                            <option value="0">其他</option>
+                        </select>
+                         <select id="position">
+                            <option value="4">教授</option>
+                            <option value="3">副教授</option>
+                            <option value="2">博士生导师</option>
+                            <option value="1">硕士生导师</option>
+                            <option value="0">其他</option>
+                        </select> 
+                    </div>
+                    <div class="alertBox_depart pull-left">
+                        <lable>医生职务:</lable>
+                        <input class="doc_job"  type="text"/>
+                    </div>
+                    <div  class="alertBox_title  pull-left" style="margin-left: -300px;margin-top: -54px;">
+                        <span style="color:red;margin-left: -9px;">*</span>
+                        <lable>医生性别:</lable>
+                        <select id="doc_sex">
+                            <option value="0">男</option>
+                            <option value="1">女</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="main_top clearfix money_doctor">
+                    <div class="alertBox_duty pull-left">
+                        <span style="color:red;margin-left: -9px;">*</span>
+                        <lable>诊疗费:</lable>
+                    </div>
+                    <div class="alertBox_duty pull-left">
+                        <lable>普通门诊:</lable>
+                        <input class="normal_money" onkeyup="clearNoNum(this)"  type="text"/>
+                    </div>
+                    <div class="alertBox_duty pull-left">
+                        <lable>专家门诊:</lable>
+                        <input class="expert_money" onkeyup="clearNoNum(this)"  type="text"/>
+                    </div>
+                    <div class="alertBox_duty pull-left">
+                        <lable>特需门诊:</lable>
+                        <input class="special_money"  onkeyup="clearNoNum(this)" type="text"/>
+                    </div>
+                </div>
+                <div class="skill">
+                    <span style="color:red;margin-left: -9px;">*</span>
+                    <lable>擅长领域:</lable>
+                    <textarea maxlength="150"></textarea>
+                </div>
+                <div class="self_mess">
+                    <span style="color:red;margin-left: -9px;">*</span>
+                    <lable>个人简介:</lable>
+                    <textarea maxlength="200"></textarea>
+                </div>
+                <div  class="alert_btn">
+                    <button  onclick="addDoctor();" id="doctor_btn">保存</button>
+                    <button  onclick="repairDoctor();" id="doctor_remark">保存</button>
+                </div>
+            </div>
+        </div>
+        <div id="smallAlert">
+            <!-- 遮罩层 -->
+            <div class="smallMask"></div>
+            <!--消息框-->
+            <div class="smallBox">
+                <div class="alertBox_top">
+                    <p class="small-title">
+                        温馨提示
+                    </p>
+                </div>
+                <div class="small_main">
+                    <p class="small_text">确认修改?</p>
+                </div>
+                <div class="small_btn">
+                    <button class="btn_return">取消</button>
+                    <button class="btn_sure">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="public/js/jquery-1.11.3.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/laydate/laydate.js"></script>
+    <script src="lib/myPagination/jquery.myPagination6.0.js"></script>
+    <script src="js/schedule.js"></script>
+    <script >
+        $('caption>p').text(sessionStorage.getItem('subjectName')+"人员信息表");
+        setInterval("time()",100);
+        $(function () {
+            doctor(1);
+            searchSuggest();
+            $('.smallMask').hide();
+            $('.smallBox').hide();
+            var h=document.documentElement.clientHeight;
+            var w=document.documentElement.clientWidth;
+            var smallW=$('.smallBox').width();
+            var smallH=$('.smallBox').height();
+            $('.smallBox').css({ 'top': (h-smallH) / 2 + 'px', 'left': (w-smallW) / 2 + 'px' });
+            $('.btn_return').click(function(){
+                $('.smallMask').hide();
+                $('.smallBox').hide();
+            })
+
+//            var goodsStartTime={
+//                elem: '#doc_age',
+//                event: 'focus',
+//                istime: true,
+//                istoday: false,
+//                min: "1900-01-01", //-1代表昨天，-2代表前天，以此类推
+//                max: laydate.now()
+//            };
+//            laydate(goodsStartTime);
+        })
+    </script>
+</body>
+</html>

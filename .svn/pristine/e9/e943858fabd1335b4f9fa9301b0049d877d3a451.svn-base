@@ -1,0 +1,817 @@
+
+function show(){
+	var hospitalId= sessionStorage.getItem("hospitalId");
+	/**
+	 * 医院基本信息
+	 */
+	$.ajax({
+        type: "post",
+        url: "http://www.51edoctor.cn/E2306_admin/admin/Information/selectById",
+        data: {hospitalId:hospitalId},
+        dataType: "json",
+        success: function(data){
+        	console.log(data);
+//            医院图片
+            var imgList='';
+            if(data[0].hospitalImage==""||data[0].hospitalImage==" "){
+                imgList="";
+            }else{
+                var commentImage =data[0].hospitalImage.split(",");
+                for(var i=0;i<commentImage.length;i++){
+                    imgList+='<div class="img_act f_l"><input class="img_way" type="hidden" value="'+commentImage[i]+'"/><img class="img_pic" src="/E2306'+commentImage[i]+'" alt=""/><img class="pic_del" src="images/shanchu.png" onclick="delimg(this)" alt=""/></div>';
+                }
+            }
+//            医院logo
+            var logo='';
+            if(data[0].hospitalLOGO==""||data[0].hospitalLOGO==" "){
+                logo="";
+            }else{
+                var logo='<div class="img_act f_l"><input type="hidden" value="'+data[0].hospitalLOGO+'"/><img class="img_pic" src="/E2306'+data[0].hospitalLOGO+'" alt=""><img onclick="delimg(this)" class="pic_del" src="images/shanchu.png" alt=""></div>';
+        }
+
+            $(".latitude").val(data[0].latitude);
+            $("#hos_send").val(data[0].hospitalReferred);
+            $("#hos_grade").val(data[0].hospitalGrade);
+            $(".hos_pep").val(data[0].contact);
+            $(".longitude").val(data[0].longitude);
+            $(".img_logo").html(logo);
+            $(".img_list").html(imgList);
+        	$("#hos_all").val(data[0].hospitalName);
+        	$("#hos_lit").val(data[0].abbreviation);
+        	$("#hos_leve").val(data[0].hospitalLevel);
+        	$("#introduce").val(data[0].introduce);
+        	$("#hos_natu").val(data[0].hospitalNature);
+        	$("#address").val(data[0].hospitalAddress);
+            $(".hos_tel").val(data[0].hospitalTel)
+        	var code=data[0].city;
+        	var province=data[0].province;
+        	queryCtiy(province,"root",3);//省
+        	queryCtiy(code,province,2);//市
+        	queryCtiy(data[0].country,code,1);//县/区
+        }
+    });
+}
+/**
+ * 省市区查询
+ */
+function queryCtiy(code,province,type){
+	$.ajax({
+		type:"post",
+		url:"http://www.51edoctor.cn/E2306_admin/admin/Information/queryParent",
+		data: {province:province,type:type},
+	    dataType: "json",
+	    success: function(data){
+	    	if(data[data.length-1] == "1"){
+	    		document.getElementById("country").options.length=0;
+	    		for(var i = 0 ; i < data.length-1;i++){
+	    			html='<option value="'+data[i].code+'">'+data[i].name+'</option>';
+	    			if(code ==data[i].code ){
+	    				html='<option value="'+data[i].code+'" selected="selected">'+data[i].name+'</option>';
+	    			}
+	    			$("#country").append(html);
+	    		}
+	    	}
+	    	if(data[data.length-1] == "2"){
+	    		document.getElementById("city").options.length=0;
+	    		for(var i = 0 ; i < data.length-1;i++){
+	    			html='<option value="'+data[i].code+'">'+data[i].name+'</option>';
+	    			if(code ==data[i].code ){
+	    				html='<option value="'+data[i].code+'" selected="selected">'+data[i].name+'</option>';
+	    			}
+	    			$("#city").append(html);
+	    		}
+	    	}
+	    	if(data[data.length-1] == "3"){
+	    		document.getElementById("provice").options.length=0;
+	    		for(var i = 0 ; i < data.length-1;i++){
+	    			html='<option value="'+data[i].code+'">'+data[i].name+'</option>';
+	    			if(code ==data[i].code ){
+	    				html='<option value="'+data[i].code+'" selected="selected">'+data[i].name+'</option>';
+	    			}
+	    			$("#provice").append(html);
+	    		}
+	    	}
+	    }
+	});
+
+}
+//上传图片
+function dicussImg(){
+    if($('.img_list .img_act').length==5){
+        $('.smallMask').show();
+        $('.smallBox').show();
+        $(".small_text").html("最多只能上传5张图片");
+        $(".btn_return").hide();
+        $(".btn_sure").click(function () {
+            $('.smallMask').hide();
+            $('.smallBox').hide();
+        })
+        return false;
+    }
+    var obj=document.getElementsByClassName('file_allow')[0];
+    //上传了文件
+    if (obj.value) {
+        //获取文件对象
+        var image = obj.files[0];
+        //获取文件名
+        var name = image.name;
+        //文件的大小单位为B
+        var size = image.size;
+        console.log(size);
+        console.log(image.width);
+        console.log(image.height);
+        //截取出文件后缀
+        var suffix = name.substring(name.indexOf("."));
+        //图片匹配正则表达式
+        var reg = /\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/;
+        //如果不是图片
+        if (!reg.test(suffix)) {
+            // $('.cateWarning').html("<font style='color:red;font-weight:border;font-size:12px;'>请上传符合格式的图片</font>");
+            //清空上传文件框
+            $(obj)[0].outerHTML = $(obj)[0].outerHTML;
+            console.log(obj.value);
+            return false;
+        }
+        if (size > 3072000) {
+            // $('.cateWarning').html("<font style='color:red;font-weight:border;font-size:12px;'>请上传小于3m的图片</font>");
+            //清空上传文件框
+            $(obj)[0].outerHTML = $(obj)[0].outerHTML;
+            $('.smallMask').show();
+            $('.smallBox').show();
+            $(".small_text").html("上传图片不能超过3M");
+            $(".btn_return").hide();
+            $(".btn_sure").click(function () {
+                $('.smallMask').hide();
+                $('.smallBox').hide();
+            })
+//            hospitalFlag = false;
+            return false;
+        }
+//        hospitalFlag = true;
+        dicussFiles(obj);
+    } else {
+        return false;
+    }
+}
+
+//限制项目图片
+function dicussFiles(obj) {
+    var fileObj = obj.files[0]; // 获取文件对象
+    var reader = new FileReader(); // Browser API :http://caniuse.com/#search=FileReader
+    reader.onload = function(theFile) {
+        var image = new Image();
+        image.src = this.result;
+        dicussUpload(fileObj);
+        // };
+    }
+    reader.onerror = function(stuff) {
+        console.log("error", stuff);
+        console.log(stuff.getMessage());
+    }
+    reader.readAsDataURL(fileObj);
+}
+function dicussUpload(fileObj) {
+    // 接收上传文件的后台地址
+    var FileController = "http://www.51edoctor.cn/E2306_admin/admin/Information/upload?uploadType=img"; // FormData 对象
+    var form = new FormData();
+    //form.append("author", "hooyes");                        // 可以增加表单数据
+    form.append("file", fileObj); // 文件对象
+    // XMLHttpRequest 对象
+    var xhr = new XMLHttpRequest();
+    xhr.open("post", FileController, true);
+    xhr.onload = function(data) {
+        $('.smallMask').show();
+        $('.smallBox').show();
+        $(".small_text").html("图片正在上传中，请稍等...");
+        $(".btn_return").hide();
+        $(".btn_sure").hide();
+        var json = xhr.responseText;
+        var obj = $.parseJSON(json);
+        var abox='<div class="img_act f_l"><input class="img_way" type="hidden" value="'+obj.imagePath+'"/><img class="img_pic" src="/E2306'+obj.imagePath+'" alt=""/><img class="pic_del" src="images/shanchu.png" onclick="delimg(this)" alt=""/></div>';
+        $('.img_list').append(abox);
+        $('.smallMask').hide();
+        $('.smallBox').hide();
+        $(".btn_sure").show();
+    };
+    xhr.send(form);
+}
+
+//上传logo
+function dicussLogo(){
+//  var length =$('.img_logo .img_act').length;
+//  while (length==1){
+//          $('.smallMask').show();
+//          $('.smallBox').show();
+//          $('.hos_img .img_hid').hide();
+//          $(".small_text").html("只能上传1张图片");
+//          $(".btn_return").hide();
+//          $(".btn_sure").click(function () {
+//              $('.smallMask').hide();
+//              $('.smallBox').hide();
+//          })
+//          return false;
+//  }
+
+       if($('.img_logo .img_act').length==1){
+           $('.smallMask').show();
+           $('.smallBox').show();
+           $(".small_text").html("只能上传1张图片");
+           $(".btn_return").hide();
+           $(".btn_sure").click(function () {
+               $('.smallMask').hide();
+               $('.smallBox').hide();
+           })
+           return false;
+       }
+    var obj=document.getElementsByClassName('file_logo')[0];
+    //上传了文件
+    if (obj.value) {
+        //获取文件对象
+        var image = obj.files[0];
+        //获取文件名
+        var name = image.name;
+        //文件的大小单位为B
+        var size = image.size;
+        console.log(size);
+        console.log(image.width);
+        console.log(image.height);
+        //截取出文件后缀
+        var suffix = name.substring(name.indexOf("."));
+        //图片匹配正则表达式
+        var reg = /\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/;
+        //如果不是图片
+        if (!reg.test(suffix)) {
+           //  $('.cateWarning').html("<font style='color:red;font-weight:border;font-size:12px;'>请上传符合格式的图片</font>");
+            //清空上传文件框
+            $('.hos_img .img_hid').hide();
+            $(obj)[0].outerHTML = $(obj)[0].outerHTML;
+            console.log(obj.value);
+            return false;
+        }
+        if (size > 3072000) {
+            // $('.cateWarning').html("<font style='color:red;font-weight:border;font-size:12px;'>请上传小于2m的图片</font>");
+            //清空上传文件框
+            $(obj)[0].outerHTML = $(obj)[0].outerHTML;
+//            hospitalFlag = false;
+            $('.smallMask').show();
+            $('.smallBox').show();
+            $(".small_text").html("上传图片不能超过3M");
+            $(".btn_return").hide();
+            $(".btn_sure").click(function () {
+                $('.smallMask').hide();
+                $('.smallBox').hide();
+            })
+            return false;
+        }
+//        hospitalFlag = true;
+        logoFiles(obj);
+    } else {
+        return false;
+    }
+}
+//删除图片上传框
+function imgehid(imgurl) {  
+    var ImgObj = new Image(); 
+    ImgObj.src = imgurl;  
+    if (ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)) {  
+       $(".img_file").hidden;
+    }
+}
+
+function logoFiles(obj) {
+    var fileObj = obj.files[0]; // 获取文件对象
+    var reader = new FileReader(); // Browser API :http://caniuse.com/#search=FileReader
+    reader.onload = function(theFile) {
+        var image = new Image();
+//        获取图片流
+//        var x=this.result;
+//        获取图片名称
+//        var name=fileObj.name;
+        image.src = this.result;
+//        console.log(this.result);
+
+//        var text=upImg(name,x);
+//        var abox='<div class="img_act f_l"><input class="img_way" type="hidden" value="'+text+'"/><img class="img_pic" src="'+x+'" alt=""/><img class="pic_del" src="images/shanchu.png" onclick="delimg(this)" alt=""/></div>';
+//        $('.img_list').append(abox);
+        // 现在图片宽高
+        /*if (image.width > 600 || image.height > 600) {
+         alert('长宽都不能超过600px');
+         } else {*/
+        logoUpload(fileObj);
+        // };
+    }
+    reader.onerror = function(stuff) {
+        console.log("error", stuff);
+        console.log(stuff.getMessage());
+    }
+    reader.readAsDataURL(fileObj);
+}
+function logoUpload(fileObj) {
+    // 接收上传文件的后台地址
+    var FileController = "http://www.51edoctor.cn/E2306_admin/admin/Information/upload?uploadType=LOGO"; // FormData 对象
+    var form = new FormData();
+    //form.append("author", "hooyes");                        // 可以增加表单数据
+    form.append("file", fileObj); // 文件对象
+    // XMLHttpRequest 对象
+    var xhr = new XMLHttpRequest();
+    xhr.open("post", FileController, true);
+    xhr.onload = function(data) {
+        $('.smallMask').show();
+        $('.smallBox').show();
+        $(".small_text").html("图片正在上传中，请稍等...");
+        $(".btn_return").hide();
+        $(".btn_sure").hide();
+        var json = xhr.responseText;
+        var obj = $.parseJSON(json);
+        var abox='<div class="img_act f_l"><input type="hidden" value="'+obj.imagePath+'"/><img class="img_pic" src="/E2306'+obj.imagePath+'" alt=""><img onclick="delimg(this)" class="pic_del" src="images/shanchu.png" alt=""></div>';
+        $('.img_logo').append(abox);
+        $('.smallMask').hide();
+        $('.smallBox').hide();
+        $(".btn_sure").show();
+    };
+    xhr.send(form);
+}
+
+var filePath=[];
+//删除图片
+function delimg(e) {
+	$('.hos_img .img_hid').show();
+    $('.smallMask').show();
+    $('.smallBox').show();
+    $(".small_text").html("确认删除?");
+    $(".btn_return").show();
+    $(".btn_sure").click(function () {
+        filePath.push($(e).siblings("input").val());
+        $(e).parent().remove();
+        $('.smallMask').hide();
+        $('.smallBox').hide();
+    })
+}
+
+//复制功能
+function copyUrl2(){
+    var address=$("#provice option:selected").text()+$("#city option:selected").text()+$("#country option:selected").text()+$("#address").val();
+    $("#copyName").val(address);
+    var e=document.getElementById("copyName");//对象是contents
+    e.select(); //选择对象
+    document.execCommand("Copy"); //执行浏览器复制命令
+    $('.smallMask').show();
+    $('.smallBox').show();
+    $(".small_text").html("复制成功");
+    $(".btn_return").hide();
+    $(".btn_sure").click(function () {
+        $('.smallMask').hide();
+        $('.smallBox').hide();
+    })
+}
+
+
+//科室
+function dutyList() {
+    $.ajax({
+        url:'http://www.51edoctor.cn/E2306_admin/admin/Information/queryDepartment',
+        type:'post',
+        data:{
+            hospitalId:sessionStorage.getItem("hospitalId")
+        },
+        success: function (data) {
+          //  console.log(data);
+            //默认显示所有科室 
+            var html='';
+            for(var i=0;i<data[data.length-1].length;i++){
+
+                html+='<div class="list_name f_l"><input class="duty_id" type="hidden" value="'+data[data.length-1][i].ID+'"/><span>'+data[data.length-1][i].NAME+'</span></div>'
+            }
+            $(".list_main").html(html);
+            //显示下方已经被添加过的科室
+
+            
+            var next='';
+            for(var j=0;j<data.length-1;j++){
+                next+='<div class="list_choose f_l"><input class="duty_id" type="hidden" value="'+data[j].ID+'"/><span>'+data[j].NAME+'</span><img class="del_img" src="images/shanchu.png" onclick="delDuty(this)" alt=""/></div>'
+            }
+            $(".sure_div").html(next);
+//            clickHas();
+//            clickNon();
+            clickDuty();
+        }
+
+    })
+}
+
+//点击选择科室
+function clickHas(){
+    $(".list_main>.list_name").click(function () {
+        $(this).removeClass("list_name").addClass("list_choose");
+        clickNon()
+    })
+}
+function clickNon(){
+    $(".list_main>.list_choose").click(function () {
+        $(this).removeClass("list_choose").addClass("list_name");
+        clickHas()
+    })
+}
+
+//点击将科室放下面
+function clickDuty() {
+    $(".list_main>.list_name").click(function () {
+        var id=$(this).find(".duty_id").val();
+        var name=$(this).find("span").text();
+        for(var i=0;i<$(".sure_div>.list_choose").length;i++){
+            if(name==$(".sure_div>.list_choose").eq(i).find("span").text()){
+                $('.smallMask').show();
+                $('.smallBox').show();
+                $(".small_text").html("该科室已选择，请勿重复勾选");
+                $(".btn_return").hide();
+                $(".btn_sure").click(function () {
+                    $('.smallMask').hide();
+                    $('.smallBox').hide();
+                })
+                return;
+            }
+        }
+        var html='<div class="list_choose f_l"><input class="duty_id" type="hidden" value="'+id+'"/><span>'+name+'</span><img class="del_img" src="images/shanchu.png" onclick="delDuty(this)" alt=""/></div>';
+        $(".sure_div").append(html);
+    })
+}
+//删除科室
+function delDuty(e){
+    $(e).parent().remove();
+}
+//搜索具体科室
+function querySubjectsInput(){
+    $('#duty_list').keyup(function(){
+         querySubjects();
+         renderList();
+    });
+};
+
+//显示科室下拉列表
+function querySubjects(){ 
+    $.ajax({
+        //192.168.1.51:8333
+         url:'http://www.51edoctor.cn/E2306_admin/admin/Information/queryDepartment',
+        type:'post',
+        data:{
+            hospitalId:sessionStorage.getItem("hospitalId"),     
+            departmentName:$('#duty_list').val()
+        },
+        success:function(data){
+             if(data[data.length-1] == [] || data[data.length-1].length == 0 ){
+                    return false;
+                 }
+            var list = '';
+              for(var i=0;i<data[data.length-1].length;i++){
+                 list += '<li>'+data[data.length-1][i].NAME+'</li>';
+            }
+            $('.list_top .subject_list').slideDown();
+            $('.list_top .subject_list').html(list);   
+            $('.list_top .subject_list').on('click','li',function click(){
+            $('#duty_list').val($(this).text());
+                $('.subject_list').slideUp();
+                renderList();
+            });
+            $('#duty_list').on('blur',function(){
+                    renderList();
+                $('.subject_list').slideUp();
+            });     
+        },
+    });
+};
+//渲染方框的科室信息
+function renderList(){
+    $.ajax({
+         url:'http://www.51edoctor.cn/E2306_admin/admin/Information/queryDepartment',
+        type:'post',
+        data:{
+            hospitalId:sessionStorage.getItem("hospitalId"),     
+            departmentName:$('#duty_list').val()
+        },
+        success:function(data){     
+                 if(data[data.length-1] == [] || data[data.length-1].length == 0 ){
+                    return false;
+                 }
+                 var html='';
+            for(var i=0;i<data[data.length-1].length;i++){
+                html+='<div class="list_name f_l"><input class="duty_id" type="hidden" value="'+data[data.length-1][i].ID+'"/><span>'+data[data.length-1][i].NAME+'</span></div>'
+            }
+            $(".list_main").html(html);
+        },
+    });
+};
+
+///提交并删除图片
+function delImg(obj) {
+    $.ajax({
+        url:'http://www.51edoctor.cn/E2306_admin/admin/Information/deleteImage',
+        type:'post',
+        data:{
+            filePath: obj
+        },
+        async:false,
+        success: function (data) {
+
+        }
+    })
+}
+
+function subMess() {
+//    debugger
+    var hospitalName=$("#hos_all").val();
+    var hospitalId=sessionStorage.getItem("hospitalId");
+    var hospitalAddress=$("#address").val();
+    var hospitalTel=$(".hos_tel").val();
+    var hospitalLevel=$("#hos_leve").val();
+    var hospitalNature=$("#hos_natu").val();
+    var province=$("#provice").val();
+    var provinceName=$("#provice option:selected").text();
+    var city=$("#city").val();
+    var country=$("#country").val()
+    var introduce=$("#introduce").val();
+    var longitude=$(".longitude").val();
+    var latitude=$(".latitude").val();
+    var hospitalGrade=$("#hos_grade").val();
+    var contact=$(".hos_pep").val();
+    var hospitalReferred=$("#hos_send").val();
+     
+//    获取科室
+    var duty="";
+    var long=$(".sure_div .list_choose");
+    for(var i=0;i<long.length;i++){
+        var text=$('.list_choose:eq('+i+') .duty_id').val();
+        console.log(text);
+        if(i==0){
+           duty+=text;
+        }else{
+            duty+=','+text;
+        }
+    }
+    console.log(duty);
+//  获取图片
+    var img="";
+    for(var j=0;j<$(".img_act .img_way").length;j++){
+        var way=$('.img_act:eq('+j+') .img_way').val();
+        if(j==0){
+            img+=way;
+        }else{
+            img+=','+way;
+        }
+    }
+    console.log(img);
+
+//    获取logo
+    var logo=$(".img_logo>.img_act>input").val();
+    if(logo){
+        logo=logo;
+    }else{
+        logo="";
+    }
+
+//    console.log(hospitalName,hospitalId,hospitalAddress,hospitalTel,hospitalLevel,hospitalNature,province,city,country,introduce);
+    var list=[{
+        hospitalGrade:hospitalGrade,
+        contact:contact,
+        hospitalReferred:hospitalReferred ,
+        hospitalName:hospitalName,
+        hospitalId:hospitalId,
+        hospitalAddress:hospitalAddress,
+        hospitalTel:hospitalTel,
+        provinceName:provinceName,
+        hospitalLevel:hospitalLevel,
+        hospitalNature:hospitalNature,
+        province:province,
+        city:city,
+        country:country,
+        introduce:introduce,
+        srouce:duty,
+        hospitalImage:img,
+        hospitalLOGO:logo,
+        longitude:longitude,
+        latitude:latitude
+    }];
+     console.log(JSON.stringify(list));
+    //必填信息效验
+    if(!hospitalName || hospitalName =='' || hospitalName ==' ' ){
+            $('.smallMask').show();
+            $('.smallBox').show();
+            $(".small_text").html("医院名称必填");
+            $(".btn_return").hide();
+            $(".btn_sure").click(function () {
+                $('.smallMask').hide();
+                $('.smallBox').hide();
+            })
+        $('#hos_all').parent().next().show();
+        return false;
+    }
+    if(!longitude || longitude =='' || !latitude || latitude == ''){
+             $('.smallMask').show();
+            $('.smallBox').show();
+            $(".small_text").html("经纬度必填");
+            $(".btn_return").hide();
+            $(".btn_sure").click(function () {
+                $('.smallMask').hide();
+                $('.smallBox').hide();
+            })
+        $('.lati_long span.redColor').show();
+        return false;
+    }
+    //对用户复制的经纬度规范进行检测
+    // alert(typeof longitude + '---' + typeof latitude);
+    // if(longitude.charAt(0) !== 'E' ||longitude.charAt(0) !== 'W'){
+
+    // }
+   // return false;
+   //点击提交按钮
+    $.ajax({
+        url:'http://www.51edoctor.cn/E2306_admin/admin/Information/updateHospital',
+        type:'post',
+        data:{jsonObj:JSON.stringify(list)},
+        dataType: "json",
+//        async:false,
+        success: function (data) {
+            console.log(data);
+//            if(filePath.length>0){
+//                for(var i=0;i<filePath.length;i++){
+//                    delImg(filePath[i]);
+//                }
+//            }
+            $('.smallMask').show();
+            $('.smallBox').show();
+            $(".small_text").html("保存成功");
+            $(".btn_return").hide();
+            $(".btn_sure").click(function () {
+                $('.smallMask').hide();
+                $('.smallBox').hide();
+            })
+        }
+    })
+}
+
+
+/*挂号费用设置*/
+var dutyMoney=function(){
+    $.ajax({
+        url:'http://www.51edoctor.cn/E2306_admin/admin/free/selectByHospitalId',
+        type:'get',
+        data:{
+            hospitalId:sessionStorage.getItem("hospitalId")
+        },
+//        async:false,
+        success: function (data) {
+            console.log(data);
+            if(data.length==0){
+                return
+            }
+            var html='';
+            for(var i=0;i<data.length;i++){
+                html='<tr><td rowspan="3">'+data[i].DepartmentName+' <input class="duty_tit_id" type="hidden" value="'+data[i].departmentId+'"/> </td><td class="'+data[i].departmentId+'">普通门诊 <input class="money_duty" type="hidden" value="0"/></td><td><input onkeyup="clearNoNum(this)" cid="'+data[i].departmentId+'" out="0" duty="4" class="my_id_all my_id_0_4" type="text"/></td><td><input onkeyup="clearNoNum(this)" cid="'+data[i].departmentId+'" out="0" duty="3"  class="my_id_all my_id_0_3"  type="text"/></td><td><input onkeyup="clearNoNum(this)" cid="'+data[i].departmentId+'" out="0" duty="2"  class="my_id_all my_id_0_2" type="text"/></td><td><input onkeyup="clearNoNum(this)" cid="'+data[i].departmentId+'" out="0" duty="1"  class="my_id_all my_id_0_1" type="text"/></td><td><input onkeyup="clearNoNum(this)" cid="'+data[i].departmentId+'" out="0" duty="0" class="my_id_all my_id_0_0" type="text"/></td></tr><tr><td class="'+data[i].departmentId+'">专家门诊<input class="money_duty" type="hidden" value="1"/></td><td><input onkeyup="clearNoNum(this)" cid="'+data[i].departmentId+'" out="1" duty="4" class="my_id_all my_id_1_4" type="text"/></td><td><input onkeyup="clearNoNum(this)" cid="'+data[i].departmentId+'" out="1" duty="3" class="my_id_all my_id_1_3" type="text"/></td><td><input onkeyup="clearNoNum(this)" cid="'+data[i].departmentId+'" out="1" duty="2" class="my_id_all my_id_1_2" type="text"/></td><td><input onkeyup="clearNoNum(this)" cid="'+data[i].departmentId+'" out="1" duty="1" class="my_id_all my_id_1_1" type="text"/></td><td><input onkeyup="clearNoNum(this)" cid="'+data[i].departmentId+'" out="1" duty="0" class="my_id_all my_id_1_0" type="text"/></td></tr><tr><td class="'+data[i].departmentId+'">特需门诊<input class="money_duty" type="hidden" value="2"/></td><td><input onkeyup="clearNoNum(this)" cid="'+data[i].departmentId+'" out="2" duty="4" class="my_id_all my_id_2_4" type="text"/></td><td><input onkeyup="clearNoNum(this)" cid="'+data[i].departmentId+'" out="2" duty="3" class="my_id_all my_id_2_3" type="text"/></td><td><input onkeyup="clearNoNum(this)" cid="'+data[i].departmentId+'" out="2" duty="2" class="my_id_all my_id_2_2" type="text"/></td><td><input onkeyup="clearNoNum(this)" cid="'+data[i].departmentId+'" out="2" duty="1" class="my_id_all my_id_2_1" type="text"/></td><td><input onkeyup="clearNoNum(this)" cid="'+data[i].departmentId+'" out="2" duty="0" class="my_id_all my_id_2_0" type="text"/></td></tr>';
+                $(".money_table>tbody").append(html);
+                    var list=data[i].list;
+//                    console.log(list);
+                    for(var j=0;j<list.length;j++){
+                        var id=data[i].departmentId;
+                        var duty=list[j].Duty;
+                        var outType=list[j].OutpatientType;
+                        $("."+id).parent().find(".my_id_"+outType+"_"+duty).val((list[j].RegistrationMoney)/100);
+                    }
+//                    if(i<data.length-1){
+//                       if(data[i].departmentName!=data[i+1].departmentName){
+//                            html='<tr><td rowspan="3">'+data[i].departmentName+' <input class="duty_tit_id" type="hidden" value="'+data[i].departmentId+'"/> </td><td class="'+data[i].departmentId+'">普通门诊 <input class="money_duty" type="hidden" value="0"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_0_4" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_0_3"  type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_0_2" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_0_1" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_0_0" type="text"/></td></tr><tr><td class="'+data[i].departmentId+'">专家门诊<input class="money_duty" type="hidden" value="1"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_1_4" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_1_3" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_1_2" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_1_1" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_1_0" type="text"/></td></tr><tr><td class="'+data[i].departmentId+'">特需门诊<input class="money_duty" type="hidden" value="2"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_2_4" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_2_3" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_2_2" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_2_1" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_2_0" type="text"/></td></tr>';
+//                            $(".money_table>tbody").append(html);
+////                            var list=data[i].list;
+////                           console.log(list);
+////                            for(var j=0;j<list.length;j++){
+////                                var id=data[i].departmentId;
+////                                var duty=list[j].Duty;
+////                                var outType=list[j].OutpatientType;
+////                                $("."+id).parent().find(".my_id_"+outType+"_"+duty).val(list[j].RegistrationMoney);
+////                            }
+//                        }
+//                    }else{
+//                        html='<tr><td rowspan="3">'+data[i].departmentName+' <input class="duty_tit_id" type="hidden" value="'+data[i].departmentId+'"/> </td><td class="'+data[i].departmentId+'">普通门诊 <input class="money_duty" type="hidden" value="0"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_0_4" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_0_3"  type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_0_2" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_0_1" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_0_0" type="text"/></td></tr><tr><td class="'+data[i].departmentId+'">专家门诊<input class="money_duty" type="hidden" value="1"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_1_4" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_1_3" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_1_2" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_1_1" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_1_0" type="text"/></td></tr><tr><td class="'+data[i].departmentId+'">特需门诊<input class="money_duty" type="hidden" value="2"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_2_4" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_2_3" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_2_2" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_2_1" type="text"/></td><td><input onkeyup="clearNoNum(this)" class="my_id_2_0" type="text"/></td></tr>';
+//                        $(".money_table>tbody").append(html);
+//                    }
+//                    var list=data[i].list;
+//                    for(var j=0;j<list.length;j++){
+//                        var id=data[i].departmentId;
+//                        var duty=list[j].Duty;
+//                        var outType=list[j].OutpatientType;
+//                        $("."+id).parent().find(".my_id_"+outType+"_"+duty).val(list[j].RegistrationMoney);
+//                    }
+
+            }
+
+//        添加费用
+        $(".money_table>tbody>tr>td>input.my_id_all").focus(
+            function () {
+            var num=$(this).val();
+            console.log(num);
+//            $(this).focus();
+//            $(this).off('blur');
+            $(this).on('blur', function () {
+                var blurNum=$(this).val()*100;
+                console.log(blurNum);
+                var duty=$(this).attr("duty");
+                var out=$(this).attr("out");
+                var id=$(this).attr("cid");
+                if(num){
+//                num有值修改
+                   if(blurNum==""||blurNum==" "){
+                       blurNum=0;
+                   }
+                  recordMoney(id,duty,out,blurNum);
+                }
+                if(!num){
+//                num无值添加
+                    if(blurNum==""||blurNum==" "){
+                        return
+                    }
+                    addMoney(id,duty,out,blurNum);
+                }
+            })
+
+        }
+         )
+
+        }
+    })
+
+
+
+}
+
+
+
+//添加费用
+var addMoney= function (id,duty,out,money) {
+//    var list=[{
+//        hospitalId:sessionStorage.getItem("hospitalId"),
+//        departmentId:id,
+//        duty:duty,
+//        outpatientType:out,
+//        registrationMoney:money
+//    }];
+    $.ajax({
+        url:'http://www.51edoctor.cn/E2306_admin/admin/free/regFreeInsert',
+        type:'post',
+        data:{
+            hospitalId:sessionStorage.getItem("hospitalId"),
+            departmentId:id,
+            duty:duty,
+            outpatientType:out,
+            registrationMoney:money
+        },
+        success: function (data) {
+//            alert("添加成功");
+        },
+        error: function () {
+//            alert("error");
+        }
+    })
+}
+//修改费用
+var recordMoney= function (id,duty,out,money) {
+//    debugger
+//    var list=[{
+//        hospitalId:sessionStorage.getItem("hospitalId"),
+//        departmentId:id,
+//        duty:duty,
+//        outpatientType:out,
+//        registrationMoney:money
+//    }];
+    $.ajax({
+        url:'http://www.51edoctor.cn/E2306_admin/admin/free/updatereGistrationMoney',
+        type:'post',
+        data:{
+            hospitalId:sessionStorage.getItem("hospitalId"),
+            departmentId:id,
+            duty:duty,
+            outpatientType:out,
+            registrationMoney:money
+        },
+//        async:false,
+        success: function (data) {
+//            alert("修改成功");
+        },
+        error: function () {
+            alert("error");
+        }
+    })
+}
+
+
+/**
+*省市区联动
+*/
+function query(code,type){
+	if(type=="2"){
+		document.getElementById("city").options.length=0;
+		document.getElementById("country").options.length=0;
+		queryCtiy("",code,2);
+	}
+	if(type=="1"){
+		document.getElementById("country").options.length=0;
+		queryCtiy("",code,1);
+	}
+}

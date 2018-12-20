@@ -1,0 +1,2044 @@
+.schedule_detail_up .specialist,.schedule_detail_up .special,.schedule_detail_up .common{
+	width: 15px;
+    height: 15px;
+    /*margin: 8px;*/
+    border: none;
+}
+.schedule_detail_up .specialist{
+	background-color: #2fa5ff;
+	margin-top: -10px;
+	margin-right: 10px;
+    float: right;
+}
+.schedule_detail_up .special{
+    background-color: #ed6e75;  
+    margin: 20px -15px -35px 0;
+    float: right;
+}
+.schedule_detail_up .common {
+	background-color: #000000;
+	float: right;
+    margin-right: 10px;
+}
+.lack_line span{
+    margin-right: 8px;
+    font-size: 16px;
+}
+.nervous_line span {
+    margin-right: 8px;
+    font-size: 16px;
+}
+.active{
+    color: #02c2f8;
+}
+input.radioclass{
+    margin-top: 0;
+    width: 90px;
+    height: 22px;
+    opacity: 0;
+    cursor: pointer;
+}
+.none{
+    display: none;
+}
+#position {
+    height: 33px;
+    padding-left: 10px;
+    margin-left: 10px;
+}
+.setBox_l {
+    margin-left: 28px;
+}
+/*分页样式*/
+/* 分页样式 */
+div.page_style{
+    padding-right: 0px;
+    padding-left: 0px;
+    font-size: 14px;
+    padding-bottom: 10px;
+    color: #333;
+    padding-top: 10px;
+    font-family: arial, helvetica, sans-serif;
+    background-color: #fff;
+    text-align: center;
+}
+div.page_style a {
+    border-right: #cecece 1px solid;
+    padding-right: 5px;
+    border-top: #cecece 1px solid;
+    padding-left: 5px;
+    padding-bottom: 2px;
+    margin: 0px 4px;
+    border-left: #cecece 1px solid;
+    color: #333;
+    padding-top: 2px;
+    border-bottom: #cecece 1px solid;
+    text-decoration: none;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+div.page_style a:hover {
+    border-right: #01cdb2 1px solid;
+    border-top: #01cdb2 1px solid;
+    border-left: #01cdb2 1px solid;
+    color: #01cdb2;
+    border-bottom: #01cdb2 1px solid;
+}
+div.page_style span.disabled {
+    display: none;
+}
+div.page_style span.current {
+    border-right: #01cdb2 1px solid;
+    margin: 0px 4px;
+    padding-right: 5px;
+    border-top: #01cdb2 1px solid;
+    padding-left: 5px;
+    font-weight: bold;
+    padding-bottom: 2px;
+    border-left: #01cdb2 1px solid;
+    color: #fff;
+    padding-top: 2px;
+    border-bottom: #01cdb2 1px solid;
+    background-color: #01cdb2;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.zoomPup{
+    width: 200px;
+    height: 203px;
+}
+.mainBg{
+    background-color: #00cdb1;
+}
+.audit_button .auditBtn{
+    border:0 none;
+    border-radius:5px;
+    color:#fff;
+}
+.audit_down{
+    position:absolute;
+    right:225px;
+    bottom:20px;
+    text-align:right;
+}
+.color_fa{
+    color: #06a0fa;
+}
+.color_fe{
+    color: #fe2422;
+}
+.color_ff{
+    color:#f87e95;
+}
+.color_b2{
+    color: #b2b2b2;
+}
+.bgcolor_ee{
+    background-color: #01cdb2;
+}
+.bgcolor_2f{
+    background-color: #2fa6ff;
+}
+.bgcolor_f2{
+    background-color: #f2f2f2;
+}
+.bgcolor_ce{
+    background-color: #00ceb2;
+}
+.bgcolor_ba{
+    background-color: #bababa;
+}
+.pos_rel{
+    position: relative;
+}
+.pos_abs{
+    position: absolute;
+}
+/*弹框*/
+.alertMask,.addMask{
+    background: #000;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+    top: 0;
+    left: 0;
+    z-index: 9998;
+    display: none;
+}
+.alertFeeBox ,.alertAddrBox{
+     width:800px;
+    height:660px; 
+    border: 1px solid #ddd ;
+    position: absolute;
+    display: none;
+    background-color: #fff;
+    z-index: 9999;
+}
+.alertBox {
+    width:600px;
+    height: 511px;
+    border: 1px solid #ddd ;
+    position: absolute;
+    display: none;
+    background-color: #fff;
+    z-index: 9999;
+}
+.alertFeeBox{
+     /*  width:670px;
+    height:270px; */
+     width:800px;
+   /*  height:660px; */
+    height:380px;
+}
+.alertAddrBox{
+    display: none;
+    width: 450px;
+    height: 280px;
+    top: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.alertBox .paper{
+    position: absolute;
+}
+.alertAddrBox .addressTop{
+    height: 45px;
+    background-color: #00cdb1;
+    padding-left: 30px;
+    position: relative;
+    line-height: 45px;
+    color: #fff;
+}
+.alertAddrBox .addressMain{
+    margin-top: 70px;
+    margin-left: 56px;
+}
+.address_set{
+    margin-left: 10px;
+    padding:0 5px 0;
+    width: 200px;
+    height: 30px;
+}
+.addressBottom{
+    margin-top: 50px;
+    text-align: center;
+}
+.addressBottom button{
+    padding: 8px 20px;
+    background-color: #00cdb1;
+    color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
+
+.alertBox_top{
+    height: 45px;
+    background-color: #00cdb1;
+    padding-left: 45px;
+    position: relative;
+}
+.alert-title{
+    padding-left: 18px;
+    display: inline-block;
+    border-left: 2px solid #fff;
+    height: 18px;
+    font-size: 16px;
+    margin-top: 14px;
+    color:#fff;
+
+}
+.alert-close{
+    position: absolute;
+    right: 25px;
+    top: 15px;
+    width: 14px;
+    height: 14px;
+    background: url('../images/close_03.png') no-repeat;
+    cursor: pointer;
+}
+.alertBox_main{
+    padding: 20px 45px 0;
+}
+.alertBox_bottom{
+    text-align: center;
+    margin-top: 20px
+}
+.alertBox_bottom>button{
+    padding: 6px 16px;
+    background-color: #00cdb1;
+    color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+}
+.main_top input{
+    width:104px;
+    height: 33px;
+    margin-left: 10px;
+    padding-left: 10px;
+    border: 1px solid #ddd;
+}
+.main_top .setBox_l:first-child {
+    margin-left: 14px;
+}
+.alertBox_name{
+    margin-right: 38px;
+}
+.alertBox_name >.doc_tell{
+    width: 150px;
+}
+.alertBox_name .doc_tellTip{
+    display:none;
+}
+.main_top .doc_job{
+    width: 90px;
+}
+.main_top>.alertBox_title{
+    margin-left: 18px;
+    margin-right: 38px;
+}
+.main_table{
+    min-height: 463px;
+    /*overflow-y: scroll;*/
+    margin-top: 25px;
+}
+#alert_table tr td{
+    text-align: center;
+    vertical-align: middle;
+}
+#alert_table{
+    margin-bottom: 10px;
+}
+#alert_table  .schedule_time{
+    height: 28px;
+}
+.alert_tr{
+    background-color: #f3f3f3;
+}
+.alert_tr td{
+    height: 60px;
+}
+.alert_day{
+    color: #999;
+}
+.source-del a{
+    color:#999;
+    /*text-decoration: none;*/
+}
+.alert_source input {
+    width:25%;
+    outline: none;
+    border: none;
+    text-align: center;
+}
+.alert_add{
+    color:#00cdb1;
+    font-size: 16px;
+    cursor: pointer;
+
+}
+.alert_add span{
+    font-size: 20px;
+    margin-right: 5px;
+}
+.alert_btn{
+    width:100%;
+    text-align: center;
+    margin-top: 20px;
+}
+.alert_btn button{
+    width:140px;
+    height: 36px;
+    line-height: 32px;
+    background-color:#00cdb1 ;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+   /*  display: none; */
+}
+/*小弹框*/
+.smallMask{
+    background: #000;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+    top: 0;
+    left: 0;
+    z-index: 10020;
+     display: none; 
+}
+ .waitingBox{
+     position: absolute;
+     top:50%;
+     left:50%;
+     transform:translateX(-50%) translateY(-50%);
+     text-align: center;
+     z-index: 10021;
+     display: none; 
+     /* border:1px solid #ccc; */
+ }
+.waitingBox img{
+    display:block;
+}
+ /* .waitingBox{
+   position: absolute;
+     top:50%;
+     left:50%;
+     transform:translateX(-50%) translateY(-50%);
+     text-align: center;  
+ } */
+.smallBox{
+    /*padding: 8px;*/
+    width: 300px;
+    height: 150px;
+    overflow: hidden;
+    position: fixed;
+    z-index: 10021;
+     display: none; 
+    background-color: #fff;
+    border-radius: 10px;
+}
+.smallBox .alertBox_top{
+    height: 40px;
+    background-color: #00cdb1;
+    padding-left: 20px;
+    position: relative;
+}
+
+.small-title{
+    padding-left: 90px;
+    display: inline-block;
+
+    height: 18px;
+    font-size: 16px;
+    margin-top: 8px;
+    color:#fff;
+    text-align: center;
+}
+.small_main{
+    text-align: center;
+    padding-top: 26px;
+}
+.small_btn{
+    text-align: center;
+    margin-top: 27px;
+}
+.small_btn button{
+    background-color: #fff;
+    outline: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 60px;
+}
+#repeatAlert .repeatMask{
+    background: #000;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+    top: 0;
+    left: 0;
+    z-index: 10020;
+    display: none; 
+}
+#repeatAlert .repeatBox{
+    width: 470px;
+    height: 285px;
+    overflow: hidden;
+    position: fixed;
+    top: 28%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10021;
+    background-color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    display: none;
+}
+.repeatBox p:nth-of-type(1){
+    padding: 12px 0;
+    font-size: 16px;
+    color: #fff;
+    background-color:#01cdb2 ;
+}
+.repeatBox .repeat_btn{
+    margin-top: 45px;
+}
+.repeat_btn button{
+    padding: 6px 20px;
+    background-color:#01cdb2 ; 
+    color: #fff;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    margin-right: 30px;
+}
+#remindAlert .remindMask{
+    background: #000;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+    top: 0;
+    left: 0;
+    z-index: 10020;
+    display: none;
+}
+#remindAlert .remindBox{
+    width: 470px;
+    height: 285px;
+    overflow: hidden;
+    position: fixed;
+    top: 24%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10020;
+    background-color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    display: none;
+}
+.remindBox>p:nth-of-type(1){
+    padding: 12px 0;
+    font-size: 16px;
+    color: #fff;
+    background-color:#01cdb2 ;
+}
+.remindBox>p:nth-of-type(2){
+    text-indent: -46px;
+    padding: 20px 0;
+    font-size: 16px;
+}
+.remind_txt{
+    display: inline-block;
+    width: 100px;
+    height: 30px;
+    vertical-align:middle;
+}
+.remind_btn{
+    text-align: left;
+    margin-top: 40px;
+    margin-left: 30%;
+}
+.remind_btn>button{
+    padding: 10px 15px;
+    background-color: #00cdb1;
+    color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    margin-right: 40px;
+}
+
+/*当前排班页面*/
+.bac_blue{
+    background-color: #2fa5ff;
+    /*color:  #2fa5ff !important;*/
+    /*font-weight: bold;*/
+}
+.font_red{
+    color:red;
+}
+.bac_red{
+    background-color: #ed6e75;
+    /*color:  #ed6e75 !important;*/
+    /*font-weight: bold;*/
+}
+.bac_gray{
+    background-color: #bbbbbb;
+}
+.bac_wh{
+    background-color: #ffffff;
+}
+li{
+    list-style: none;
+}
+
+.schedule_head{
+    height:80px;
+    line-height: 80px;
+    padding-left: 30px;
+    font-size: 30px;
+    border-bottom: 1px solid #ddd;
+}
+.schedule_search{
+    margin-top: 20px;
+    padding-left: 42px;
+}
+#count_left .schedule_search{
+    margin-top: 20px;
+    padding-left: 0px;
+    margin-bottom: 30px;
+}
+#audit{
+    position: relative;
+}
+#audit>button{
+    width: 120px;
+    line-height: 32px;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    font-size: 22px;
+    background-color: #01cdb2;
+    position: absolute;
+    right: 240px;
+    bottom: 0px;
+}
+#audit .schedule_search{
+    /* visibility: hidden; */
+}
+#doctor .schedule_search{
+    /*visibility: hidden;*/
+}
+.schedule_search input{
+    width: 180px;
+    height: 33px;
+    padding-left: 10px;
+    outline: none;
+    border: 1px solid #ddd;
+}
+.schedule_search .schedule_name{
+    position: relative;
+}
+.schedule_search .queryDepart{
+     position:absolute; 
+    top:33px;
+    left:64.5px; 
+    z-index:99;
+      border: 1px solid #ccc;  
+      border-top:0;
+    width: 180px;
+    background-color: #fff;
+        padding-left:0; 
+     display:none; 
+    /* box-shadow: 0 0 10px #ccc; */
+      box-shadow: 1px 1px 3px #ededed; 
+}  
+.schedule_search .queryDepart li{
+      padding-left:10px; 
+    width: 100%;
+    /* color:#00cdb1; */
+}
+.schedule_search .queryDepart li:hover{
+    background-color: #ddd;
+}
+input:disabled{
+    background-color: #fff !important;
+    border:1px solid #D2d2d2 !important;
+}
+.schedule_search>div{
+    float: left;
+    margin-right: 30px;
+}
+.schedule_search button{
+    width:88px;
+    height: 33px;
+    line-height: 29px;
+    color: #ffffff;
+    border: none;
+    background-color: #2bd1c7;
+    border-radius: 5px;
+    outline: none;
+}
+.orderdetail{
+    width: 100%;
+    margin-top: 50px;
+}
+.t_title{
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+.o-table{
+    width: 100%;
+    margin-bottom: 10px;
+}
+.orderdetail table{
+    width: 80%;
+    padding: 0;
+    margin: 0 auto;
+    border: 1px solid #c4c4c4;
+    border-collapse: collapse;
+    border-width: 1px 0 0 1px;
+}
+.orderdetail table td{
+    border: 1px solid #c4c4c4;
+    text-align: center;
+}
+.schedule_table,.audit_table{
+    padding-left: 40px;
+    padding-right: 225px;
+    /*padding-right: 375px;*/
+    margin-top: 20px;
+    width: 100%;
+    min-width: 1624px;
+}
+.audit_table{
+    min-height: 627px;
+}
+.name_suggest{
+    background: #fff;
+    position: absolute;
+    top: 32px;
+   /*  left: 64px; */
+    /* left: 34px; */
+    width: 180px;
+    border: 1px solid #dbdbdb;
+    display: none;
+    z-index: 1;
+}
+#doctor .name_suggest{
+        left: 34px;
+}
+#schedule .name_suggest{
+    left: 64px;
+}
+.name_suggest ul{
+    padding: 0;
+}
+.name_suggest ul li{
+    padding-left: 10px;
+}
+.name_suggest ul>li:hover{
+    background-color: #f2f2f2;
+}
+
+.schedule_table caption p{
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+}
+.schedule_table caption span{
+ /* font-size: 18px; */
+ color:#bcbcbc;
+    /* font-weight: bold; */
+    text-align: center;
+}
+.schedule_mess img{
+    vertical-align: top;
+    margin-right: 5px;
+}
+
+.schedule_table>.table-responsive{
+    min-height: 620px;
+}
+.table tbody+tbody{
+    border-top:1px solid #ddd ;
+}
+.doc_mess,.user_mess,.list_mess{
+    display:block;
+    max-height:480px;
+    overflow-y:scroll;
+}
+.schedule_mess,.schedule_tr,.schedule_detail_up,.list_mess>tr,.user_mess>tr{
+    display:table;
+    width:100%;
+    table-layout:fixed;
+}
+.schedule_mess,.schedule_tr{
+    width: calc( 100% - 1.1em )
+}
+.schedule_tr_table>tbody>tr>td{
+    border-left: 1px solid #ddd;
+    border-top:none;
+    /*padding: 8px 0;*/
+}
+.schedule_tr_table p{
+    padding: 0;
+    margin: 0;
+}
+.schedule_detail_table>tbody>tr>td{
+    border-left: 1px solid #ddd;
+    border-top:none;
+    /*width:140px;*/
+}
+.schedule_detail_table tr:first-child{
+    border-bottom: 1px solid #DDDDDD;
+}
+.schedule_detail_table{
+    width: 100%;
+    table-layout: fixed;
+}
+.schedule_detail_table  td{
+    word-wrap: break-word;
+    padding: 0 !important;
+}
+tbody>tr.schedule_mess>td{
+    border: none;
+}
+/* .choose_time{
+    margin-top: 40px;
+} */
+.choose_time>div{
+    display: inline-block;
+    font-size: 1em;
+    padding: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+.half_year{
+    background-color: #01cdb2;
+    color: #fff;
+}
+
+.doc_mess .schedule_num b{
+    font-weight: normal;
+}
+.doc_mess .schedule_num img{
+    display: none;
+}
+.table .list_mess tr td{
+	text-align: center;
+	line-height: 50px;
+}
+.list_mess .audit_detail{
+	padding:2px 10px;
+	line-height: 29px;
+    color: #ffffff;
+    border: none;
+    background-color: #2bd1c7;
+    border-radius: 5px;
+    outline: none;
+}
+.table .user_mess tr td{
+	text-align: center;
+	line-height: 50px;
+}
+.user_mess .checkFail1{
+    margin-left: 10px;
+    padding: 2px 10px;
+    line-height: 29px;
+    color: #ffffff;
+    border: none;
+    background-color: #2bd1c7;
+    border-radius: 5px;
+    outline: none;
+}
+.user_mess .checkSucc1{
+    margin-left: 10px;
+    padding: 2px 10px;
+    line-height: 29px;
+    color: #ffffff;
+    border: none;
+    background-color: #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+.user_mess .audit_detail_list,.reject{
+	padding:2px 10px;
+	line-height: 29px;
+    color: #ffffff;
+    border: none;
+    background-color: #2bd1c7;
+    border-radius: 5px;
+    outline: none;
+}
+.reject{
+    margin-left: 10px;
+}
+.audit .schedule_tr td:last-child,.audit .user_mess tr td:last-child,.audit .list_mess tr td:last-child{
+    width: 250px;
+}
+.fee_table{
+    margin: 0 auto;
+}
+.table-bordered{
+    border: none;
+}
+.table_schedule_list{
+	width: 100%;
+	margin: 30px auto;
+}
+.mess_left div{
+    margin-right: 40px;
+}
+.mess_right div{
+    margin-left: 20px;
+}
+.back_all{
+    width: 176px;
+    font-size: 16px;
+    color: #00cdb1;
+}
+.mess_right i{
+    display: inline-block;
+    width:20px;
+    height:20px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    vertical-align: middle;
+ /*   margin-right: 8px;*/
+}
+.has_line i{
+    background-color: #2fa5ff;
+    border: none;
+}
+.nervous_line i{
+    background-color: #ed6e75;
+    border: none;
+}
+.no_line i{
+    background-color: #bababa;
+    border: none;
+}
+.new_schedule{
+    color:#01cdb2;
+}
+.export_table{
+    color: #ed6e75;
+}
+.urgent_make{
+    color: #2fa5ff;
+}
+.modify_record{
+    color: #f49809;
+}
+.schedule_table table>tbody>tr.schedule_tr>td
+,.audit_table table>tbody>tr.schedule_tr>td{
+    height: 58px;
+    padding: 0;
+    text-align: center;
+    background-color: #f2f2f2;
+    vertical-align: middle;
+    color: #b2b2b2;
+}
+.schedule_tr>td>p{
+    margin: 0;
+}
+.point_left{
+    position: relative;
+}
+.point_left a{
+    position: absolute;
+    display: block;
+    width: 9px;
+    height: 16px;
+    background-image: url("../images/left_03.png");
+    top:22px;
+    left:10px;
+}
+.point_right{
+    position: relative;
+}
+.point_right a{
+    position: absolute;
+    display: block;
+    width: 9px;
+    height: 16px;
+    background-image: url("../images/right_05.png");
+    top:22px;
+    right:10px;
+}
+.schedule_detail_up,.schedule_detail_down{
+    /*height: 60px;*/
+}
+.schedule_detail_up p{
+    margin: 0;
+    padding: 0;
+}
+.schedule_detail_table>tbody>tr>td{
+    padding: 0;
+    height: 29px;
+    vertical-align: middle;
+}
+.detail_top>td,.detail_bot>td{
+    position: relative;
+}
+.detail_top>td>b,.detail_bot>td>b{
+    position: absolute;
+    right: 44px;
+    /*display: none;*/
+}
+
+
+.schedule_time p{
+    /*margin-bottom: -1px;*/
+    border-bottom: 1px solid #ddd;
+    line-height: 29px;
+}
+.schedule_time p:last-child{
+    border-bottom: none;
+}
+.time_tus{
+    border-left:none !important;
+}
+.schedule_tr_table tbody tr td:first-child{
+    /*border-left:none !important;*/
+    border-left-color: white;
+}
+.table tbody>tr.schedule_detail_up>td,.table tbody>tr.schedule_detail_down>td{
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+}
+.sle_type{
+	line-height: 54px;
+	margin-left: 15px;
+	float: left;
+}
+.sle_color_box{
+	float: right;
+}
+.sle_color_box div{
+	width: 20px;
+	height: 20px;
+	margin: 5px 15px 5px 5px;
+	border-radius: 2px;
+	cursor: pointer;
+}
+.checkState{
+	margin-left: 30px;
+	padding: 2px 10px;
+    line-height: 29px;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+}
+.checkSuc{
+	background-color: #ffffff;
+}
+.checkFail{
+	background-color: #2bd1c7;
+}
+.sle_color_box .texu{
+	background-color: #ED6E75;
+}
+.sle_color_box .putong{
+	background-color: #000000;
+}
+.schedule_detail_up>td span,.schedule_detail_down>td span{
+    display: inline-block;
+    width: 30%;
+    height: 22px;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+}
+#doc_ques{
+    height: 58px;
+    text-align: center;
+    overflow: hidden;
+}
+button.btn_repeat{
+    padding: 5px;
+    background-color: #00cdb1;
+    color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    margin-top: 14px;
+}
+
+
+.btn_refer{
+    color: #fff;
+    background-color: #bababa;
+    border: none;
+    border-radius: 5px;
+    cursor:auto;
+    outline: none;
+}
+.btn_ready{
+    color: #fff;
+    background-color: #00ceb2;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+.schedule_detail_up img{
+    cursor: pointer;
+}
+.schedule_down{
+    padding-right: 235px;
+    height: 60px;
+    border-bottom: 1px solid #ddd;
+}
+.schedule_examine{
+    width:230px;
+    height: 50px;
+    /*border: 1px solid red;*/
+    text-align: center;
+    /*margin-top: 15px;*/
+    font-size: 16px;
+
+}
+.examine_right{
+    display: inline-block;
+    width:100px;
+    height: 35px;
+    background-color: #bbb;
+    color: #fff;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 35px;
+    margin-left: 35px;
+}
+.schedule_time_down{
+    text-align: right;
+    padding-right: 40px;
+    font-size: 16px;
+    height: 30px;
+    line-height: 30px;
+    border-top: 1px solid #ddd;
+}
+/*门办审核*/
+.audit_check{
+    height: 33px;
+    width: 80px;
+}
+.toExamine{
+    height:33px;
+}
+.audit_time{
+    margin-right: 6px!important;
+}
+.schedule_search .audit_query{
+    width:105px;
+}
+.schedule_search .audit_reset{
+    width:105px;
+    background-color: #ed6e75;
+}
+.audit_height{
+    height: 60px;
+}
+.audit_btn{
+    width: 56px;
+    height: 22px;
+    line-height: 18px;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+}
+/*住院部审查*/
+.examine_table{
+    padding-left: 30px;
+    padding-right: 225px;
+}
+.examine_table .schedule_tr td{
+    text-align: center;
+    vertical-align: middle;
+    height: 60px;
+    background-color: #f2f2f2;
+    color: #b2b2b2;
+}
+.examine_table .examine_list tr td{
+    text-align: center;
+    vertical-align: middle;
+    height: 60px;
+}
+.examine_do .examine_do_key{
+    width:70px;
+    height: 25px;
+    color: #fff;
+    background-color: #2caada;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+}
+.examine_do .examine_do_ready{
+    width:70px;
+    height: 25px;
+    color: #fff;
+    background-color: #bbb;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    cursor: default;
+}
+.examine_do .examine_do_no{
+    width:70px;
+    height: 25px;
+    color: #fff;
+    background-color: #ed6e75;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    cursor: default;
+}
+/*医生信息*/
+.img_postion{
+    vertical-align: sub;
+    margin-right: 2px;
+}
+.doctor_sex{
+    height: 33px;
+}
+.doctor_table{
+    padding-left: 40px;
+    padding-right: 120px;
+    margin-top: 20px;
+    min-height: 707px;
+}
+.doctor_table caption p {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+}
+.doctor_table caption span {
+    color: #bcbcbc;
+}
+.doctor_table table>tbody>tr.doctor_tr>td,
+table>tbody tr.fee_tr>td
+{
+    height: 35px;
+    padding: 0;
+    text-align: center;
+    background-color: #f2f2f2;
+    vertical-align: middle;
+    color: #b2b2b2;
+}
+.doctor_table table>tbody>tr.doctor_money>td{
+    width: 137px;
+    color: #b2b2b2;
+    text-align: center;
+    background-color: #f2f2f2;
+}
+.doctor_mess>td{
+    border: none !important;
+}
+.setTime i{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+    vertical-align:middle;
+    background: url(../images/clock.png) no-repeat;
+    background-position: 0px 0px;
+}
+.doctor_mess .pull-left i{
+    display: inline-block;
+    width: 20px;
+    height: 21px;
+    overflow: hidden;
+    vertical-align:middle;
+    background: url(../images/mess_123.png) no-repeat;
+}
+.doctor_mess .pull-left:nth-of-type(1) i{
+    background-position: -2px -4px;
+}
+.doctor_mess .pull-left:nth-of-type(2) i{
+    background-position: -23px -4px;
+}
+.doctor_mess .pull-left:nth-of-type(3) i{
+    background-position: -45px -4px;
+}
+
+.doctor_table table>tbody>tr.doctor_list>td{
+    text-align: center ;
+    vertical-align: middle;
+    /*height:auto!important;*/
+    height:52px;
+    min-height:52px;
+}
+.doctor_table table>tbody>tr.doctor_list>td.doctor_skill{
+    text-align: left;
+}
+.doctor_act div{
+    margin-left: 25px;
+}
+/*挂号费用设置*/
+.fee_table td{
+    text-align: center;
+    padding: 0;
+    height: 39px;
+}
+.fee_table input{
+    width: 100%;
+    height: 39px;
+    padding: 0;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+}
+.fee_table input:disabled{
+    /* background-color: #fff !important; */
+    background-color: #eee !important;
+    border:none !important;
+}
+.fee_table button
+{
+    background-color: #00cdb1;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+/*增加医生*/
+.skill{
+    margin-top: 30px;
+
+}
+.skill lable span ,.self_mess lable span{
+    color: #b2b2b2;
+}
+.skill textarea,.self_mess textarea{
+    width:625px;
+    height: 100px;
+    padding: 10px;
+    margin-left: 10px;
+    outline: none;
+    resize: none;
+    border: 1px solid #ddd;
+    background-color: #fff;
+   /* overflow: hidden; */ /** 隐藏超出的内容 **/
+/*     word-break: break-all; */
+    /*text-overflow: ellipsis;*/
+   /* display: -webkit-box; *//** 对象作为伸缩盒子模型显示 **/
+  /*  -webkit-box-orient: vertical; *//** 设置或检索伸缩盒对象的子元素的排列方式 **/
+   /* -webkit-line-clamp: 2;*/ /** 显示的行数 **/
+   
+}
+.doctor_table table>tbody>tr.doctor_list>td.doctor_skill{
+/*     word-break: break-all; */
+    display:-webkit-box;
+    /* display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/ 
+    -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+    -webkit-line-clamp: 2; /** 显示的行数 **/
+    word-break:break-all;
+    overflow: hidden;   /**隐藏超出的内容 **/
+    text-overflow:ellipsis;
+}
+
+.alert-img{
+    margin-bottom: 20px;
+}
+.imgDiv{
+    width: 70px;
+    height: 70px;
+    background:url("../images/doctor_03.png");
+    margin-left: 10px;
+    cursor: pointer;
+}
+.img_content{
+    position: relative;
+}
+.doc_head_del{
+    position: absolute;
+    top: -5px;
+    right:-5px;
+    cursor: pointer;
+    display: none;
+}
+.img_content:hover .doc_head_del{
+    position: absolute;
+    top: -5px;
+    right:-5px;
+    cursor: pointer;
+    display: block;
+}
+.img_content img.doc_head{
+    width: 70px;
+    height: 70px;
+    border-radius: 70px;
+    margin-left: 10px;
+}
+
+.alert-img{
+   height: 70px;
+   line-height: 70px;
+}
+#doctor_img{
+    cursor: pointer;
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+    opacity: 0;
+}
+
+.self_mess textarea{
+    height: 100px;
+}
+.self_mess{
+    margin-top: 30px;
+}
+#doc_sex{
+    height: 33px;
+    width:50px;
+    padding-left: 10px;
+
+}
+#doctor_duty{
+    margin: 0;
+    width: 158px;
+    height: 30px;
+}
+.clearfix:after{
+    content: '';
+    display: table;
+    clear: both;
+}
+.f_l{
+    float: left;
+}
+.select_box{
+    height: 80px;
+    padding-left: 50px;
+    font-size: 16px;
+    color: #000;
+}
+.select_box>select{
+    width: 160px;
+    height: 30px;
+}
+#duty ,.duty_set ,.position_set{
+    height: 33px;
+    padding-left: 10px;
+    margin-left: 10px;
+}
+.main_top{
+    margin-bottom: 20px;
+}
+.money_doctor{
+    line-height: 33px;
+}
+.money_doctor .alertBox_duty{
+    margin-right: 20px;
+}
+.money_doctor input{
+    width: 70px;
+    padding-left: 10px;
+}
+.alertBox_duty{
+    /*margin-left: 38px;*/
+    margin-right: 38px;
+}
+.alertBox_depart .doc_age{
+    width:134px;
+}
+.main_top input[type="radio"]{
+    width: 20px;
+    height: 33px;
+}
+/*财务结算*/
+
+
+#account_table{
+    padding-left: 75px;
+    padding-right: 135px;
+    /* padding-right: 375px; */
+    padding-top: 60px;
+    width: 100%;
+}
+
+/*统计分析*/
+
+/*左侧*/
+#count_table{
+    padding-left: 75px;
+    padding-right: 135px;
+    /* padding-right: 375px; */
+    padding-top: 60px;
+    width: 100%;
+}
+#count_table #count_left:last-child table{
+    width: 50%;
+}
+/*#count_left{*/
+/*width: 815px;*/
+/*}*/
+#money_table{
+    padding-left: 75px;
+    padding-right: 135px;
+    /* padding-right: 375px; */
+    padding-top: 60px;
+    width: 100%;
+}
+#count_table .table:nth-of-type(2){
+    width: 50%;
+}
+
+#count_table #count_left:nth-of-type(2){
+    margin-top: 100px;
+    width: 100%;
+}
+.count_tit{
+   margin-bottom: 30px;
+}
+.count_tit p{
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+.count_tit p{
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+
+}
+.count_tit div{
+    margin-bottom: 10px;
+}
+#t_head td{
+    height: 45px;
+    vertical-align: middle;
+}
+.table_depart,.operation {
+    width: 200px;
+    min-width: 100px;
+    max-width: 200px;
+}
+.register_num,.change_num,.back_num {
+    width: 360px;
+    min-width: 200px;
+    max-width: 360px;
+}
+/*.table_depart{*/
+/*width: 135px;*/
+/*min-width: 135px;*/
+/*max-width: 135px;*/
+
+/*}*/
+/*.register_num,.count_money,.visit_num{*/
+/*width: 125px;*/
+/*min-width: 125px;*/
+/*max-width: 125px;*/
+/*}*/
+/*.operation,.back_num,.change_num{*/
+/*width: 105px;*/
+/*min-width: 105px;*/
+/*max-width: 105px;*/
+/*}*/
+.count_head{
+    background-color: #f2f2f2;
+    color:#b2b2b2;
+}
+.count_head td,#detail_main thead td{
+    border-bottom: none;
+    border-top: 1px solid #ddd;
+}
+
+.count_total{
+    margin-top: 10px;
+    background-color: #f2f2f2;
+    color: #fe2422;
+    border: none;
+}
+#t_head tbody,#t_head thead{
+    display: block;
+    overflow-y: scroll;
+}
+.count_main{
+    /*max-height: 452px;*/
+    max-height: 407px;
+    overflow-y:scroll;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+.count_main tr:first-child td{
+    border-top: none;
+}
+.count_main tr:last-child td{
+    border-bottom: none;
+}
+/*右侧*/
+#count_right{
+    width:600px;
+    min-height: 650px;
+    /*border: 1px solid #ddd;*/
+}
+.info_tit{
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 36px;
+}
+.info_head td{
+    height: 45px;
+    vertical-align: middle !important;
+}
+.chart_top{
+    margin-bottom: 20px;
+}
+.chart_top p{
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+#year{
+    height: 33px;
+    width:72px;
+    padding-left: 10px;
+}
+#choice{
+    height: 33px;
+}
+.info_tr td{
+    height: 60px;
+    vertical-align: middle !important;
+}
+.chart-search input{
+    width: 160px;
+    height: 33px;
+    margin-left: 10px;
+    padding-left: 15px;
+}
+.register_method{
+    margin-right: 25px;
+}
+.register_color{
+    padding-bottom: 10px;
+}
+.register_app i{
+    display: inline-block;
+    width:10px;
+    height: 10px;
+    background-color: #06a0fa;
+}
+.register_window i{
+    display: inline-block;
+    width:10px;
+    height: 10px;
+    background-color: #ef6d75;
+}
+#echarts{
+    width:100%;
+    height:250px;
+}
+/*查看详情*/
+#detail_table{
+    padding-left: 75px;
+    padding-right: 135px;
+    /* padding-right: 375px; */
+    padding-top: 30px;
+    width: 100%;
+    /*min-width: 1713px;*/
+}
+#detail_head{
+    margin-bottom: 60px;
+}
+#detail_head p{
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+#detail_head img{
+    vertical-align: sub;
+}
+#detail_head button{
+    width:105px;
+    height: 35px;
+    line-height: 35px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #ed6e75;
+    outline: none;
+    border-radius: 5px;
+    border: none;
+}
+#detail_main td{
+    height: 50px;
+    vertical-align: middle;
+}
+
+#detail_main tbody,#detail_main thead{
+    display: block;
+    overflow-y: scroll;
+}
+.bgcolor_f2 .detail_data,.detail_money {
+    /*width: 160px !important;*/
+    min-width: 100px !important;
+    max-width: 160px !important;
+}
+.bgcolor_f2 .detail_app,.detail_self{
+    width: 580px !important;
+    min-width: 360px !important;
+    max-width: 580px !important;
+}
+.bgcolor_f2 .detail_app span {
+    width: 25%;
+    text-align: center;
+}
+.bgcolor_f2 .detail_self span {
+    width: 25%;
+    text-align: center;
+}
+
+/*.detail_data,.detail_back,.detail_change,.detail_money{*/
+/*width:155px;*/
+/*min-width: 155px;*/
+/*max-width: 155px;*/
+/*}*/
+/*.detail_app,.detail_window,.detail_self,.detail_get{*/
+/*width:220px;*/
+/*min-width: 220px;*/
+/*max-width: 220px;*/
+/*}*/
+#detail_body{
+    max-height: 350px;
+    overflow-y: scroll;
+    border-top: 1px solid #ddd !important;
+    border-bottom: 1px solid #ddd !important;
+}
+#detail_body tr .detail_window,.detail_get  {
+    width: 160px !important;
+}
+#detail_body .detail_data,.detail_money tr td {
+    /*width: 160px !important;*/
+    min-width: 100px !important;
+    max-width: 160px !important;
+}
+#detail_body tr td .money_count:last-child{
+    width: 25% !important;
+}
+#detail_body .detail_app,.detail_self tr td{
+    width: 580px !important;
+    min-width: 240px !important;
+    max-width: 580px !important;
+}
+
+#detail_body tr:first-child td{
+    border-top: none !important;
+}
+#detail_body tr:last-child td{
+    border-bottom: none !important;
+}
+#detail_bottom p,#detail_bottom p{
+    font-size: 16px;
+}
+#detail_left_chart{
+    /*padding-left: 50px;*/
+    position: relative;
+}
+
+#pie_choose{
+    position: absolute;
+    left: 6px;
+    top: 90px;
+    z-index: 1;
+}
+#pie_choose select{
+    height: 33px;
+    margin-left: 10px;
+}
+
+/*当前床位信息*/
+.bed_table{
+    padding-left: 30px;
+    padding-right: 225px;
+    margin-top: 20px;
+}
+.bed_table caption p{
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+}
+.bed_table caption span{
+    color: #bcbcbc;
+}
+.bed_table td{
+    height: 60px;
+    vertical-align: middle !important;
+}
+.bed_plus{
+    width: 60px;
+    height: 25px;
+    background-color: #2fa5ff;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    color: #fff;
+    margin-right: 10px;
+}
+.bed_reduce{
+    width: 60px;
+    height: 25px;
+    background-color: #ed6e75;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    color: #fff;
+    margin-right: 10px;
+}
+.bed_table .schedule_mess td{
+    vertical-align: bottom !important;
+}
+
+
+/*修改审查*/
+.record_table{
+    padding-left: 40px;
+    padding-right: 225px;
+    margin-top: 20px;
+}
+.record_table caption p {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+}
+.record_table caption span {
+    color: #bcbcbc;
+}
+.record_table table td{
+    height: 60px;
+    vertical-align: middle !important;
+}
+/*系统设置*/
+.set_table{
+    padding-left: 40px;
+    padding-right: 225px;
+    margin-top: 40px;
+    width: 70%;
+}
+.set_add{
+    margin-bottom: 5px;
+}
+.delete {
+    background-color: #ee7073;
+}
+.set_dele{
+    width: 50px;
+    height: 26px;
+    line-height: 18px;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    font-size: 14px;
+    margin-right: 15px;
+}
+.setBox_name{
+    margin-bottom: 15px;
+}
+.setBox_name input{
+    width: 180px;
+}
+.setBox_name input{
+    outline: none;
+}
+.setBox_name span{
+    margin-left: 10px;
+    color:#b2b2b2;
+}
+.setBox_name span.color_fe{
+    color:#fe2422;
+}
+.setBox_name select{
+    height: 33px;
+    margin-left: 10px;
+    padding-left: 10px;
+    outline: none;
+}
+
+.set_btn{
+    text-align: center;
+    margin-bottom: 20px;
+}
+#set_btn{
+    width: 80px;
+    height: 36px;
+    line-height: 32px;
+    background-color: #00cdb1;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    margin-right: 70px;
+}
+#set_check{
+    width: 80px;
+    height: 36px;
+    line-height: 32px;
+    background-color: #00cdb1;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    margin-right: 130px;
+}
+.set_new {
+    width: 80px;
+    height: 36px;
+    line-height: 32px;
+    background-color: #ee7073;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    outline: none;  
+}
+.setBox_title{
+    height: 33px;
+}
+
+
+
+/*修改CSS*/
+
+.schedule_detail_up>td .input_text,.schedule_detail_down>td .input_text{
+    width: 100%;
+    /*height: 22px;*/
+    height: 100%;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.table_submit_shen{
+    margin-top: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    position:relative;
+}
+.table_submit_shen button{
+    width: 120px;
+    line-height: 32px;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    font-size: 22px;
+    /* color: #01cdb2; */
+    background-color: #01cdb2;
+}
+.table_submit_shen .schedule_user_down{
+    position:absolute;
+    right:0;
+    top:0;
+    font-size:16px;
+}
+.color_blue{
+    color:  #2fa5ff !important;
+    font-weight: bold;
+}
+.back_blue{
+    background-color:  #2fa5ff !important;
+    border: none;
+}
+
+.color_red{
+    color:  #ed6e75 !important;
+    font-weight: bold;
+}
+.back_red{
+    background-color:  #ed6e75 !important;
+    border: none;
+}
+
+
+.color_black{
+    color:  black !important;
+    font-weight: bold;
+}
+.back_black{
+    background-color:  black !important;
+    border: none;
+}
+
+
+.back_ddd{
+    background-color: #f2f2f2 !important;
+}
+.color_yellow{
+    color:  yellow !important;
+    font-weight: bold;
+}
+
+.back_yellow{
+    background-color:  yellow !important;
+    border: none;
+}
+
+.color_orange{
+    color:  orange !important;
+    font-weight: bold;
+}
+
+.back_orange{
+    background-color:  orange !important;
+    border: none;
+}
+
+.color_gray{
+    color:  gray !important;
+    font-weight: bold;
+}
+.back_gray{
+    background-color:  gray !important;
+    border: none;
+}
+
+
+
+#schedule .schedule_table{
+    padding-right:0;
+    min-width: 1190px;
+}
+.table .table_header{
+    background-color:#f2f2f2 !important;
+    margin-bottom:0 !important;
+}
+.table .table_header td{
+    /*padding-right: 1px;*/
+}
+
+#t_head tr{
+    display: block;
+}
+#t_head td{
+    display: block;
+    float: left;
+}
+
+#detail_main tr{
+    display: block;
+}
+#detail_main td{
+    display: block;
+    float: left;
+}
+#detail_main{
+    float: left !important;
+}
+/*排班增加弹框*/
+.messBox{
+    width: 300px;
+    height: 145px;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    position: fixed;
+    z-index: 9999;
+    background-color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 30px;
+    padding-top: 17px;
+ }
+.messBox input{
+    height: 30px;
+    width:60px;
+    padding:0 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+.add_btn{
+    margin-top: 14px;
+
+}
+.add_btn button{
+    background-color: #fff;
+    outline: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 60px;
+    height: 25px;
+    line-height: 25px;
+}
+.add_btn .add_return{
+
+}

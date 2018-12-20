@@ -1,0 +1,489 @@
+.head{
+	/*width:98%;*/
+	/*height:100%;*/
+	/*min-height:700px;*/
+    padding-left: 40px;
+    padding-right: 225px;
+    /* padding-right: 375px; */
+    margin-top: 20px;
+    width: 100%;
+    min-width: 1700px;
+}
+.left{
+	width:49%;
+	float:left;
+	border-right: 1px solid #e4dddd;
+}
+.right{
+	width:49%;
+	float:right;
+}
+label{
+	font-size:24px;
+	font-weight: bold;
+}
+hr{
+	border:1px solid #e4dddd;
+}
+table{
+	font-size:18px;
+	text-align: right;
+	color:#a0a0a0;
+	width:98%;
+	line-height:3;
+	margin: 0 auto;
+}
+.hospital input {
+    height: 30px;
+    outline: none;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+select {
+	width:100px;
+    height: 36px;
+    outline: none;
+}
+.submit{
+	width: 300px;
+    text-align: center;
+    height: 40px;
+    margin-left: 40%;
+    color: white;
+    background-color: #00cdb1;
+    border-radius:16px;
+    border:0px;
+}
+.redColor{
+    color:red;
+}
+
+
+
+
+/*熊英*/
+
+.f_l{
+    float: left;
+}
+.f_r{
+    float: right;
+}
+.information{
+    padding-left: 40px;
+    /*padding-right: 225px;*/
+    margin-top: 20px;
+    /*width: 100%;*/
+    /*min-width: 1700px;*/
+    overflow: hidden;
+    /*min-height: 1600px;*/
+ }
+.hospital_main{
+    /*padding-right: 130px;*/
+    /*padding-left: 100px;*/
+}
+.mation_tit{
+    border-bottom: 1px solid #ddd;
+    /*border-left: 1px solid #ddd;*/
+    /*height: 35px;*/
+    height: 53px;
+    line-height: 53px;
+    font-size: 18px;
+}
+.mation_tit ul{
+    overflow: hidden;
+    padding: 0;
+    margin-left: -1px;
+}
+.mation_tit li{
+    float: left;
+    padding: 0 12px;
+    height: 53px;
+    cursor: pointer;
+    box-sizing: border-box;
+
+}
+.mation_tit .title_active{
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-top: 2px solid #4dd5bd;
+    border-bottom: 1px solid transparent;
+    background-color: #fff;
+    height: 54px;
+    color: #4dd5bd;
+}
+
+/* .tab_list .hospital,.tab_list .duty,.tab_list .duty_money{ */
+   /*  display: none;
+    overflow: hidden;
+} */
+.layui-laydate{
+    height: 300px;
+}
+.layui-laydate-list{
+    height: 270px !important;
+}
+.layui-laydate-content table{
+    display: none;
+}
+.layui-laydate-footer{
+    position: absolute;
+    top: 200px;
+}
+.hos_name{
+    height: 40px;
+    line-height: 40px;
+    margin: 25px 0;
+}
+.hos_name span:first-child{
+        display: inline-block;
+    margin-top: 85px;
+}
+.hos_name span.tips{
+    display: inline-block;
+    margin-left: 80px;
+}
+.hospital .hos_all,.hospital .hos_lit{
+    width: 260px;
+    height: 40px;
+    margin-left: 10px;
+    padding: 0 20px;
+    border: 1px solid #ddd;
+}
+.hos_left{
+    margin-right: 20px;
+}
+.hos_name span.redColor,.lati_long span.redColor{
+    display:none;
+}
+.hos_name select{
+    height: 40px;
+    margin-left: 10px;
+    padding: 0 20px;
+}
+.hos_grade{
+    margin-right: 146px;
+}
+.hos_introduce{
+    height: 190px;
+}
+.hos_img{
+    height: 100px;
+    margin-bottom: 25px;
+}
+.hos_img span:first-child{
+    margin-top: 40px;
+}
+
+.img_list .img_pic,.img_logo .img_pic , .img_back .img_pic{
+    width: 100px;
+    height: 100px;
+    margin-left: 10px;
+}
+.img_back .img_pic {
+    margin-left: 20px;
+}
+.img_act{
+    position: relative;
+}
+.pic_del{
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    display: none;
+    cursor: pointer;
+}
+.img_act:hover .pic_del{
+    display: block;
+}
+
+.img_limit{
+    margin-left: 10px;
+    margin-top: 40px;
+}
+.hos_text{
+    width: 870px;
+    height: 190px;
+    resize: none;
+    outline: none;
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+}
+.hos_address select{
+        width: 160px;
+}
+.hos_address input{
+    height: 40px;
+    width: 240px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-left: 20px;
+    border: 1px solid #ddd;
+}
+.hos_tel{
+    height: 40px;
+    width: 220px;
+    margin-left: 10px;
+    padding: 0 20px;
+    margin-right: 20px;
+}
+.offwork{
+    margin:40px 0;
+}
+#offworkTime{
+    height: 30px;
+    width: 220px;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 0 20px;
+    margin-right: 20px;
+}
+.hos_pep{
+    height: 40px;
+    width: 120px;
+    padding: 0 20px;
+}
+.duty_main{
+    /*padding-right: 130px;*/
+    /*padding-left: 100px;*/
+    overflow: hidden;
+}
+.sure_duty{
+    margin-top: 20px;
+}
+.sure_duty>span{
+    margin-left: 4px;
+    margin-right: 14px;
+}
+.sure_duty .sure_div{
+     width: 840px; 
+    /*width:666px;*/
+    min-height: 138px;
+    border: 1px solid rgb(169, 169, 169);
+    padding: 10px;
+}
+.sure_duty .sure_div .addSub_box{
+    display: inline-block;
+    padding: 5px;
+    margin-top: 8px;
+    border: 1px solid #ddd;
+       background-color: #ddd;
+}
+.sure_duty .sure_div .addSub_box>div{
+    display: inline-block;
+    width: 42px;
+    height: 32px;
+     background: url('../images/add_sub.png') no-repeat center;
+
+}
+.duty_name{
+    /*overflow: hidden;*/
+    margin: 30px 0;
+}
+.duty_name:after{
+    content: "";
+    clear: both;
+}
+.duty_list,.secondSubList{
+    height: 362px;
+    /* width:830px; */
+ /*     width:430px; */
+    border: 1px solid rgb(169, 169, 169);
+    margin-left: 20px;
+    position: relative;
+    padding: 10px;
+    overflow-y: auto;
+}
+.duty_list{
+    /*width:215px;*/
+    width:350px;  
+}
+.duty_list .list_name:hover{
+   background-color: #01cdb2;
+   color: #fff;
+}
+.duty_list .list_name,.duty_list .list_name span{
+    display: block;
+    text-align: center;
+}
+.secondSubList{
+     /*width:430px; */
+     width:484px;
+}
+/* .secondSubList input[type="radio"]{
+    margin: 0 0 0 8px;
+} */
+.secondSubList input[type="checkBox"]{
+    margin: 0 0 0 8px;
+        vertical-align: middle;
+}
+.list_top-l{
+    position: absolute;
+    top: 95px;
+    height: 40px;
+    line-height: 40px;
+    margin-bottom: 10px;
+    padding-left: 135px;
+}
+.list_top-r {
+    position: absolute;
+    top: 94px;
+    padding-left: 500px;
+    z-index: 1;
+}
+.showAll {
+    position: absolute;
+    top: 100px;
+    padding-left: 800px;
+}
+.list_top-r input{
+    height: 30px;
+    border: 1px solid #ddd;
+    padding-left:10px ;
+    color: #999;
+}
+.list_top-r .subject_list{
+    position: absolute;
+    top: 45px;
+    left: 90.5px;
+    border: 1px solid #ccc;
+    border-top: 0;
+    width: 182px;
+    max-height: 320px;
+    background-color: #fff;
+     display: none; 
+    z-index:100;
+     padding-left:0px; 
+    box-shadow: 1px 1px 3px #ededed;
+    overflow-y: auto;
+}
+.list_top-r .subject_list li{
+    width: 100%;
+     padding-left:10px; 
+    height: 30px;
+    line-height: 30px;
+     /* border-bottom: 1px solid #ccc; */
+}
+.list_top-r .subject_list li:hover{
+    background-color: #ededed;
+}
+.list_bottom{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    color: #b2b2b2;
+}
+.list_bottom input{
+    height: 30px;
+    padding-left: 20px;
+}
+.add_btn{
+    height: 30px;
+}
+.btn_sub{
+    /* border-top: 1px dashed #ddd; */
+    margin-top: 20px;
+    text-align: center;
+    margin-bottom: 50px;
+}
+.hos_sub, .subject_sub{
+    /*width:500px ;*/
+    width:715px;
+    height: 40px;
+    background-color: #01cdb2;
+    color: #fff;
+    border: 0;
+    margin-top: 50px;
+    outline: none;
+    font-size: 20px;
+}
+.img_file{
+
+    width: 100px;
+    height: 100px;
+   /*  width: 60px;
+    height: 60px; */
+    background: url("../images/add.png") no-repeat;
+    margin-left: 10px;
+}
+.hospital .file_input{
+    cursor: pointer;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+   /*  width: 60px;
+    height: 60px; */
+    opacity: 0;
+}
+.list_name{
+    border: 1px solid #01cdb2;
+    padding: 8px;
+    color: #01cdb2;
+    margin: 10px;
+    position: relative;
+    cursor: pointer;
+}
+.list_choose{
+    border: 1px solid #01cdb2;
+    padding: 8px;
+    color: #fff;
+    background-color: #01cdb2;
+    margin: 10px;
+    position: relative;
+    cursor: pointer;
+    text-align: center;
+}
+
+.list_choose img{
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    cursor: pointer;
+    display: none;
+}
+.list_choose:hover img{
+    display: block;
+}
+
+
+.lati_long{
+    /*margin-left: 10px;*/
+    display: inline-block;
+}
+.lati_long input{
+    height: 30px;
+    margin-right: 10px;
+    margin-left: 25px;
+    width: 100px;
+    padding-left: 10px;
+}
+.lati_long span:first-child {
+    display: block !important;
+}
+
+/*挂号费用*/
+.money_table{
+    margin: 30px 0;
+}
+.caption_top{
+    float: right;
+/* margin-right: 13px; */
+    margin: 30px 23px 6px 0;
+}
+.money_table td,.money_table th{
+    text-align: center;
+    border: 1px solid #ddd;
+    width: 10px;
+    height: 40px;
+    color: #000;
+    line-height: 0;
+}
+.money_table td input{
+    width: 100%;
+    height: 100%;
+    border: none;
+    text-align: center;
+    cursor: pointer;
+    color: #333;
+}

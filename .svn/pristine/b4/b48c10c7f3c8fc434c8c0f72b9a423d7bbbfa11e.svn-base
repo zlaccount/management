@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="shortcut icon" href="images/small.ico" type="image/x-icon"/> 
+		<link rel="stylesheet" type="text/css" href="lib/bootstrap.css">
+		<link rel="stylesheet" href="plugin/sweetalert-master/dist/sweetalert.css">
+		<link rel="stylesheet" href="lib/myPagination/page.css" />
+		<script language="javascript" src="js/LodopFuncs.js"></script>
+		<!--[if IE 7]>
+		  <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" />
+		<![endif]-->
+
+		<!-- page specific plugin styles -->
+		<link rel="stylesheet" type="text/css" href="public/css/base.css">
+		<link rel="stylesheet" href="css/terminals.css" />
+		<!--<link rel="stylesheet" type="text/css" href="css/register.css"/>-->
+		<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+		<![endif]-->
+
+		<!-- <script src="assets/js/ace-extra.min.js"></script> -->
+	
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+		<!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	<body onLoad= "javascript:window.resizeTo(screen.availWidth,screen.availHeight);window.moveTo(0,0) ">
+		<div class="content">
+			<object classid="clsid:5EB842AE-5C49-4FD8-8CE9-77D4AF9FD4FF" id="IdrControl1" width="0" height="0"> </object>
+			<object  id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0> 
+	       	<embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
+			</object>
+				<!--<div class="left_d">
+				<span></span>自助取号终端
+			</div>-->
+			<div id="register_window">		
+			<!--<div id="head" class="clear">
+				<div class="right_w">
+				</div>
+			</div>
+			<div class="header" style="width: 360px;height: 360px; background: #50e6ca;border-radius: 10px;margin-top: 250px;">
+			<a href="javascript:void(0);" class="set_hide" onclick="Idcard()" >
+				<img src="images/help_book.png"/>
+				<p>自助取号</p>
+			</a>
+			</div>-->
+			
+			<div id="alertPop">
+				<!-- 遮罩层 -->
+				<div class="alert_one">
+					<div class="alert_head">
+						<div class="alert_l">
+							<a class="alert_off" >返回</a>
+						</div>
+						<!--取号流程-->
+						<div class="help_take"></div>
+						<!--取号提示-->
+						<div class="help_ps">
+							<p> 扫描身份证<a>(或填写订单信息)</a> </p>
+							<p style="margin-left: 272px;"> 选择订单</p>
+							<p style="margin-left: 490px;"> 确认信息</p>
+							<p style="margin-left: 720px;"> 取票完成</p>
+						</div>
+						<div class="alert_r">
+							<button class="alert_head"><a href="takeNumber.html">首页</a></button>
+						</div>
+					</div>
+				</div>
+				<div class="alert_mian">
+					<div class="alert_mian_l">
+						<img src="images/idcard.png" class="idcard" style="width:600px" />
+						<img src="images/getTicket.png" class="getTicket" style="width:400px">
+						<button type="hidden" class="btn_scan" onclick="Idcard();">确认扫描</button>
+					</div>
+					<div class="alert_mian_r">
+						<!-- <h3>订单信息</h3> -->
+						<div class="alert_idmian clearfix"> 
+							<div class="id_set id_chan">
+							<!-- <p>姓&ensp;&ensp;名：</p> -->
+							<input  class="id_name" name="idCard_Name" value="郭云吉"/>
+							</div>
+							<div class="id_set">
+							<!-- <p>身份证：</p> -->
+							<input  class="id_card" name="idCard_No" value="421181199310161971"/>
+							</div>
+							<div class="id_set">
+							<span>订单号：</span>
+							<input  class="id_number user_regisId" type="text"/>
+							</div>
+							<p>不知道订单号？试试用姓名+身份证号检索。</p>
+							<button class="btn_seek">查询</button>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			
+			<!-- <div style="border:1px solid red;width:916px;height:400px;position: absolute;top:210px;left:40px"> -->
+			<div class="table_info saomiaoMes">
+				<table class="table table-striped table-bordered table-hover center" id="sample-table">
+					<thead>
+						<tr class="thead_list">
+							<th>序号</th>
+							<th>订单编号</th>
+							<th>就诊时间</th>
+							<th>科室</th>
+							<th>类别</th>
+							<th>就诊医生</th>
+							<th>就诊人</th>
+							<th>选择</th>
+						</tr>
+					</thead>
+					<tbody class="registerInfo center">
+					</tbody>
+				</table>
+			</div>
+			<!-- </div> -->
+			<!-- 订单右侧的东东-->
+			<div id="alert_two">
+				<div class="alert_number">
+					<a>选中张数/总张数</a>
+					<div><span class="active_chose"></span>/<span class="active_all"></span></div>
+				</div>
+				<div class="alert_fot">
+					<button class="checkBtn">取 号</button>
+				</div>
+			</div>
+							<div class="mask">
+							<div class="check" index="0"> 
+								<div class="title clearfix">
+												
+									
+												
+									<!--<img src="images/close_04.png" alt="" class="close_checkMask">-->
+								</div>
+								<div class="checkMes_box">
+									<div class="checkMes">
+										<ul class="checkBtn_ul" style="padding-left: 24px">
+											<!--数据动态填充-->
+											<!--<li><span>武汉大学中南医院</span><br /><span>挂号凭证</span></li>
+											<li class="pa_top bor">就诊时间：<span>2017-12-27&nbsp;&nbsp;&nbsp;上午</span></li>
+											<li class="ma_top">就诊序号：<span style="margin-right: 30%;">10</span>姓名：<span>赵磊</span></li>
+											<li>门诊号：<span style="margin-right: 10%;">1300004968</span>号别：<span>普通门诊</span></li>
+											<li>科室：<span>结直肠肛门门诊</span></li>
+											<li class="pa_bto bor">诊疗费：<span>8.5</span></li>
+											<li>挂号时间：<span>2017-12-27</span>&nbsp;&nbsp;&nbsp;<span>14:06:45</span></li>
+											<li>就诊地址：<span>门诊大楼4楼</span></li>-->
+										</ul>
+										<!--<p class="mtb_5">请凭号就诊，谢谢配合!</p>-->
+										
+										<p class="wish" style="text-align: center;">预约挂号请用E号通APP</p>
+										<p style="text-align: center;">祝您身体健康！</p>
+										<div style="text-align: center;"><span class='hospital_title'>当日有效，隔日作废</span><span class="checkTime"></span></div>
+										<!-- <img class="hospi_logo fl" src="" alt="">  -->
+										<!--<button class="confirmCheck">确认取号</button>-->
+									</div>
+								</div>
+							</div>		
+							
+			
+						</div>
+				<div id="mask">
+					<div class="check_mask">
+						正在打印,请等待......
+					</div>
+				</div>
+				<div id="show_mask">
+					<div class="show_h">
+						温馨提示：
+					</div>
+					<div class="show_n">
+						打印成功
+					</div>
+				</div>
+					</div>					
+			<!--遮罩层-->
+	    	<div class="addMask"></div>
+			<div id="foot">
+				<span id="timer"></span>
+			</div>
+			<div class="bgMask"></div>
+		</div>
+	</body>
+	<script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script>
+ 	<script type="text/javascript" src="lib/bootstrap.js"></script>
+	<script src="plugin/sweetalert-master/dist/sweetalert.min.js"></script>
+	<script src="lib/myPagination/jquery.myPagination6.0.js"></script>
+	<script type="text/javascript" src="assets/js/jQuery.print.js"></script>
+	<script type="text/javascript" src="public/js/base.js"></script>
+	<script type="text/javascript" src="js/terminals.js"></script>
+	<script type="text/javascript">
+		var d = new Date();
+		var str = d.getFullYear()+"年"+(d.getMonth()+1)+"月"+d.getDate()+"日";
+		document.getElementById("timer").innerHTML= str;
+		
+		$('.left_d').children('span').text(sessionStorage.getItem('hospitalName'));
+	</script>
+	<script type="text/javascript">
+//			$(".header>a").click(function (){
+//			$(".left_d").hide();
+//			$(".header").hide();
+//			$("#head").hide();
+//			$("#alertPop").show();
+//		});
+//$(".alert_mian_r").hide();
+//身份证扫描
+function Idcard() {
+	var result;
+	// 注意：第一个参数为对应的设备端口，USB型为1001，串口型为1至16
+	try {
+		result = IdrControl1.ReadCard("1001", "");
+		if(result == 1) {
+			$("input[name='idCard_Name']").val(IdrControl1.GetName());
+			$("input[name='idCard_No']").val(IdrControl1.GetCode());
+			if($("input[name='idCard_No']")!==""&&$("input[name='idCard_Name']")!==""){
+				clearInterval(timer);
+				hasGuahao();
+			}
+		} else {
+			if(result == -1)
+//				console.log("未检测到读卡器，请检查连接！");
+			if(result == -2)
+				alert("请重新将卡片放到读卡器上！");
+			if(result == -3)
+				alert("读取数据失败！");
+		}
+	} catch(e) {
+		console.log("未检测到读卡器插件");
+	}
+
+}
+// Idcard()
+var timer = setInterval('Idcard()', 500);
+//var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'));
+		    
+    var LODOP; //声明为全局变量 
+	function prn1_preview() {	
+		CreateOneFormPage();	
+		LODOP.PREVIEW();	
+	};
+   //从JOB代码找出打印机序号：
+	// function GetPrinterIDfromJOBID(strJOBID){
+	// 	var intPos=strJOBID.indexOf("_");
+	// 	if (intPos<0) {return strJOBID;} else {return strJOBID.substr(0,intPos);}
+	// }
+
+	// function ControlPrinterPURGE(strJOBID){  
+	// 	var strPrinterID=GetPrinterIDfromJOBID(strJOBID);
+	// 	LODOP=getLodop(); 
+	// 	if (LODOP.CVERSION) {
+	// 		LODOP.On_Return=function(TaskID,Value){console.log("清理结果:"+Value);};
+	// 		LODOP.SET_PRINT_MODE("CONTROL_PRINTER:"+strPrinterID,"PURGE");
+	// 		return;
+	// 	} else {
+	// 		var strResult=LODOP.SET_PRINT_MODE("CONTROL_PRINTER:"+strPrinterID,"PURGE");
+	// 		console.log("清理结果:"+strResult);
+	// 	};
+	// }
+
+
+	//直接打印
+function prn1_print() {
+		CreateOneFormPage();
+		//LODOP.PRINT();
+		LODOP.SET_PRINT_MODE("CATCH_PRINT_STATUS",true);
+		var result = LODOP.PRINT();
+		// ControlPrinterPURGE(result);
+		setTimeout(function(){
+			var exist = LODOP.GET_VALUE("PRINT_STATUS_EXIST",result);
+			var busy = LODOP.GET_VALUE("PRINT_STATUS_BUSY",result);
+			console.log(exist)
+			console.log(busy)
+			if(exist==1&&busy==1){
+				$('.bgMask').show()
+				setTimeout(function(){
+					$('.bgMask').hide()
+				},10000)
+				LODOP.SET_PRINT_MODE("CONTROL_PRINTER","PURGE")
+				return false;
+			}else{
+				var totalRegisId = $(".operate input[type=checkbox]")
+              	var regisIds= $("input[type=checkbox]:checked");
+				if(totalRegisId.length==regisIds.length){
+	             swal({
+	               title: "温馨提示：",
+	               text: "打印成功",
+	               timer: 2000,
+	               showConfirmButton: false,
+	               },function(){
+	                 window.location.reload();
+	               });
+	             // window.location.reload();
+	          }else{
+	           swal({
+	               title: "温馨提示：",
+	               text: "打印成功",
+	               timer: 3000,
+	               showConfirmButton: true,
+	               showCancelButton:true,
+	               confirmButtonText:"返回上一页",
+	               cancelButtonText:"继续打印",
+	               confirmButtonColor:"#12dbae",
+	               cancelButtonColor:"#12dbae",
+	               closeOnConfirm: false
+	               },function(isConfirm){
+	                 if(isConfirm){
+	                    window.location.reload();
+	                 }
+	               });
+	          }
+	        }
+	        console.log(2)
+		},2000)
+		
+	};
+	function getSystemInfo(strINFOType){
+       LODOP=getLodop(); 
+       var strResult=LODOP.GET_SYSTEM_INFO(strINFOType);
+       if (!LODOP.CVERSION) return strResult; else return "111";
+   }
+
+	function prn1_printA() {		
+		CreateOneFormPage();
+		LODOP.PRINTA(); 	
+	};	
+	function CreateOneFormPage(){
+		LODOP=getLodop();
+		LODOP.PRINT_INIT("assx");
+		//LODOP.SET_PRINT_STYLE("FontSize",18);
+		//LODOP.SET_PRINT_STYLE("Bold",1);
+		//LODOP.ADD_PRINT_TEXT(50,231,260,39,"");
+		LODOP.SET_PRINT_PAGESIZE(1,800,1200,"");
+		var strHTML="<body style='margin:0;background-color: white'>"+document.getElementsByClassName("checkMes")[0].innerHTML+"</body>";
+		// LODOP.ADD_PRINT_SETUP_BKIMG("<img style='width:20px;height:20px' src='images/ewm.png'>");
+		// LODOP.SET_SHOW_MODE("BKIMG_LEFT","10mm")
+		// LODOP.SET_SHOW_MODE("BKIMG_TOP","90mm")
+		// LODOP.SET_SHOW_MODE("BKIMG_WIDTH","20px")
+		// LODOP.SET_SHOW_MODE("BKIMG_HEIGHT","20px")
+		// LODOP.ADD_PRINT_HTM(0,0,100%,100%,strHTML);
+		// LODOP.ADD_PRINT_HTM("10mm","8mm","RightMargin:10mm","BottomMargin:10mm",strHTML);
+		LODOP.ADD_PRINT_HTM("0","0","100%","100%",strHTML);
+	};	                     
+	function prn2_preview() {	
+		CreateTwoFormPage();	
+		LODOP.PREVIEW();	
+	};
+	function prn2_manage() {	
+		CreateTwoFormPage();
+		LODOP.PRINT_SETUP();	
+	};	
+//	function CreateTwoFormPage(){
+//		LODOP=getLodop();  
+//		LODOP.PRINT_INIT("打印控件功能演示_Lodop功能_表单二");
+//		LODOP.ADD_PRINT_RECT(70,27,634,242,0,1);
+//		LODOP.ADD_PRINT_TEXT(29,236,279,38,"页面内容改变布局打印");
+//		LODOP.SET_PRINT_STYLEA(2,"FontSize",18);
+//		LODOP.SET_PRINT_STYLEA(2,"Bold",1);
+//		LODOP.ADD_PRINT_HTM(88,40,321,185,document.documentElement.innerHTML);
+//		LODOP.ADD_PRINT_HTM(87,355,285,187,document.documentElement.innerHTML);
+//		LODOP.ADD_PRINT_TEXT(319,58,500,30,"注：其中《表单一》按显示大小，《表单二》在程序控制宽度(285px)内自适应调整");
+//	};              
+	function prn3_preview(){
+		LODOP=getLodop();  
+		LODOP.PRINT_INIT("打印控件功能演示_Lodop功能_全页");
+		LODOP.ADD_PRINT_HTM(0,0,"100%","100%",document.documentElement.innerHTML);
+		LODOP.PREVIEW();	
+	};	
+
+        
+        var LODOP; //声明为全局变量       
+	function myPrint() {		       
+		CreatePrintPage();       
+		LODOP.PRINT();		       
+	};         
+	function myPrintA() {		       
+		CreatePrintPage();       
+		LODOP.PRINTA();		       
+	};  	       
+	function myPreview() {		       
+		CreatePrintPage();       
+		LODOP.PREVIEW();		       
+	};		  
+	//打印维护     
+	function mySetup() {		       
+		CreateOneFormPage();       
+		LODOP.PRINT_SETUP();		       
+	};	       
+	function myDesign() {		       
+		CreateOneFormPage();       
+		LODOP.PRINT_DESIGN();		       
+	};	       
+	function myBlankDesign() {       
+		LODOP=getLodop();         
+   		LODOP.PRINT_INIT("打印控件功能演示_Lodop功能_空白练习");		       
+		LODOP.PRINT_DESIGN();		       
+	};			       
+	function CreatePrintPage() {       
+		LODOP=getLodop();         
+		LODOP.PRINT_INIT("打印控件功能演示_Lodop功能_名片");       
+		LODOP.ADD_PRINT_RECT(10,55,360,220,0,1);       
+		LODOP.SET_PRINT_STYLE("FontSize",11);       
+		LODOP.ADD_PRINT_TEXT(20,180,100,25,"郭德强");       
+		LODOP.SET_PRINT_STYLEA(2,"FontName","隶书");       
+		LODOP.SET_PRINT_STYLEA(2,"FontSize",15);		       
+		LODOP.ADD_PRINT_TEXT(53,187,75,20,"科学家");       
+		LODOP.ADD_PRINT_TEXT(100,131,272,20,"地址：中国北京社会科学院附近东大街西胡同");       
+		LODOP.ADD_PRINT_TEXT(138,132,166,20,"电话：010-88811888");	       
+	};       
+	function myAddHtml() {       
+		LODOP=getLodop();         
+   		LODOP.PRINT_INIT("");		            
+		LODOP.ADD_PRINT_HTM(10,55,"100%","100%",document.getElementById("textarea01").value);	       
+	};	       
+
+	</script>
+</html>

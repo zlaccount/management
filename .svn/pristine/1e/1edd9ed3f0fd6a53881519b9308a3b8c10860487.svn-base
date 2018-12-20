@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>E号通</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+	<meta name="keywords" content="E2306后台管理系统" />
+	<meta name="description" content="E2306后台管理系统" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="images/small.ico" type="image/x-icon"/>
+	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css"> 
+	<link rel="stylesheet" href="assets/css/font-awesome.min.css" />
+		<!--[if IE 7]>
+		  <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" />
+		<![endif]-->
+
+		<!-- page specific plugin styles -->
+
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />
+	<link rel="stylesheet" type="text/css" href="public//css/base.css">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+		<![endif]-->
+
+		<!-- <script src="assets/js/ace-extra.min.js"></script> -->
+	
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+		<!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+</head>
+<body>
+	<!--头部-->
+	 <div class="header clearfix">
+		<div class="header_title fl">
+			<a href="#" class="navbar-brand">
+					<!-- E2306挂号管理系统 -->
+				<span class="hospital_title"></span>	
+			</a>
+		</div>
+		<div class="header-right fr">
+			<ul>	
+				<li class="users">
+					<a href="#" class="dropDown_title">
+						当前用户：
+						<span class='username'></span>
+						<span class="exit">(退出)</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div> 
+<!--内容部分-->
+	<div class="contentBox">
+		<div class="slidebar fl">
+			<ul class="nav-list">
+				<!-- 窗口挂号 -->
+				<li class="register active">
+					<a href="javascript:void(0);" name="register.html" class="iframeurl" title="">
+						<i class="icon-home"></i>
+						<span class="menu-text">窗口挂号取号</span>
+					</a>
+				</li>
+				<!-- 门办审核 -->
+				<li class="audit active">
+					<a href="javascript:void(0);" name="audit.html" class="iframeurl" title="">
+						<i class="icon-desktop"></i>
+						<span class="menu-text"> 门办审核</span>
+					</a>
+				</li>
+				<li class="audit">
+					<a href="javascript:void(0);" name="auditChange.html" class="iframeurl" title="">
+						<i class="icon-list"></i>
+						<span class="menu-text"> 应急修改</span>
+					</a>
+				</li>  
+				<!--门诊排班-->
+				<li class="scheduleMes active">
+					<a href="javascript:void(0);" name="doctor.html" class="iframeurl" id="doctorMes" title="">
+						<i class="icon-list"></i>
+						<span class="menu-text">医生信息</span>
+					</a>	
+				</li>
+                <li class="scheduleMes">
+                    <a href="javascript:void(0);" name="news.html" class="iframeurl" title="">
+                        <i class="icon-list"></i>
+                        <span class="menu-text">排班信息</span>
+                    </a>
+                </li>
+				<!--系统设置模块-->
+				<!--医院信息-->
+				<li class="user active">
+					<a href="javascript:void(0);" name="new_infor.html" class="iframeurl" id="new_infor" title="">
+						<i class="icon-list"></i>
+						<span class="menu-text">医院信息</span>
+					</a>
+				</li>
+				<!--科室信息-->
+				<li class="user">
+					<a href="javascript:void(0);" name="subject.html" class="iframeurl" title="">
+						<i class="icon-list"></i>
+						<span class="menu-text">科室信息</span>
+					</a>
+				</li>
+				<li class="user">
+					<a href="javascript:void(0);" name="set.html" class="iframeurl" id="set" title="">
+						<i class="icon-home"></i>
+						<span class="menu-text">用户信息</span>
+					</a>
+				</li>	
+				<!--医生信息-->
+				<!-- <li class="user">
+					<a href="javascript:void(0);" name="doctor_all.html" class="iframeurl" title="">
+						<i class="icon-list"></i>
+						<span class="menu-text">医生信息</span>
+					</a>
+				</li> -->
+				<!--统计分析-->
+				<li class="user">
+					<a href="javascript:void(0);" name="new_count.html" class="iframeurl" title="">
+						<i class="icon-desktop"></i>
+						<span class="menu-text"> 统计分析 </span>
+					</a>
+				</li>
+				<!-- 财务信息 -->
+				<li class="finance active">
+					<a href="javascript:void(0);" name="money.html" class="iframeurl" title="">
+						<i class="icon-money"></i>
+						<span class="menu-text"> 挂号员财务表 </span>
+					</a>
+				</li>
+				<li class="finance">
+					<a href="javascript:void(0);" name="account.html" class="iframeurl" title="">
+						<i class="icon-credit-card"></i>
+						<span class="menu-text"> 财务结算 </span>
+					</a>
+				</li>
+				<li class="finance">
+					<a href="javascript:void(0);" name="idcard.html" class="iframeurl" title="">
+						<i class="icon-credit-card"></i>
+						<span class="menu-text"> 银行卡信息 </span>
+					</a>
+				</li>
+				<li class="terminals">
+					<a href="javascript:void(0);" name="takeNumber.html" class="iframeurl" title="">
+						<i class="icon-desktop"></i>
+						<span class="menu-text"> 自助终端 </span>
+					</a>
+				</li>		
+			</ul> 
+			 <div class="toggleMenu">
+				<img src="images/open.png" alt="" class="open">
+				<img src="images/he.png" alt="" class="he hidden"> 
+			</div> 
+		</div>
+		<!-- iframe嵌套区 -->
+		<div class="content">
+			<iframe id="iframe" name="iframe" frameborder="0" src=""></iframe>
+		</div>
+	</div>
+		<script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"script>");
+		</script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="public/js/base.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>	
+		<script>
+		//storage.getItem('username')
+		
+		</script>
+
+</body>
+</html>

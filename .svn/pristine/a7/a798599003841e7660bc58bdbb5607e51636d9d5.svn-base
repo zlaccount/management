@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>窗口挂号取号模块</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<link rel="stylesheet" type="text/css" href="lib/bootstrap.css">
+		<link rel="stylesheet" href="plugin/sweetalert-master/dist/sweetalert.css">
+		<link rel="stylesheet" href="lib/myPagination/page.css" />
+		<link rel="stylesheet" type="text/css" href="public/css/base.css">
+		<link rel="stylesheet" type="text/css" href="css/register.css">
+		<style media=print type="text/css">  
+			.confirmTakenum,.confirmTakejiahaonum,.confirmTakegaiqiannum,.hospi_logo{visibility:hidden} 
+
+		</style>
+	</head>
+
+	<body>
+		<object classid="clsid:5EB842AE-5C49-4FD8-8CE9-77D4AF9FD4FF" id="IdrControl1" width="0" height="0"> </object>
+		<div id="register_window">
+			<h3 class="title"><span></span>挂号系统</h3>
+			<div class="divider"></div>
+			<div id="substance">
+				<!-- <div id="myTabContent"  class="tab-content"> -->
+				<!--默认的挂号取号页面内容-->
+				<div class="regis_box" id="register">
+					<!--默认step1内容-->
+					<div class="step1">
+						<!--扫描身份证信息展示-->
+						<ul class="identify clearfix">
+							<li class="fl">
+								<label>单号查询：</label>
+								<input type="text" class="user_regisId" placeholder="输入单号">
+							</li>
+							<li class="fl">
+								<label>姓名：</label>
+								<input type="text" class="user_name" name="idCard_Name">
+							</li>
+							<li class="fl">
+								<label>身份证号码：</label>
+								<input type="text" class="user_id" name="idCard_No">
+							</li>
+							<button class="btn_scan" onclick="Idcard();">扫描身份证</button>
+							<!-- <input type="button" name="" class="btn_scan" onclick="Idcard();" placeholder="扫描身份证"> -->
+						</ul>
+						<!--选择挂号信息-->
+						<ul class="regis_details clearfix">
+							<li class="time">
+								<label>预约日期：</label>
+								<input type="text" class="center defaultTime" readonly='readonly'>
+								<select name="" class="sourceTime">
+									<option value="">上午</option>
+									<option value="">下午</option>
+								</select>
+							</li>
+							<li>
+								<label>挂号科室 : </label>
+								<select name="" class="subjectName">
+									<option value="">-请选择</option>
+								</select>
+							</li>
+							<li>
+								<label>门诊类别 : </label>
+								<select name="" class="patientType">
+									<option value="">-不限</option>
+								</select>
+							</li>
+							<li class="doctor_input">
+								<label>医生姓名 : </label>
+								<!-- <select name="" class="doctor">
+									 <option value="">-请选择</option> 
+								</select> -->
+								<input type="text" placeholder="可输入医生姓名查询" class="queryDoc">
+								<ul class="queryDoc_list">
+								</ul>
+							</li>
+							<!-- <li>
+								<button class="btn_query">查询</button>
+							</li>  -->
+						</ul>
+						<!-- <div class="addSourse_box">
+							<img src="images/mess_03.png" alt=""/>
+							<a id="add_sourse" class="new_schedule" href="javascript:void(0);">应急增加</a>
+						</div>  -->
+						<!--表格信息（扫描身份证展示）-->
+						<div class="table_info saomiaoMes">
+							<table class="table table-striped table-bordered table-hover center" id="sample-table">
+								<thead>
+									<tr class="thead_list">
+										<th>序号</th>
+										<th>订单编号</th>
+										<th>就诊日期</th>
+										<th>时间</th>
+										<th>科室</th>
+										<th>类别</th>
+										<th>医生姓名</th>
+										<th>总计</th>
+										<th>就诊人</th>
+										<th>预约途径</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody class="registerInfo center">
+								</tbody>
+							</table>
+						</div>
+						<!--表格信息 根据挂号条件搜索展示-->
+						<div class="guahaoMes">
+							<div class="addSourse_box">
+								<img src="images/mess_03.png" alt="" />
+								<a id="add_sourse" class="new_schedule" href="javascript:void(0);">应急加号</a>
+							</div>
+							<!--表格信息-->
+							<div class="table_info">
+								<table class="table table-striped table-bordered table-hover center" id="sample-table">
+									<thead>
+										<tr class="thead_list">
+											<th width="80px">序号</th>
+											<th width="150px">日期(上午/下午)</th>
+											<th>科室</th>
+											<th>类别</th>
+											<th>医生姓名</th>
+											<th>挂号费</th>
+											<th>操作</th>
+											<!-- <th>备注</th>  -->
+										</tr>
+									</thead>
+									<tbody class="center guahaoInfo">
+									</tbody>
+								</table>
+							</div>
+							<!--表格信息分页-->
+							<div id="guahaoPage" class="page_style">
+							</div>
+						</div>
+					</div>
+					<!--step2内容-->
+					<div class="step2">
+						<ul class="regis_details clearfix">
+							<li class="time fl">
+								<label>预约日期：</label>
+								<input type="text" readonly='readonly' class="changeDate" style="width:120px">
+								<select name="" class="sourceTime">
+									<option></option>
+								</select>
+							</li>
+							<li class="fl">
+								<label>挂号科室 : </label>
+								<select name="" class="subjectName">
+									<option>-请选择</option>
+								</select>
+							</li>
+							<li class="fl">
+								<label>门诊类别 : </label>
+								<select name="" class="patientType">
+									<option>-不限</option>
+								</select>
+							</li>
+							<li class="doctor_input">
+								<label>医生姓名 : </label>
+								<input type="text" placeholder="" class="queryDoc">
+								<ul class="queryDoc_list">
+									<!-- <li>123</li> -->
+								</ul>
+							</li>
+							<li class="fl">
+								<button class="btn_back">返回</button>
+							</li>
+							<input type="hidden" value="" class="hiddenRegisId">
+						</ul>
+						<!--表格信息-->
+						<div class="table_info">
+							<table class="table table-striped table-bordered table-hover center" id="sample-table">
+								<thead>
+									<tr class="thead_list">
+										<th width="80px">序号</th>
+										<th width="200px">日期(上午/下午)</th>
+										<th>科室</th>
+										<th>类别</th>
+										<th>医生姓名</th>
+										<th>改签费</th>
+										<th>操作</th>
+										<!-- <th>备注</th>  -->
+									</tr>
+								</thead>
+								<tbody class="center gaiqianMes">
+            						<!-- 动态获取 -->
+								</tbody>
+							</table>
+						</div>
+						<div id="gaiqianPage" class="page_style"></div>
+					</div>
+
+					<!--点击取号 改签 退号出现的弹窗信息-->
+					<div class="mask">
+						<div class="check" index="0">
+							<div class="title clearfix">
+								<span class="smalltitle">挂号单</span>
+								<img src="images/close_04.png" alt="" class="close_checkMask">
+							</div>
+							<div class="checkMes_box">
+								<div class="checkMes">
+									<ul class="checkBtn_ul">
+
+										<!--数据动态填充-->
+									</ul>
+									<!-- <p class="mtb_5">请凭号就诊，谢谢配合!</p> -->
+									<p class="wish">预约挂号请用E号通app，祝您身体健康！</p>
+									<div class="hospital_titles center"><span class='hospital_title'></span><span class="checkTime"></span></div>
+									<img class="hospi_logo fl" src="" alt="">
+									<button class="confirmCheck">确认取号</button>
+								</div>
+							</div>
+						</div>
+						<div class="change" index="1">
+							<div class="title clearfix">
+								<span class="smalltitle">改签提示</span>
+								<img src="images/close_04.png" alt="" class="close_mask">
+							</div>
+							<div class="changeMes_box">
+								<div class="changeMes">
+									<h5>确定需要改签？</h5>
+									<div>
+										<p>本次订单只有一次改签机会</p>
+										<p>若进行改签，则此订单将无法再次改签</p>
+										<p>（可进行退号操作）</p>
+									</div>
+								</div>
+								<button class="confirmChange">确认改签</button>
+							</div>
+						</div>
+						<div class="quit" index="2">
+							<div class="title clearfix">
+								<span class="smalltitle">退号信息</span>
+								<img src="images/close_04.png" alt="" class="close_mask">
+							</div>
+							<div class="quitMes_box">
+								<div class="quitMes">
+									<h5>确定退号？</h5>
+									<p class="quitRules">退号需退回挂号单，过多的退号可能会影响挂号，请查看具体规则</p>
+									<div class="quitDetails">
+										<h5>挂号信息</h5>
+										<ul class="bookMes row">
+											<!--动态填充部分-->
+										</ul>
+										<!-- <h5>就诊人信息</h5>
+										<ul class="bookPerson row">
+										
+										</ul> -->
+									</div>
+									<button class="confirmQuit">确认退号</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--点击挂号 加号和改签出现的取号弹窗-->
+					<div class="takenumMask">
+						<!--startprint-->
+						<div class="takenum">
+							<div class="title clearfix">
+								<span class="smalltitle">挂号单</span>
+								<img src="images/close_04.png" alt="" class="close_takenumMask">
+							</div>
+							<div class="takenum_box"  id="getTitle">
+								<div class="takenumMes">
+									<span class="jiahao"></span>
+									<ul class="takenum_ul">
+										<!--数据动态填充-->
+									</ul>
+									<!-- <p class="mtb_5">请凭号就诊，谢谢配合!</p> -->
+									<p class="wish">挂号请用E号通app，祝您身体健康！</p>
+									<div class="hospital_titles center"><span class='hospital_title'></span><span class="checkTime"></span></div>
+									<img src="" alt="" class="hospi_logo">
+									<button class="confirmTakenum">确认取号</button>
+									<button class="confirmTakejiahaonum">确认取号</button>
+									<button class="confirmTakegaiqiannum">确认取号</button>
+								</div>
+							</div>
+						</div>
+						<!--endprint--> 
+						<!--点击改签的取号弹窗-->
+						<div class="takenum_gaiqian">
+							<div class="title clearfix">
+								<span class="smalltitle">挂号单</span>
+								<img src="images/close_04.png" alt="" class="close_takenumMask">
+							</div>
+							<div class="takenum_box">
+								<div class="takenumMes">
+									<span class="jiahao"></span>
+									<ul class="takenum_ul">
+										<!--数据动态填充-->
+									</ul>
+									<!-- <p class="mtb_5">请凭号就诊，谢谢配合!</p> -->
+									<p class="wish">挂号请用E号通app，祝您身体健康！</p>
+									<div class="hospital_titles center"><span class='hospital_title'></span><span class="checkTime"></span></div>
+									<img src="" alt="" class="hospi_logo">
+									<button class="confirmTakenum">确认取号</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--底部显示挂号数量-->
+				<div class="footer">
+					<div class="regis_mes clearfix">
+						<ul class="regis_num"></ul>
+						<ul class="app_num"></ul>
+						<p class="regis_pay red fr">累计收款&nbsp;<span></span>&nbsp;&nbsp;元</p>
+					</div>
+					<div class="currenttime"></div>
+				</div>
+				<!-- </div> -->
+			</div>
+			<!--遮罩层-->
+			<div class="addMask"></div>
+			<!--内容-->
+			<div class="messBox">
+				<p>输入所需增加的号源数量</p>
+				<input onkeyup="value=value.replace(/[^\d]/g,'')" class="add_num" type="text" />
+				<div class="add_btn">
+					<button class="add_return">取消</button>
+					<button class="add_sure">确认</button>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="lib/bootstrap.js"></script>
+		<script src="plugin/sweetalert-master/dist/sweetalert.min.js"></script>
+		<script src="lib/myPagination/jquery.myPagination6.0.js"></script>
+		<script type="text/javascript" src="public/js/base.js"></script>
+		<script src="js/register.js"></script>
+		<script type="text/javascript" src="assets/js/jquery.print.js"></script>
+
+		<script>
+			$(function() {
+				$('.addMask').hide();
+				$('.messBox').hide();
+				var h = document.documentElement.clientHeight;
+				var w = document.documentElement.clientWidth;
+				var alertW = $('.messBox').width();
+				var alertH = $('.messBox').height();
+				$('.messBox').css({
+					'top': (h - alertH) / 2 + 'px',
+					'left': (w - alertW) / 2 + 'px'
+				});
+
+				$('.hospital_title').text(sessionStorage.getItem('hospitalName'));
+				$('#register_window>h3').children('span').text(sessionStorage.getItem('hospitalName'));
+				var showTime = function() {
+					var date = new Date();
+					var month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) :
+						(date.getMonth() + 1)
+					day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+					var currentDay = date.getFullYear() + '-' + month + '-' + day; //显示当天日期  
+					var currentTime = currentDay +
+						" " +
+						(date.getHours() < 10 ? "0" + date.getHours() : date
+							.getHours()) +
+						':' +
+						(date.getMinutes() < 10 ? "0" + date.getMinutes() : date
+							.getMinutes()) +
+						':' +
+						(date.getSeconds() < 10 ? "0" + date.getSeconds() : date
+							.getSeconds()); //显示当前具体时间
+					$('.currenttime').html(currentTime);
+					//设置取号弹窗的系统时间        
+					$('.checkMes .checkTime').html("(" + currentTime + ")");
+					$('.takenumMes .checkTime').html("(" + currentTime + ")");
+				};
+				setInterval(showTime, 1000);
+			});
+			//身份证扫描
+			function Idcard() {
+				var result;
+				// 注意：第一个参数为对应的设备端口，USB型为1001，串口型为1至16
+				try {
+					result = IdrControl1.ReadCard("1001", "");
+					if(result == 1) {
+
+						$("input[name='idCard_Name']").val(IdrControl1.GetName());
+						$("input[name='idCard_No']").val(IdrControl1.GetCode());
+
+					} else {
+						if(result == -1)
+							alert("未检测到读卡器，请检查连接！");
+						if(result == -2)
+							alert("请重新将卡片放到读卡器上！");
+						if(result == -3)
+							alert("读取数据失败！");
+					}
+				} catch(e) {
+					// alert("未检测到读卡器插件");
+				}
+				 $('.step2 .sourceTime').focus();
+			}
+
+			//信息查询表格的日历展示
+			// $(function(){
+			// 	//初始化日历
+			// 	$('#fullcalendar').fullCalendar({
+
+			// 	});
+			// });
+		</script>
+	</body>
+
+</html>

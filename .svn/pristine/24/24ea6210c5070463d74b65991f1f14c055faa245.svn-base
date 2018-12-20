@@ -1,0 +1,149 @@
+/*index样式*/
+body{
+    overflow: hidden;
+}
+.header{
+     background-color:#2bd1c7;    
+      height: 61px;
+     line-height:60px; 
+     width:100%;
+     padding:0 30px;
+}
+  .header .header_title a ,.header .header_title a span{
+        color:#fff;
+    }
+.header .header_title a {
+        font-size:22px;
+        font-weight:normal;
+    }
+ .header .header_title a span{
+        font-size:22px;
+    }
+
+ .header-right .dropDown_title{
+        color:#fff;
+          font-size:16px;
+    }
+ .header-right .dropDown_title .exit{
+     font-size:14px;
+ }
+ .header-right>li:first-child{
+     position:relative;
+ }
+ .header-right .dropDown_menu{
+     position:absolute;
+     border:1px solid #ccc;
+     border-top:0 none;
+     padding-left:30px;
+     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+
+ }
+ .header-right .dropDown_menu li{
+        height: 30px;
+        line-height: 30px;
+          /* border-bottom:1px solid #ccc; */
+    }
+ .header-right .dropDown_menu li a:hover{
+           color: #00cdb1;
+        }
+ .header-right .dropDown_menu li a{
+        color:#000;
+    }
+.nav-list .register, .nav-list .count,.nav-list .scheduleMes,
+ .nav-list .user,.nav-list .self, .nav-list .audit , .nav-list .terminals,.nav-list .finance{
+     display:none; 
+}
+.content iframe{
+     /* display:none;  */
+}
+.nav-list li.active>a:after {
+    display: none;
+    content: "";
+    position: absolute;
+    right: -4px;
+    top: 4px;
+    border-right-width: 0;
+    border: 0 none;
+}
+
+/*挂号取号*/
+.contentBox{
+     width:100%; 
+}
+ #iframe{
+    width:100%;
+       /* height: 100%;  
+      overflow: auto; */
+}
+ .content{
+    margin-left:190px;
+    /*width:100%;*/
+    z-index:100;
+    
+}    
+.slidebar{
+     width: 190px; 
+    background-color:#EAEAEA;
+     height: 100%; 
+    position:relative; 
+    
+}
+.iframeurl{
+    cursor: pointer;
+}
+.nav-list>li{
+    /* padding:10px 30px; */
+    position:relative;
+       box-sizing:border-box;
+}
+.nav-list>li.active{
+    border-left:2px solid #00cdb1;
+    background-color: #fff;
+ 
+}
+.nav-list>li>a{
+     padding:10px 30px;
+     color:#333;
+    font-size:16px;
+    display:block;
+    width: 100%;
+    height: 100%;
+}
+.nav-list>li.active a {
+    color: #2bd1c7;
+}
+.nav-list .dropdown_menu li{
+        padding:10px 0;
+}
+.nav-list .dropdown_menu li a:hover{
+    color:#00cdb1;
+}
+.nav-list .dropdown_menu{
+    padding:0 40px;
+}
+.nav-list .dropdown_menu a{
+    color:#ccc;
+    font-size:14px;
+
+}
+.toggleMenu{
+    background: #EAEAEA;
+    position:absolute;
+    /* width:12px;
+    height: 20px; */
+      left:190px;  
+    cursor:pointer;
+    z-index:200;
+
+}
+.toggleMenu img{
+    position:absolute;
+}
+.hidden{
+    display:none;
+}
+/* ..nav-list .dropdown_menu{
+    display:none;
+} */
+
+

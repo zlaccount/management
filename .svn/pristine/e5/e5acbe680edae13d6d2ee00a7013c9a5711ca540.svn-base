@@ -1,0 +1,397 @@
+
+/*弹框*/
+/*小弹框*/
+.smallMask{
+    background: #000;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+    top: 0;
+    left: 0;
+    z-index: 10020;
+    display: block;
+}
+.smallBox{
+    /*padding: 8px;*/
+    width: 300px;
+    height: 150px;
+    overflow: hidden;
+    position: fixed;
+    z-index: 10021;
+    display: block;
+    background-color: #fff;
+    border-radius: 10px;
+}
+.smallBox .alertBox_top{
+    height: 40px;
+    background-color: #00cdb1;
+    padding-left: 20px;
+    position: relative;
+}
+
+.small-title{
+    padding-left: 90px;
+    display: inline-block;
+
+    height: 18px;
+    font-size: 16px;
+    margin-top: 8px;
+    color:#fff;
+    text-align: center;
+}
+.small_main{
+    text-align: center;
+    padding-top: 26px;
+}
+.small_btn{
+    text-align: center;
+    margin-top: 27px;
+}
+.small_btn button{
+    background-color: #fff;
+    outline: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 60px;
+}
+
+
+
+/*当前排班页面*/
+ input{
+ 	border-left:0px;
+ 	border-top:0px;
+ 	border-right:0px;
+ 	border-bottom:1px;
+ 	width:100%;}
+.bac_blue{
+    background-color: #2fa5ff;
+}
+.bac_red{
+    background-color: #ed6e75;
+}
+.bac_gray{
+    background-color: #bbbbbb;
+}
+.bac_wh{
+    background-color: #ffffff;
+}
+li{
+    list-style: none;
+}
+.schedule_btn_add{
+	width: 120px;
+    height: 30px;
+    line-height: 18px;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    font-size:22px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.staging{
+	background-color:#016FCD;
+}
+.submit{
+	background-color:#01cdb2;
+}
+.schedule_btn{
+    width: 50px;
+    height: 26px;
+    line-height: 18px;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    font-size:14px;
+}
+.delete{
+	background-color:#ee7073;
+}
+.add{
+	background-color:#d2d2d2;
+}
+.schedule_head{
+    height:80px;
+    line-height: 80px;
+    padding-left: 30px;
+    font-size: 30px;
+    border-bottom: 1px solid #ddd;
+}
+.schedule_search{
+    margin-top: 20px;
+    padding-left: 30px;
+}
+.schedule_search input{
+    width: 180px;
+    height: 33px;
+    padding-left: 10px;
+    outline: none;
+}
+input:disabled{
+    background-color: #fff !important;
+    border:1px solid #D2d2d2 !important;
+}
+.schedule_search>div{
+    float: left;
+    margin-right: 30px;
+}
+.schedule_search button{
+    width:137px;
+    height: 33px;
+    line-height: 29px;
+    color: #ffffff;
+    border: none;
+    background-color: #01cdb2;
+    border-radius: 5px;
+    outline: none;
+}
+.schedule_table,.audit_table{
+    padding-left: 40px;
+    padding-right: 225px;
+    /*padding-right: 375px;*/
+    margin-top: 20px;
+    width: 100%;
+    min-width:1700px ;
+}
+.schedule_name{
+    position: relative;
+}
+.name_suggest{
+    background: #fff;
+    position: absolute;
+    top: 50px;
+    left: -1px;
+    width: 130px;
+    border: 1px solid #dbdbdb;
+    display: none;
+    z-index: 1;
+}
+.name_suggest ul{
+    padding: 0;
+}
+.name_suggest ul li{
+    padding-left: 10px;
+}
+.name_suggest ul>li:hover{
+    background-color: #f2f2f2;
+}
+
+ .schedule_table caption p{
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+}
+.schedule_table caption span{
+    color: #bcbcbc;
+}
+.schedule_mess img{
+    vertical-align: top;
+    margin-right: 5px;
+}
+
+.schedule_table>div{
+    min-height: 686px;
+}
+.table tbody+tbody{
+    border-top:1px solid #ddd ;
+}
+.schedule_tr_table>tbody>tr>td{
+    border-left: 1px solid #ddd;
+    border-top:none;
+    padding: 8px 0;
+}
+.schedule_tr_table p{
+    padding: 0;
+    margin: 0;
+}
+.schedule_detail_table>tbody>tr>td{
+    border-left: 1px solid #ddd;
+    border-top:none;
+    width:140px;
+}
+.schedule_detail_table>tbody>tr>td:first-child{
+    border-left: none;
+}
+.schedule_detail_table tr:first-child{
+    border-bottom: 1px solid #DDDDDD;
+}
+
+tbody>tr.schedule_mess>td{
+    border: none;
+}
+.table-bordered{
+    border: none;
+}
+.mess_left div{
+    margin-right: 40px;
+}
+.mess_right div{
+    margin-left: 20px;
+}
+.mess_right i{
+    display: inline-block;
+    width:12px;
+    height:12px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+.has_line i{
+    background-color: #2fa5ff;
+    border: none;
+}
+.nervous_line i{
+    background-color: #ed6e75;
+    border: none;
+}
+.no_line i{
+    background-color: #bababa;
+    border: none;
+}
+.new_schedule{
+    color:#01cdb2;
+}
+.export_table{
+    color: #ed6e75;
+}
+.urgent_make{
+    color: #2fa5ff;
+}
+.modify_record{
+    color: #f49809;
+}
+.schedule_table table>tbody>tr.schedule_tr>td
+,.audit_table table>tbody>tr.schedule_tr>td{
+    height: 58px;
+    padding: 0;
+    text-align: center;
+    background-color: #f2f2f2;
+    vertical-align: middle;
+    color: #b2b2b2;
+}
+.schedule_tr>td>p{
+    margin: 0;
+}
+.point_left{
+    position: relative;
+}
+.point_left a{
+    position: absolute;
+    display: block;
+    width: 9px;
+    height: 16px;
+    background-image: url("../images/left_03.png");
+    top:22px;
+    left:10px;
+}
+.point_right{
+    position: relative;
+}
+.point_right a{
+    position: absolute;
+    display: block;
+    width: 9px;
+    height: 16px;
+    background-image: url("../images/right_05.png");
+    top:22px;
+    right:10px;
+}
+.schedule_detail_up,.schedule_detail_down{
+    /*height: 60px;*/
+}
+.schedule_detail_up p{
+    margin: 0;
+    padding: 0;
+}
+.schedule_detail_table>tbody>tr>td{
+    padding: 0;
+    height: 29px;
+    vertical-align: middle;
+}
+.schedule_time p{
+    /*margin-bottom: -1px;*/
+    border-bottom: 1px solid #ddd;
+    line-height: 33px;
+}
+.schedule_time p:nth-child(2){
+    border-bottom: none;
+}
+.time_tus{
+    border-left:none !important;
+}
+.point_left{
+    border-left:none !important;
+}
+.table tbody>tr.schedule_detail_up>td,.table tbody>tr.schedule_detail_down>td{
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+}
+/*.schedule_detail_up>td span,.schedule_detail_down>td span{*/
+    /*display: inline-block;*/
+    /*width: 30%;*/
+    /*height: 22px;*/
+    /*border-radius: 5px;*/
+    /*text-align: center;*/
+    /*color: white;*/
+/*}*/
+.schedule_detail_up img{
+    cursor: pointer;
+}
+.schedule_down{
+	
+    height: 50px;
+    border-bottom: 1px solid #ddd;
+}
+.schedule_examine{
+	text-align:center;
+	margin:0 auto;
+    height: 50px;
+    /*border: 1px solid red;*/
+    text-align: center;
+    /*margin-top: 15px;*/
+    font-size: 16px;
+
+}
+.examine_right{
+    display: inline-block;
+    width:100px;
+    height: 35px;
+    background-color: #bbb;
+    color: #fff;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 35px;
+    margin-left: 35px;
+}
+.schedule_time_down{
+    text-align: right;
+    margin-right: 40px;
+    font-size: 16px;
+    height: 30px;
+    line-height: 30px;
+}
+/*雄鹰*/
+.schedule_detail_up input{
+    padding-left: 20px;
+    height: 33px;
+    padding-right: 20px;
+    text-align: center;
+}
+#duty_0{
+    -webkit-appearance:none;
+    appearance:none;
+}
+.schedule_detail_up select{
+    height: 33px;
+    width: 110px;
+    padding-left: 10px;
+}
+.registerTable_1,.registerTable_2,.registerTable_3,.registerTable_4{
+    display: none;
+}
+

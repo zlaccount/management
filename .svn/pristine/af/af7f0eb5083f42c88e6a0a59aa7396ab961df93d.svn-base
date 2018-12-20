@@ -1,0 +1,401 @@
+
+$(function(){
+
+   var baseUrl = 'http://www.51edoctor.cn/';
+    
+    //公用方法
+      //已知门诊类型数字对应文本
+      var outpatientType = function(outpatientTypeNum){
+            switch (outpatientTypeNum){
+                  case 0:
+                  return '普通门诊';
+                  break;
+                  case 1:
+                  return '专家门诊';
+                  break;
+                  case 2:
+                  return '特需门诊';
+                  break;
+                  default:
+                  return '';
+                  break;
+                }
+      };
+            //已知门诊类型文本输出数字
+       var outpatientType_text = function(outpatientType_text){
+           switch (outpatientType_text){
+                case '普通门诊':
+                return '0';
+                break;
+                case '专家门诊':
+                return '1';
+                break;
+                case '特需门诊':
+                return '2';
+                break;
+                default:
+                return '';
+                break;
+              }
+       };
+        //查询是否挂过号,挂过的显示，没挂提示
+        var hasGuahao = function(){
+            var name = $('.alert_mian .id_name').val(),
+                idCardNo = $('.alert_mian .id_card').val();
+                userid = $('.alert_mian .user_regisId').val();
+            //判断身份信息不完整的重新扫描
+            if(!name && !idCardNo && !userid){
+                swal({
+                    title: "温馨提示：",
+                    text: "信息扫描失败！请重新扫描。",
+                    timer: 2000,
+                    showConfirmButton: false
+                    });
+                    return false;
+            }
+            $.ajax({
+                    type:'GET',
+                    url:baseUrl+'E2306_admin/admin/order/selectOrder',
+                    data:{
+                      name:name,
+                      idCardNo:idCardNo,
+                      hospitalId:sessionStorage.getItem('hospitalId')
+                    },
+                    success:function(data){
+                          //没挂号提示
+                          if( data.length ==0){
+                               swal({
+                                   title: "温馨提示：",
+                                   text: "您还未挂号，请先行挂号!",
+                                   timer: 2000,
+                                   showConfirmButton: false
+                                 });
+                                console.log('您还未挂号，请先行挂号!');
+                               $('.alert_mian .saomiaoMes').css({'display':'none'}); 
+                               $('.registerInfo').empty();  //要把之前出现的挂号信息清除
+                               $('.alert_mian .subjectName').focus();
+                              return;
+                          } 
+                      //挂过号出现扫描的表格并渲染表格信息
+                            $('.saomiaoMes').css({'display':'block'}); 
+//                          $('.alert_mian .identify').css({'display':'none'});
+//                          $('.alert_mian .return_home').css({'display':'block'});
+//                          $('#register_window .return_home').css({'display':'block'});
+                            $('.registerInfo').empty();
+                           var register_tds = '';                         
+                          for(var i =0;i<data.length;i++){         
+                                var item = data[i];
+                                register_tds = '<tr>'
+                                    +'<td>'+(i+1)+'</td>'
+                                  +'<td>'+item.registrationId+'</td>'
+                                  +'<td>'+item.registrationDate+'</td>'+'<td>'+(item.dateTime=='pm'?'下午':'上午')+'</td>'
+                                  +'<td>'+item.subjectName+'</td>' +'<td>'+(outpatientType(item.outpatientType))+'</td>' +'<td>'+item.doctorName+'</td>'
+                                  +'<td>'+formatFee(item.totlePay)+'</td>' +'<td>'+item.contactName+'</td>' +'<td>'+(item.appointmentType==0?'APP':'窗口')+'</td>'
+                                  +'<td class="operate">'
+                                  + '<input type="checkbox" class="m_5" index="0"></input>'
+                                  +'</td>'
+                                  +'</tr>';  
+                                     //不能无限append，如果有订单Id一样就提示重复
+                                 if(item.registrationId ==  $('.registerInfo .operate').eq(i).children('button').attr('regisId')){
+                                  //  alert('重复订单');
+                                      swal({
+                                        title: "温馨提示：",
+                                        text: "您的信息已扫描成功，请勿重复扫描!",
+                                        timer: 2000,
+                                        showConfirmButton: false
+                                      });
+                                      return false;
+                                 }  
+                                $('.registerInfo').append(register_tds);      
+                                  //给每条操作按钮都加上订单Id，每个科室td加上科室id
+                                $('.registerInfo .operate').eq(i).children('button').attr('regisId',item.registrationId); 
+                                $('.registerInfo tr').eq(i).children('td').eq(4).attr('subjectId',item.subjectId);   
+                                $('.alert_mian .alert_mian_l').hide();
+                                $('.alert_mian_r').hide();
+                                $('#alert_two').css({'display':'block'});
+                				$('.help_take').addClass('help_take_two').removeClass('help_take');
+//                              //根据订单状态显示按钮颜色
+//                                if(item.orderStatus == '1'){
+//                                 // alert(1)
+//                                    $('.registerInfo .operate').eq(i).children('.checkBtn').addClass('mainBg');
+//                                    $('.registerInfo .operate').eq(i).children('.changeBtn').addClass('blueBg');
+//                                }else if(item.orderStatus == '2'){
+//                                  //    alert(2)
+//                                   $('.registerInfo .operate').eq(i).children('.checkBtn').removeAttr('index'); //取过号再点击遮罩就打不开
+//                                  } 
+                          };
+                          alert("data[i]");
+                   },
+             });
+       };
+        //查询是否挂过号,挂过的显示，没挂提示
+        var Guahao = function(){
+            var name = $('.alert_mian .id_name').val(),
+                idCardNo = $('.alert_mian .id_card').val();
+                userid = $('.alert_mian .user_regisId').val();
+            //判断身份信息不完整的重新扫描
+            if(!name && !idCardNo && !userid){
+                swal({
+                    title: "温馨提示：",
+                    text: "信息查询失败！请确认后重新输入。",
+                    timer: 2000,
+                    showConfirmButton: false
+                    });
+                    return false;
+            }
+            $.ajax({
+                    type:'GET',
+                    url:baseUrl+'E2306_admin/admin/order/selectOrder',
+                    data:{
+                      name:name,
+                      idCardNo:idCardNo,
+                      hospitalId:sessionStorage.getItem('hospitalId')
+                    },
+                    success:function(data){
+                          //没挂号提示
+                          if( data.length ==0){
+                               swal({
+                                   title: "温馨提示：",
+                                   text: "您还未挂号，请先行挂号!",
+                                   timer: 2000,
+                                   showConfirmButton: false
+                                 });
+                                console.log('您还未挂号，请先行挂号!');
+                               $('.alert_mian .saomiaoMes').css({'display':'none'}); 
+                               $('.registerInfo').empty();  //要把之前出现的挂号信息清除
+                               $('.alert_mian .subjectName').focus();
+                              return;
+                          } 
+                      //挂过号出现扫描的表格并渲染表格信息
+                            $('.saomiaoMes').css({'display':'block'}); 
+//	                        $('.alert_mian .identify').css({'display':'none'});
+//	                        $('.alert_mian .return_home').css({'display':'block'});
+//	                        $('#register_window .return_home').css({'display':'block'});
+                            $('.registerInfo').empty();
+                            var register_tds = '';                         
+                          for(var i =0;i<data.length;i++){         
+                                var item = data[i];
+                                register_tds = '<tr>'
+                                    +'<td>'+(i+1)+'</td>'
+                                  +'<td>'+item.registrationId+'</td>'
+                                  +'<td>'+item.registrationDate+'</td>'+'<td>'+(item.dateTime=='pm'?'下午':'上午')+'</td>'
+                                  +'<td>'+item.subjectName+'</td>' +'<td>'+(outpatientType(item.outpatientType))+'</td>' +'<td>'+item.doctorName+'</td>'
+                                  +'<td>'+formatFee(item.totlePay)+'</td>' +'<td>'+item.contactName+'</td>' +'<td>'+(item.appointmentType==0?'APP':'窗口')+'</td>'
+                                  +'<td class="operate">'
+                                  + '<input type="checkbox" class="m_5" index="0"></input>'
+                                  +'</td>'
+                                  +'</tr>';  
+                                     //不能无限append，如果有订单Id一样就提示重复
+                                 if(item.registrationId ==  $('.registerInfo .operate').eq(i).children('button').attr('regisId')){
+                                  //  alert('重复订单');
+                                      swal({
+                                        title: "温馨提示：",
+                                        text: "您的信息已扫描成功，请勿重复扫描!",
+                                        timer: 2000,
+                                        showConfirmButton: false
+                                      });
+                                      return false;
+                                 }  
+                                $('.registerInfo').append(register_tds);      
+                                  //给每条操作按钮都加上订单Id，每个科室td加上科室id
+                                $('.registerInfo .operate').eq(i).children('button').attr('regisId',item.registrationId); 
+                                $('.registerInfo tr').eq(i).children('td').eq(4).attr('subjectId',item.subjectId);   
+                                $('.alert_mian .alert_mian_l').hide();
+                                $('.alert_mian_r').hide();
+                                $('#alert_two').css({'display':'block'});
+                				$('.help_take').addClass('help_take_two').removeClass('help_take');
+                                //根据订单状态显示按钮颜色
+//                                if(item.orderStatus == '1'){
+//                                 // alert(1)
+//                                    $('.registerInfo .operate').eq(i).children('.checkBtn').addClass('mainBg');
+//                                    $('.registerInfo .operate').eq(i).children('.changeBtn').addClass('blueBg');
+//                                }else if(item.orderStatus == '2'){
+//                                  //    alert(2)
+//                                   $('.registerInfo .operate').eq(i).children('.checkBtn').removeAttr('index'); //取过号再点击遮罩就打不开
+//                                  }           
+                        };  
+                   },
+             });
+       };
+        //扫描身份证，挂号过的出现挂号信息，没挂号的进入挂号搜索选择挂号
+    $('.alert_mian .btn_scan').click(function(){
+            //如果扫描Ok，那么信息会自动填充到输入框,如果扫描信息失败，就要给出提示信息要自己手动输入
+          hasGuahao();
+    });
+    $('.alert_mian .btn_seek').click(function(){
+            //如查找信息
+          Guahao();
+    });
+    //按订单号查询挂号记录
+    function hasRegisId(){
+         var user_regisId =  $('.alert_mian .user_regisId').val();
+        $.ajax({
+            type:'GET',
+            url:baseUrl + 'E2306_admin/admin/order/selectOrder',
+            data:{
+                hospitalId:sessionStorage.getItem('hospitalId'),
+                registrationId:user_regisId
+            },
+            success:function(data){
+                for(var i = 0;i<data.length;i++){
+                    if(!(data[i].registrationId)) return false;
+                    $('.saomiaoMes').css({'display':'block'});
+                   // $('.alert_mian .identify').css({'display':'none'});
+                      $('#register_window .return_home').css({'display':'block'});
+                    $('.registerInfo').empty();
+                    var register_tds = $('<tr>'
+                        +'<td>'+(i+1)+'</td>'
+                        +'<td>'+data[i].registrationId+'</td>'
+                        +'<td>'+data[i].registrationDate+'</td>'+'<td>'+(data[i].dateTime=='pm'?'下午':'上午')+'</td>'
+                        +'<td>'+data[i].subjectName+'</td>' +'<td>'+(outpatientType(data[i].outpatientType))+'</td>' +'<td>'+data[i].doctorName+'</td>'
+                        +'<td>'+formatFee(data[i].totlePay)+'</td>' +'<td>'+data[i].contactName+'</td>' +'<td>'+(data[i].appointmentType==0?'APP':'窗口')+'</td>'
+                        +'<td class="operate">'
+                        +'<button type="checkbox" class="checkBtn m_5" index="0">取号</button>'
+                        +'</td>'
+                        +'</tr>');  
+                    $('.registerInfo').append(register_tds);      
+                    //给每条操作按钮都加上订单Id，每个科室td加上科室id
+                    $('.registerInfo .operate').eq(i).children('button').attr('regisId',data[i].registrationId); 
+                    $('.registerInfo tr').eq(i).children('td').eq(4).attr('subjectId',data[i].subjectId);   
+                    $('.alert_mian .alert_mian_l').hide();
+                    $('.alert_mian_r').hide();
+                //    $('.help_take > img').hide();
+                    $('#alert_two').css({'display':'block'});
+                	$('.help_take').addClass('help_take_two').removeClass('help_take');
+                //根据订单状态显示按钮颜色
+                    if(data[i].orderStatus == '1'){
+                    // alert(1)
+                        $('.registerInfo .operate').eq(i).children('.checkBtn').addClass('mainBg');
+                        $('.registerInfo .operate').eq(i).children('.changeBtn').addClass('blueBg');
+                    }else if(data[i].orderStatus == '2'){
+                    //   alert(2)
+                        $('.checkBtn').removeAttr('index'); //取过号再点击遮罩就打不开
+                    }
+                }
+            }
+        });
+    };
+      
+	// 只要输入了内容就检测单号查询
+    $('.alert_mian .btn_seek').click(function(){
+           hasRegisId();  
+    });
+
+   //alert_mian页面点击取号 
+     $(".registerInfo").on('click','.operate .checkBtn',function(){
+              var self = this;
+              var index = $(self).attr('index');
+             // alert(index);
+              var zIndex = 1;
+                    zIndex ++; 
+            //传入订单id返回订单数据 渲染
+              $.ajax({
+                  type:'GET',
+                  url:baseUrl + 'E2306_admin/admin/order/selectTakeOrder',
+                  data:{registrationId: $(self).attr('regisId')},
+                  success:function(data){
+                      var checkBtn_info = $('<li>'+'就诊时间'+data.registrationDate + "&nbsp;&nbsp;&nbsp;" +(data.dateTime=='pm'?'下午':'上午')+'</li>'
+                          + '<li>' + "门诊类别 ：" + '<span>'+(outpatientType(data.outpatientType))+'</span>'+"&nbsp;&nbsp;&nbsp;" + '<span>'+data.subjectName+'</span>'+'<li>'
+                          + '<li>' + "主治医师 ：" + data.doctorName+'</li>'
+                          + '<li>' + "就诊人 ：" + data.contactName+"&nbsp;&nbsp;&nbsp;"+'<span>'+formatIdenticard(data.contactIdcard)+'</span>'
+                          +'<li class="hidden">'+data.registrationId+'</li>'
+                          +'</li>');
+                        $('.checkBtn_ul').html(checkBtn_info);   
+                          data.HospitalLogo?$('.check .hospi_logo').attr('src',baseUrl+'E2306'+data.HospitalLogo):$('.check .hospi_logo').css({'display':'none'});
+                          //点击的取号如果是灰色代表已经取过号了就不能再打开遮罩
+                        if(!($(self).hasClass('mainBg'))){
+                            return false;
+                        }
+                          $('.mask>div').eq(index).show();
+                          $('.mask>div').eq(index).siblings().hide();   
+                          $('.mask>div').eq(index).css('z-index',zIndex);
+                          $('.mask').css({'display':'block'});
+                  },
+            });         
+     });
+
+      //点击取号弹窗的确认取号按钮
+      $('.mask .confirmCheck').click(function(){
+          closeMask();
+          $.ajax({
+              type:"post",
+               //url:'http://192.168.1.138:8333/E2306_admin/admin/order/takeOrder',
+              url:baseUrl + 'E2306_admin/admin/order/takeOrder',
+              data:{registrationId:$('.checkBtn_ul li').eq(5).text()},
+              success:function(data){
+                  if(data.result == 1){
+                    swal({
+                    title: "温馨提示：",
+                    text: "您已取号成功!",
+                    timer: 2000,
+                    showConfirmButton: false
+                  });
+                    //取过号了的这条订单就不能再取或改了 遮罩也打不开 只有退
+                    //alert('取号'); 
+                      var checkBtns = $('.registerInfo').find('.checkBtn');
+                      checkBtns.each(function(index,element){
+                          if($(element).attr('regisId')==$('.checkBtn_ul li').eq(5).text()){
+                            //alert('这条订单取过了');
+                              $(element).removeClass('mainBg');
+                              $(element).attr('disabled',true);
+                              $(element).next().removeClass('blueBg');
+                              $(element).next().attr('disabled',true);
+                              return false;
+                          }   
+                      });
+                  }
+              },
+              error:function(){
+                 swal({
+                    title: "温馨提示：",
+                    text: "取号失败!",
+                    timer: 2000,
+                    showConfirmButton: false
+                  });
+              }
+          });
+      });
+    //鼠标经过显示叉叉 移出影藏
+    $('.check').on('mouseenter','.title',function(){
+         $('.close_checkMask').fadeIn();
+    });
+     $('.check').on('mouseleave','.title',function(){
+         $('.close_checkMask').fadeOut();
+    });
+
+      $('.takenum').on('mouseenter','.title',function(){
+         $('.takenum .close_takenumMask').fadeIn();
+    });
+     $('.takenum').on('mouseleave','.title',function(){
+         $('.takenum .close_takenumMask').fadeOut();
+    });
+
+    $('.takenum_gaiqian').on('mouseenter','.title',function(){
+         $('.takenum_gaiqian .close_takenumMask').fadeIn();
+    });
+     $('.takenum_gaiqian').on('mouseleave','.title',function(){
+         $('.takenum_gaiqian .close_takenumMask').fadeOut();
+    });
+    //点击右上角叉叉 关闭遮罩 重置样式
+      $('.close_mask').click(function(){
+            closeMask();
+        });
+       $('.close_checkMask').click(function(){
+            closeMask();
+        }); 
+         $('.close_takenumMask').click(function(){
+            close_takenumMask();
+        }); 
+        
+
+    //关闭遮罩方法
+      function closeMask(){
+            $('.mask').hide();     
+            var index = $(this).parent().parent().attr('index');
+            $('.mask>div').eq(index).css('z-index',1);  
+      }
+    function close_takenumMask(){
+            $('.takenumMask').hide();     
+    };
+});
+

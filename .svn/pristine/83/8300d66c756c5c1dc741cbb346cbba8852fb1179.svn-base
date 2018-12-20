@@ -1,0 +1,66 @@
+
+   var date = new Date();
+    var month =  (date.getMonth() + 1)<10?'0'+(date.getMonth() + 1):(date.getMonth() + 1)
+        day = date.getDate()<10?'0'+date.getDate():date.getDate();
+    var currentDay = date.getFullYear()+ '-' + month + '-' + day;  //显示当天日期                     
+    var currentTime = currentDay + " "
+          + (date.getHours()<10?"0"+date.getHours():date.getHours()) +':' 
+          + (date.getMinutes()<10?"0"+date.getMinutes():date.getMinutes()) + ':'
+          +(date.getSeconds()< 10? "0"+ date.getSeconds():date.getSeconds()); //显示当前具体时间
+          
+    function getCurrentWeek(){
+        var week = ['星期天','星期一','星期二','星期三','星期四','星期五','星期六'][date.getDay()];  
+       return week;
+    };
+
+     //获取n天后的日期的函数
+    function nextTime(day){
+    //    var date_next = new Date(date.getTime() + 7 * 24 * 3600 * 1000);
+       var date_next = new Date(date.getTime() + day * 24 * 3600 * 1000);
+       var year = date_next.getFullYear();
+       var month = (date_next.getMonth() + 1)>10?(date_next.getMonth() + 1):'0'+(date_next.getMonth() + 1);
+       var day =  date_next.getDate()>10?date_next.getDate():'0'+date_next.getDate();
+       return year + '-' + month + '-' + day;
+       };
+
+      //获取n天前的日期的函数
+       function preTime(day){
+          var date_pre = new Date(date.getTime() - day * 24 * 3600 * 1000);  
+          date_pre =  date_pre.getFullYear()+ '-' + (date_pre.getMonth() + 1) + '-' + date_pre.getDate();
+            return date_pre;
+       };
+
+       //格式化身份证出生日期**
+       function formatIdenticard(identicard){
+          //422129199310120562
+          var start = identicard.substring(0,6),
+            birthday = identicard.substring(6,14),
+            end = identicard.substring(14,identicard.length);
+            birthday = '********';
+            identicard = start + birthday + end;
+          return identicard;
+       };
+
+       //格式化费用
+       function formatFee(fee){
+          return (fee/100).toFixed(2);
+       };
+
+       function uniqueArr(oldArr){
+          var filterArr = [];
+          for(var i=0;i<oldArr.length;i++){
+              if(filterArr.indexOf(oldArr[i]) == -1){
+                  filterArr.push(oldArr[i]);
+              }
+          }
+          return filterArr;
+       };
+
+
+    
+    
+
+
+
+       
+        

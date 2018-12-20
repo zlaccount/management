@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>陪护床管理</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="lib/myPagination/page.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body>
+    <div id="set">
+        <div class="schedule_head">陪护床管理</div>
+        <div class="schedule_search">
+            <div class="schedule_name">
+                <lable>床位号:</lable>
+                <input class="set_user"  placeholder="请填写">
+            </div>
+            <div class="schedule_name pos_rel">
+                <lable>陪护床编号:</lable>
+                <input class="set_name" type="text" placeholder="请填写"/>
+            </div>
+            <button class="search_btn">搜索</button>
+            <button class="reset" onclick="reset_set()">重置</button>
+        </div>
+        <div class="set_table">
+            <div class="set_add">
+                <img src="images/mess_03.png" alt="" style="cursor: pointer;" />
+                <a class="new_schedule" href="javascript:void(0);">添加</a>
+            </div>
+            <table style="min-width: 950px" class="table table-bordered table-hover table-responsive text-center" id="set_table">
+                <tbody>
+                    <tr class="bgcolor_f2">
+                        <td style="width: 5%">序号</td>
+                        <td style="width: 15%">床位号</td>
+                        <td style="width: 15%">陪护床编号</td>
+                        <!-- <td style="width: 15%">角色类型</td> -->
+                        <td style="width: 15%">操作</td>
+                    </tr>
+                </tbody>
+                <tbody class="set_content">
+                    <tr>
+                        <td>1</td>
+                        <td>1001</td>
+                        <td>1003154648</td>
+                        <td>
+                            <button class="set_watch set_dele bgcolor_2f">查看</button>
+                            <button class="set_check set_dele delete">编辑</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="width: 60%" class="page_style set_page"></div>
+    </div>
+
+
+
+ <div id="alertPop clearfix" style="height: 100%;width: 100%;">
+        <!-- 遮罩层 -->
+        <div class="alertMask"></div>
+        <!-- 消息框 -->
+        <div class="alertBox" style="height: 260px">
+            <div class="alertBox_top" style="padding-left: 20px;">
+                <p class="alert-title" style="border: none;">
+                    新增陪护床
+                    <i class="alert-close"></i>
+                </p>
+            </div>
+            <div class="alertBox_main">
+                <div class="main_top clearfix">
+                    <div class="setBox_name setBox_l">
+                        <span style="color:red;margin-left: -9px;">*</span>
+                        <lable>床位号:</lable>
+                        <input onkeyup="value=value.replace(/[^\w]/ig,'')" class="set_username" type="text" onblur="test_user();"/>
+                        <span class="user_tip">请输入床位号</span>
+                    </div>
+                    <div class="setBox_name setBox_l setPsd" >
+                        <span style="color:red;margin-left: -9px;">*</span>
+                        <lable>陪护床编号:</lable>
+                        <!-- <input onblur="newPw()" class="set_psd setPsd_old"  type="password"/> -->
+                        <input onblur="newPw()" class="set_psd setPsd_old"  type="text"/>
+                        <span id="psd_error">请输入陪护床编号</span>
+                    </div>
+                </div>
+                <div class="set_btn">
+                    <button onclick="setAdd()" id="set_btn">保存</button>
+                    <input class="set_id" type="hidden" value=""/>
+                    <button onclick="setCheck()" id="set_check">修改</button>
+                    <button class="set_remove set_dele set_new delete" onclick="setDel()">删除</button>
+                </div>
+            </div>
+        </div>
+</div>
+ <div id="smallAlert">
+    <!-- 遮罩层 -->
+    <div class="smallMask"></div>
+    <!--消息框-->
+    <div class="smallBox">
+        <div class="alertBox_top">
+            <p class="small-title">
+                温馨提示
+            </p>
+        </div>
+        <div class="small_main">
+            <p class="small_text">确认修改?</p>
+        </div>
+        <div class="small_btn">
+            <button class="btn_return">取消</button>
+            <button class="btn_sure">确认</button>
+        </div>
+    </div>
+</div>
+<script src="public/js/jquery-1.11.3.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/laydate/laydate.js"></script>
+<script src="lib/myPagination/jquery.myPagination6.0.js"></script>
+<!-- <script src="js/schedule.js"></script> -->
+<script src="js/bed_manage.js"></script>
+<script>
+    $('.set_btn').css("margin-top","10px")
+    $(function(){
+        $('.alertMask').hide();
+        $('.alertBox').hide();
+        // setUp(1,"","");
+        // dapart();
+        $('.smallMask').hide();
+        $('.smallBox').hide();
+        // 获取弹窗宽高
+        var width=$('.alertBox').width();
+        var height=$('.alertBox').height();
+        // 获取浏览器窗口宽高
+        var h=document.documentElement.clientHeight;
+        var w=document.documentElement.clientWidth;
+        var smallW=$('.smallBox').width();
+        var smallH=$('.smallBox').height();
+        $('.alertBox').css({ 'top': (h-height) / 2 + 'px', 'left': (w-width) / 2 + 'px' });
+        $('.alert-close').click(function(){
+            $('.alertMask').hide();
+            $('.alertBox').hide();
+        })
+        $('.smallBox').css({ 'top': (h-smallH) / 2 + 'px', 'left': (w-smallW) / 2 + 'px' });
+        $('.btn_return').click(function(){
+            $('.smallMask').hide();
+            $('.smallBox').hide();
+        })
+    })
+</script>
+</body>
+</html>

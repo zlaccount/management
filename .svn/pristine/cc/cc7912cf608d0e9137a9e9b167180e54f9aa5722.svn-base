@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+	<meta charset="UTF-8">
+	<title>床位统计</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="lib/myPagination/page.css"/>
+    <link rel="stylesheet" href="assets/laydate/need/laydate.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+</head>
+    <body >
+        <div id="beds">
+            <div class="schedule_head">床位当前信息</div>
+            <div class="table-responsive bed_table">
+                <table class="table table-bordered table-responsive text-center">
+                    <caption><p>XX科室值班表</p><span>(2017-06-22)</span></caption>
+                    <tbody>
+                        <tr class="schedule_mess">
+                            <td colspan="6">
+                                <div class="mess_left">
+
+                                    <div class="pull-left">
+                                        <img src="images/mess_01.png" alt=""/><a class="export_table" href="javascript:void(0);">导出表格</a>
+                                    </div>
+
+                                    <div class="pull-left ">
+                                        <img src="images/mess_10.png" alt=""/><a class="modify_record" href="beds_record.html">修改记录</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="schedule_tr bgcolor_f2">
+                            <td style="width: 50px">序号</td>
+                            <td style="width: 250px">床位类型</td>
+                            <td style="width: 300px">床位总数量</td>
+                            <td style="width: 250px">剩余床位</td>
+                            <td style="width: 250px">床位占用数</td>
+                            <td style="width: 200px">操作</td>
+                        </tr>
+                    </tbody>
+                    <tbody id="bed_body">
+                        <!--<tr>-->
+                            <!--<td class="schedule_num">1</td>-->
+                            <!--<td class="schedule_name">VIP病床</td>-->
+                            <!--<td class="schedule_title">245</td>-->
+                            <!--<td class="schedule_1">24</td>-->
+                            <!--<td class="schedule_2">24</td>-->
+                            <!--<td class="schedule_5"><button class="bed_plus">加床</button><button class="bed_reduce">减床</button></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td class="schedule_num">2</td>-->
+                            <!--<td class="schedule_name">普通病房</td>-->
+                            <!--<td class="schedule_title">245</td>-->
+                            <!--<td class="schedule_1">24</td>-->
+                            <!--<td class="schedule_2">24</td>-->
+                            <!--<td class="schedule_5"><button class="bed_plus">加床</button><button class="bed_reduce">减床</button></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td class="schedule_num">3</td>-->
+                            <!--<td class="schedule_name">特需病房</td>-->
+                            <!--<td class="schedule_title">245</td>-->
+                            <!--<td class="schedule_1">24</td>-->
+                            <!--<td class="schedule_2">24</td>-->
+                            <!--<td class="schedule_5"><button class="bed_plus">加床</button><button class="bed_reduce">减床</button></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td class="schedule_num">4</td>-->
+                            <!--<td class="schedule_name">其他(加床)</td>-->
+                            <!--<td class="schedule_title">245</td>-->
+                            <!--<td class="schedule_1">24</td>-->
+                            <!--<td class="schedule_2">24</td>-->
+                            <!--<td class="schedule_5"><button class="bed_plus">加床</button><button class="bed_reduce">减床</button></td>-->
+                        <!--</tr>-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script src="public/js/jquery-1.11.3.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="js/schedule.js"></script>
+        <script>
+            $(function () {
+                bedMess();
+            })
+        </script>
+    </body>
+</html>

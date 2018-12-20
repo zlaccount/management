@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>医院银行卡信息</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="assets/laydate/need/laydate.css"/>
+    <link rel="stylesheet" href="lib/myPagination/page.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+    <style>
+        #account_left{
+        	width: 100%;
+        }
+        .idcard{
+            width: 100%;
+            margin-top: 100px;
+            text-align: center;
+        }
+        .idcard p{
+            text-align: center;
+        }
+        .idcard table tbody td{
+            line-height: 47px;
+        }
+        .idcard table{
+            width: 80%;
+            margin: 0 auto;
+            border: 1px solid #C0C0C0;
+        }
+        .idcard table td{
+            border: 1px solid #C0C0C0;
+            text-align: center;
+        }
+        .idcard table thead{
+            font-weight: bold;
+        }
+        .addIdcard{
+            width: 50px;
+            height: 30px;
+            margin-bottom: 10px;
+        }
+        .addIdcard button{
+            width: 100px;
+            height: 30px;
+            color:#fff;
+            border: 0;
+            border-radius: 5px;
+            background-color:rgb(43, 209, 199);
+            line-height: 30px;
+            text-align: center;
+            position: absolute;
+            right: 200px;
+            outline: none;
+        }
+        .setBox_l {
+            margin-left: 14px;
+        }
+
+       #set_btn{
+            position: absolute;
+            bottom: 30px;
+            left: 270px;
+       }
+	   .setcontactname{
+            margin-bottom: 15px;
+       }
+       .set_accountName {
+            width: 180px !important;
+       }
+      .DefaultId {
+            width: 170px;
+            height: 30px;
+            color: #fff;
+            border: 0;
+            margin-right: 10px;
+            line-height: 30px;
+            text-align: center;
+            background-color: rgb(43, 209, 199);
+            border-radius: 5px;
+            outline: none;
+       }
+       .deleteId{
+            width: 90px;
+            height: 30px;
+            border:0;
+            line-height: 30px;
+            text-align: center;
+            color: #fff;
+            background-color:#ee7073;
+            border-radius: 5px;
+            outline: none;
+       }
+       .small_Box {
+            /* padding: 8px; */
+            width: 300px;
+            height: 160px;
+            overflow: hidden;
+            position: fixed;
+            z-index: 10021;
+            display: none;
+            left: 50%;
+            top:50%;
+            transform: translate(-50%,-50%);
+            background-color: #fff;
+            border-radius: 10px;
+        }
+        
+        .alertBoxtop {
+            height: 45px;
+            background-color: #00cdb1;
+            padding-left: 45px;
+            position: relative;
+        }
+        .smallbtn button {
+            background-color: #fff;
+            outline: none;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 60px;
+            margin-left: 20px;
+        }
+        .smallbtn{
+            margin-left: 60px;
+            margin-top: 25px;
+        }
+        
+    </style>
+</head>
+<body>
+<div id="idcardInfo">
+    <div class="schedule_head">医院银行卡信息</div>
+    
+    <div class="idcard">
+        <div class="t_title">
+            <p>医院银行卡信息</p>
+        </div>
+        <div class="addIdcard">
+            <button onclick="addIdcard()">添加银行卡</button>
+        </div>
+        <div class="total-idcard">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>银行名称</td>
+                        <td>银行卡号</td>
+                        <td>开户行地址</td>
+                        <td>开户人姓名</td>
+                        <td>是否是默认收款卡号</td>
+                        <td>操作</td>
+                    </tr>
+                </thead>
+                <tbody class="idcardNo">
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+    <div id="alertPop">
+        <!-- 遮罩层 -->
+        <div class="alertMask"></div>
+        <!-- 消息框 -->
+        <div style="width:600px; height: 500px" class="alertBox">
+            <div class="alertBox_top">
+                <p class="alert-title">
+                    添加银行卡
+                    <i class="alert-close"></i>
+                </p>
+            </div>
+            <div class="alertBox_main">
+                <div class="main_top clearfix">
+                    <div class="setBox_name setBox_l">
+                        <span style="color:red;margin-left: -9px;">*</span>
+                        <lable>银行名称:</lable>
+                        <input class="set_bankname" type="text" />
+                        <!-- <span class="user_tip">只能输入数字和英文</span> -->
+                    </div>
+                    <div class="setBox_name setBox_l setPsd" >
+                        <span style="color:red;margin-left: -9px;">*</span>
+                        <lable>银行卡号:</lable>
+                        <!-- <input onblur="newPw()" class="set_psd setPsd_old"  type="password"/> -->
+                        <input  class="set_bankno setPsd_old"  type="text"/>
+                        <!-- <span id="psd_error">密码必须由6-21大小写字母和数字组成</span> -->
+                    </div>
+                    <div class="setcontactname ">
+                        <span style="color:red;margin-left: -9px;">*</span>
+                        <lable>开户人姓名:</lable>
+                        <!-- <input onblur="newPw_again()" class="sePsd_again" type="password"/> -->
+                        <input class="set_accountName" type="text"/>
+                        <!-- <span id="psd_error_again">再次输入密码</span> -->
+                    </div>
+                    <div class="setBox_name setPsdagain">
+                        <span style="color:red;margin-left: -9px;">*</span>
+                        <lable>开户行地址:</lable>
+                        <!-- <input onblur="newPw_again()" class="sePsd_again" type="password"/> -->
+                        <input class="set_bankaddress" type="text"/>
+                        <!-- <span id="psd_error_again">再次输入密码</span> -->
+                    </div>
+
+                    <!-- 
+                     -->
+                </div>
+                <div class="set_btn">
+                    <button onclick="setIc()" id="set_btn">添加</button>
+                    <input class="set_id" type="hidden" value=""/>
+                    <button onclick="setCheck()" id="set_check">修改</button>
+                </div>
+            </div>
+        </div>
+</div>
+            
+
+
+
+    <div id="smallAlert">
+        <!-- 遮罩层 -->
+        <div class="smallMask"></div>
+        <!--消息框-->
+        <div class="small_Box">
+            <div class="alertBoxtop">
+                <p class="small-title">
+                    温馨提示
+                </p>
+            </div>
+            <div class="small_main">
+                <p class="small_text" style="font-size: 20px;">确认删除?</p>
+            </div>
+            <div class="smallbtn">
+                <button class="btnsure">确认</button>
+                <button class="btnreturn">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="public/js/jquery-1.11.3.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/laydate/laydate.js"></script>
+<!-- <script src="public/js/echarts.js"></script> -->
+<script src="js/newSchedule.js"></script>
+
+<script>
+    $(document).ready(function(){
+//        $(window.parent.document).find(".toggleMenu .open").click(function () {
+//            $('#count_table').width($('#count_table').width()+140);
+//        })
+//        $(window.parent.document).find(".toggleMenu .he").click(function () {
+//            $('#count_table').width($('#count_table').width()-140);
+//        })
+        resize();
+        $("#idcardInfo").resize(function(){
+            resize();
+        })
+        $(window).resize(function(){
+            resize();
+        })
+        function resize() {
+            var _width=$('#idcard').width();
+            // console.log(_width);
+            if(_width>1500){
+//                $('.table_depart').width(_width*0.06);
+//                $('.register_num').width(_width*0.08);
+//                $('.change_num').width(_width*0.06);
+//                $('.back_num').width(_width*0.06);
+//                $('.visit_num').width(_width*0.08);
+//                $('.count_money').width(_width*0.08);
+//                $('.operation').width(_width*0.06);
+//                $("#count_right").width(_width*0.4);
+//                $("#count_right").removeClass("pull-left").addClass("pull-right");
+//                $("#count_right #echarts>div").width(_width*0.4);
+//                $("#count_right #echarts>div>canvas").width(_width*0.4);
+
+                $('.table_depart').width(_width*0.06);
+                $('.register_num').width(_width*0.13);
+                $('.change_num').width(_width*0.13);
+                $('.back_num').width(_width*0.13);
+//                $('.visit_num').width(_width*0.1);
+//                $('.count_money').width(_width*0.18);
+                $('.operation').width(_width*0.06);
+                $("#money_right").width(_width*0.4);
+                $("#money_right").removeClass("pull-left").addClass("pull-right");
+                $("#money_right #echarts>div").width(_width*0.4);
+                $("#money_right #echarts>div>canvas").width(_width*0.4);
+
+            }
+            if(_width<1500){
+                $('.table_depart').width(_width*0.1);
+                $('.register_num').width(_width*0.25);
+                $('.change_num').width(_width*0.25);
+                $('.back_num').width(_width*0.25);
+//                $('.visit_num').width(_width*0.15);
+//                $('.count_money').width(_width*0.15);
+                $('.operation').width(_width*0.1);
+                $("#money_right").removeClass("pull-right").addClass("pull-left");
+                $("#money_right").width($(".count_head").width());
+                $("#money_right #echarts>div").width($(".count_head").width());
+                $("#money_right #echarts>div>canvas").width($(".count_head").width());
+            }
+//            if(_width<1165){
+//                $('.table_depart').width(_width*0.1);
+//                $('.register_num').width(_width*0.12);
+//                $('.change_num').width(_width*0.1);
+//                $('.back_num').width(_width*0.1);
+////                $('.visit_num').width(_width*0.12);
+////                $('.count_money').width(_width*0.12);
+//                $('.operation').width(_width*0.1);
+//                $("#count_right").removeClass("pull-right").addClass("pull-left");
+//                $("#count_right").width($(".count_head").width());
+//                $("#count_right #echarts>div").width($(".count_head").width());
+//                $("#count_right #echarts>div>canvas").width($(".count_head").width());
+//            }
+
+        }
+
+    });
+
+
+
+ 
+    
+
+
+</script>
+<script>
+    $(function () {
+        resize();
+        $('.smallMask').hide();
+        $('.smallBox').hide();
+        var h=document.documentElement.clientHeight;
+        var w=document.documentElement.clientWidth;
+        var smallW=$('.smallBox').width();
+        var smallH=$('.smallBox').height();
+        $('.smallBox').css({ 'top': (h-smallH) / 2 + 'px', 'left': (w-smallW) / 2 + 'px' });
+        $('.btn_return').click(function(){
+            $('.smallMask').hide();
+            $('.smallBox').hide();
+        })
+        // moneyList(getYear(0));
+        // selChange();
+        $.ms_DatePicker();
+        idcardInfo()
+      
+    })
+</script>
+</body>
+</html>

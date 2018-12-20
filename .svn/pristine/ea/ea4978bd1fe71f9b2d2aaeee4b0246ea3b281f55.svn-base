@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta charset="UTF-8">
+    <title>门诊排班-排班信息</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="assets/laydate/need/laydate.css"/>
+    <link rel="stylesheet" href="lib/myPagination/page.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body>
+<div id="schedule">
+    <div class="schedule_head">排班信息</div>
+    <div class="schedule_search">
+        <div class="schedule_name pos_rel">
+            <lable>医生姓名:</lable>
+            <input class="expert" type="text" placeholder="请填写" id="doctor_name" />
+            <div class="name_suggest">
+                <ul>
+
+                </ul>
+            </div>
+        </div>
+        <div class="schedule_name">
+            <lable>医生职称:</lable>
+            <select class="doctor_title" id="doctor_duty">
+                <option value=" ">全部</option>
+                <option value="4">主任医师</option>
+                <option value="3">副主任医师</option>
+                <option value="2">主治医师</option>
+                <option value="1">医师</option>
+                <option value="0">其他</option>
+            </select>
+        </div>
+        <div class="schedule_name" style="display:none">
+            <lable>排班日期:</lable>
+            <input class="doctor_time inline laydate-icon search_beginDate" id="start">
+        </div>
+        <button onclick="searchBtn(1)" class="search_btn">查询</button>
+        <button onclick="resetPaiban();">重置</button>
+    </div>
+    <div class="col-xs-12 schedule_table">
+        <div class="table-responsive">
+            <table class="table table-bordered table-responsive row">
+                 <caption>
+                     <p></p>
+                     <span></span>
+                 </caption>
+                <tbody>
+                <tr class="schedule_mess">
+                    <td colspan="14">
+                        <div class="mess_left">
+                            <div class="pull-left setTime">
+                                <i></i>
+                                <!-- <img src="images/mess_03.png" > -->
+                                <a onclick="setTime()" href="javascript:void(0)">排班日期提示</a>
+                            </div>
+                            <!--<div class="pull-left ">-->
+                            <!--<img src="images/mess_03.png" alt=""/><a class="new_schedule"  href="javascript:void(0);">新建排班</a>-->
+                            <!--</div>-->
+                            <!-- <div class="pull-left">
+                                <img src="images/mess_01.png" alt=""/><a class="export_table" href="javascript:void(0);">导出表格</a>
+                            </div> -->
+                            <!-- <div class="pull-left ">
+                                <img src="images/mess_03.png" alt=""/><a id="add_sourse" onclick="addSourse(this)" class="new_schedule" href="javascript:void(0);">应急增加</a>
+                            </div>
+                            <div class="pull-left ">
+                                <img src="images/mess_10.png" alt=""/><a id="doctor_sourse" onclick="addHandle(this)" class="modify_record" href="javascript:void(0);">医生应急处理</a>
+                            </div>  -->
+                        </div>
+                <div class="pull-right mess_right">
+                    <!--<div class="pull-right no_line ">-->
+                        <!--<i></i>-->
+                        <!--<span>无号源</span>-->
+                    <!--</div>-->
+                    <div class="pull-right back_all">
+                        全部门诊号源显示
+                    </div>
+                    <div class="pull-right nervous_line raido_type">
+                        <i class="back_black">
+                            <input type="radio" id="doctor_type" name="chkId" class="radioclass" checked value="0">
+                        	<input type="hidden" name="miandoc" id="miandoc" value=" " />
+                        </i>
+                        <span>普通门诊</span>    
+                        <i class="back_blue">
+                            <input type="radio" id="doctor_type" name="chkId" class="radioclass"  value="1">
+                        	<input type="hidden" name="miandoc1" class="miandoc1" id="miandoc1" value="4" />
+                        </i>
+                        <span id="back_blue">专家门诊</span>
+                        <i class="back_red">
+                            <input type="radio" id="doctor_type" name="chkId" class="radioclass" value="2" >
+                        	<input type="hidden" name="miandoc1" class="miandoc2" id="miandoc1" value="3" />
+                        </i>
+                        <span id="back_black">特需门诊</span>
+                    </div>   
+                    <div class="pull-right lack_line">
+                        <i style="background-color:#ccc;"></i>
+                        <span>应急缺诊</span>
+                    </div>
+                    <div class="pull-right nervous_line">
+                        <i class="back_ddd"></i>
+                        <span>已提交</span>
+                    </div>
+                    <div class="pull-right none_line">
+                        <i></i>
+                        <span>未排号</span>
+                   	</div>
+                </div>
+
+                    </td>
+
+                </tr>
+                <tr class="schedule_tr">
+                    <td style="min-width: 40px; max-width:50px">序号</td>
+                    <td style="min-width: 80px; max-width:140px">医生姓名</td>
+                    <td style="min-width: 80px; max-width:100px">医生职称</td>
+                   <!-- <td style="width: 120px">门诊类别</td>-->
+                    <td style="min-width: 80px; max-width:100px">上/下午</td>
+                    <td colspan="7">
+                        <table class="table table_header schedule_tr_table">
+                            <tr>
+                            </tr>
+                        </table>
+                    </td>
+                    <td style="min-width:160px;max-width:200px">排班截止日期</td>
+                    <td style="min-width:100px; max-width:140px">操作</td>
+                    <td style="min-width:100px; max-width:140px">备注</td>
+                </tr>
+                </tbody>
+                <tbody class="doc_mess">
+
+                </tbody>
+            </table>
+
+        </div>
+        <div class="table_submit_shen"><button class="table_submit">全部提交</button></div>
+        <!--分页-->
+        <div class="schedule_page page_style"> </div>
+    </div>
+    <div class="schedule_time_down">
+        <!-- 2017-06-27&nbsp;&nbsp;12:20:26 -->
+    </div>
+</div>
+<div id="addAlert">
+    <!--遮罩层-->
+    <div class="addMask"></div>
+    <!--内容-->
+    <div class="messBox">
+       <p>输入所需增加的号源数量</p>
+        <input onkeyup="value=value.replace(/[^\d]/g,'')" class="add_num" type="text"/>
+        <div class="add_btn">
+            <button class="add_return">取消</button>
+            <button class="add_sure">确认</button>
+        </div>
+    </div>
+</div>
+<div id="smallAlert">
+    <!-- 遮罩层 -->
+    <div class="smallMask"></div>
+    <!--消息框-->
+    <div class="smallBox">
+        <div class="alertBox_top">
+            <p class="small-title">
+                温馨提示
+            </p>
+        </div>
+        <div class="small_main">
+            <p class="small_text">将短信通知已挂号人员改签?</p>
+        </div>
+        <div class="small_btn">
+            <button class="btn_return">取消</button>
+            <button class="btn_sure">确认</button>
+        </div>
+    </div>
+    <!--loading 加载等待-->
+    <div class="waitingBox">
+        <!-- <p>加载中......请稍后</p> -->
+        <img src="images/waiting.gif" alt="">
+    </div>
+</div>
+<div id="repeatAlert">
+    <!-- 遮罩层 -->
+    <div class="repeatMask"></div>
+    <!-- 消息框 -->
+    <div class="repeatBox">
+        <p>请选择复制周期</p>
+        <i class="alert-close"></i>
+        <div class="choose_time">
+          <div class="half_year">周排班</div>
+          <div class="">月排班</div>
+          <div class="">半年排班</div>
+          <div class="">一年排班</div>
+        </div>
+        <div class="repeat_btn">
+            <button class="btn_sure1">确认</button>
+            <button class="btn_return1">取消</button>
+        </div>
+    </div>
+</div>
+<script src="public/js/jquery-1.11.3.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/laydate/laydate.js"></script>
+<script src="lib/myPagination/jquery.myPagination6.0.js"></script>
+<script src="js/news.js"></script>
+<script>
+    $('caption>p').text(sessionStorage.getItem('subjectName')+"门诊排班表");
+
+//    var date = new Date();
+//    var year = date.getFullYear();
+//    var month=date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+//    var data=date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+//    $('#schedule>.schedule_head').html(sessionStorage.getItem('subjectName')+"排班系统"+"<span style='font-size: 25px;margin-left: 10px;'>("+year + "-" + month + "-" + data+")</span>");
+    $(function(){
+         searchSuggest();
+        $('.addMask').hide();
+        $('.messBox').hide();
+        $('.smallMask').hide();
+        $('.smallBox').hide();
+        $('.repeatMask').hide();
+        $('.repeatBox').hide();
+//        $('.smallMask').show();
+//        $('.smallBox').show();
+        var h=document.documentElement.clientHeight;
+        var w=document.documentElement.clientWidth;
+        var smallW=$('.smallBox').width();
+        var smallH=$('.smallBox').height();
+        $('.smallBox').css({ 'top': (h-smallH) / 2 + 'px', 'left': (w-smallW) / 2 + 'px' });
+
+        var alertW=$('.messBox').width();
+        var alertH=$('.messBox').height();
+        $('.messBox').css({ 'top': (h-alertH) / 2 + 'px', 'left': (w-alertW) / 2 + 'px' });
+//        $('.btn_return').click(function(){
+//            $('.smallMask').hide();
+//            $('.smallBox').hide();
+//        })
+
+         if($(".main_table").height()>463){
+            $(".main_table").css("overflow-y","scroll");
+            $(".main_table").css("height","463px");
+        }
+
+        $(".choose_time >div").click(function () {
+            $(this).addClass("half_year").siblings().removeClass("half_year");
+        })
+      
+       listTop(1,0,'undefined','undefined','undefined');
+//日期选择
+        var goodsStartTime={
+            elem: '#start',
+            event: 'focus',
+            istime: true,
+            istoday: false,
+            // min: laydate.now(), //-1代表昨天，-2代表前天，以此类推
+            // max: laydate.now(+28)
+        };
+        laydate(goodsStartTime);
+
+         setInterval("time()",100);
+
+   })  
+      
+</script>
+</body>
+</html>

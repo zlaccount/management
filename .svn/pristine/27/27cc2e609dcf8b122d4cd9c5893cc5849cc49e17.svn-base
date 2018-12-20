@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>统计分析</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="assets/laydate/need/laydate.css"/>
+    <link rel="stylesheet" href="lib/myPagination/page.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body>
+    <div id="detail">
+        <div class="schedule_head">统计分析</div>
+        <div id="detail_table">
+            <div id="detail_head">
+                    <p></p>
+                    <div class="pull-left">
+                        <img src="images/mess_01.png" alt=""/>
+                        <span>导出表格</span>
+                    </div>
+                    <button onclick="window.location='count.html'" class="pull-right">返回</button>
+                </div>
+            <div id="detail_main">
+                <table style="height: 400px" class="table table-bordered table-responsive text-center">
+                    <thead class="bgcolor_f2 color_b2">
+                        <tr>
+                            <td class="detail_data">日期</td>
+                            <td class="detail_app">APP预约挂号</td>
+                            <td class="detail_window">窗口预约挂号</td>
+                            <td class="detail_self">自助取号</td>
+                            <td class="detail_get">窗口取号</td>
+                            <td class="detail_back">退号</td>
+                            <td class="detail_change">改签</td>
+                            <td class="color_fe detail_money">金额</td>
+                        </tr>
+                    </thead>
+                    <tbody id="detail_body">
+                        <tr>
+                            <td class="bgcolor_f2 detail_data">2017.05.30</td>
+                            <td class="detail_app">2564</td>
+                            <td class="detail_window">145</td>
+                            <td class="detail_self">1561</td>
+                            <td class="detail_get">155616</td>
+                            <td  class="detail_back">5125</td>
+                            <td  class="detail_change">135153</td>
+                            <td class="color_fe detail_money">13533.00</td>
+                        </tr>
+                        <tr>
+                            <td class="bgcolor_f2 detail_data">2017.05.30</td>
+                            <td class="detail_app">2564</td>
+                            <td class="detail_window">145</td>
+                            <td class="detail_self">1561</td>
+                            <td class="detail_get">155616</td>
+                            <td  class="detail_back">5125</td>
+                            <td  class="detail_change">135153</td>
+                            <td class="color_fe detail_money">13533.00</td>
+                        </tr>
+                        <tr>
+                            <td class="bgcolor_f2 detail_data">2017.05.30</td>
+                            <td class="detail_app">2564</td>
+                            <td class="detail_window">145</td>
+                            <td class="detail_self">1561</td>
+                            <td class="detail_get">155616</td>
+                            <td  class="detail_back">5125</td>
+                            <td  class="detail_change">135153</td>
+                            <td class="color_fe detail_money">13533.00</td>
+                        </tr>
+                        <tr>
+                            <td class="bgcolor_f2 detail_data">2017.05.30</td>
+                            <td class="detail_app">2564</td>
+                            <td class="detail_window">145</td>
+                            <td class="detail_self">1561</td>
+                            <td class="detail_get">155616</td>
+                            <td  class="detail_back">5125</td>
+                            <td  class="detail_change">135153</td>
+                            <td class="color_fe detail_money">13533.00</td>
+                        </tr>
+                        <tr>
+                            <td class="bgcolor_f2 detail_data">2017.05.30</td>
+                            <td class="detail_app">25641121</td>
+                            <td class="detail_window">145</td>
+                            <td class="detail_self">1561</td>
+                            <td class="detail_get">155616</td>
+                            <td  class="detail_back">5125</td>
+                            <td  class="detail_change">135153</td>
+                            <td class="color_fe detail_money">13533.00</td>
+                        </tr>
+                        <tr>
+                            <td class="bgcolor_f2 detail_data">2017.05.30</td>
+                            <td class="detail_app">2564</td>
+                            <td class="detail_window">145</td>
+                            <td class="detail_self">1561</td>
+                            <td class="detail_get">155616</td>
+                            <td  class="detail_back">5125</td>
+                            <td  class="detail_change">135153</td>
+                            <td class="color_fe detail_money">13533.00</td>
+                        </tr>
+                        <tr>
+                            <td class="bgcolor_f2 detail_data">2017.05.30</td>
+                            <td class="detail_app">2564</td>
+                            <td class="detail_window">145</td>
+                            <td class="detail_self">1561</td>
+                            <td class="detail_get">155616</td>
+                            <td  class="detail_back">5125</td>
+                            <td  class="detail_change">135153</td>
+                            <td class="color_fe detail_money">13533.00</td>
+                        </tr>
+                        <tr>
+                            <td class="bgcolor_f2 detail_data">2017.05.30</td>
+                            <td class="detail_app">2564</td>
+                            <td class="detail_window">145</td>
+                            <td class="detail_self">1561</td>
+                            <td class="detail_get">155616</td>
+                            <td  class="detail_back">5125</td>
+                            <td  class="detail_change">135153</td>
+                            <td class="color_fe detail_money">13533.00</td>
+                        </tr>
+                        <tr>
+                            <td class="bgcolor_f2 detail_data">2017.05.30</td>
+                            <td class="detail_app">2564</td>
+                            <td class="detail_window">145</td>
+                            <td class="detail_self">1561</td>
+                            <td class="detail_get">155616</td>
+                            <td  class="detail_back">5125</td>
+                            <td  class="detail_change">135153</td>
+                            <td class="color_fe detail_money">13533.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="detail_bottom" class="clearfix">
+                <div style="width: 50%" class="detail_left pull-left">
+                    <p></p>
+                    <div id="detail_left_table">
+                        <table class="table table-bordered table-responsive text-center">
+                            <tbody>
+                            <tr class="bgcolor_f2 color_b2 info_head">
+                                <td class="color_fa">上午</td>
+                                <td class="color_fa">男性</td>
+                                <td >app预约挂号</td>
+                                <td >自助取号</td>
+                                <td >退号</td>
+                                <td  class="color_fe">金额</td>
+                            </tr>
+                            <tr class="info_tr tr_top">
+
+
+                            </tr>
+                            <tr class="bgcolor_f2 color_b2 info_head">
+                                <td class="color_fa">下午</td>
+                                <td class="color_fa">女性</td>
+                                <td >窗口预约挂号</td>
+                                <td >窗口取号</td>
+                                <td >改签</td>
+                                <!--<td  class="color_fe">金额</td>-->
+                            </tr>
+                            <tr class="info_tr tr_down">
+
+                                <!--<td class="color_fe">515.005146</td>-->
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div style="width:40%" class="pull-right" id="detail_left_chart">
+                    <p></p>
+                    <div id="pie_choose">
+                        <lable>筛选:</lable>
+                        <select id="pie_method">
+                            <option value="1">上/下午</option>
+                            <option value="2">性别</option>
+                            <option value="3">挂号方式</option>
+                            <option value="4">取号方式</option>
+                        </select>
+                    </div>
+                    <div style="width:100%; min-width: 480px ;height:212px; border: 1px solid #ddd" id="pie_table">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="public/js/jquery-1.11.3.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/laydate/laydate.js"></script>
+    <script src="public/js/echarts.js"></script>
+    <script src="js/schedule.js"></script>
+    <script>
+        $(function () {
+//        假数据
+
+            var myChart = echarts.init(document.getElementById('pie_table'));
+            var data1=['上午','下午'];
+            var name1="上/下午";
+            var data2=[{value:'2', name:'上午'},{value:'4', name:'下午'}];
+
+            var option = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b}: {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    x: 'left',
+                    data:data1
+                },
+                color:["#06a0f8","#fe5252"],
+                series: [
+                    {
+                        name:name1,
+                        type:'pie',
+                        radius: ['40%', '80%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                            normal: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                show: true,
+                                textStyle: {
+                                    fontSize: '16',
+                                    fontWeight: 'bold'
+                                }
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                show: false
+                            }
+                        },
+                        data:data2
+                    }
+                ]
+            };
+            myChart.clear();
+            myChart.setOption(option);
+
+        })
+    </script>
+    <script>
+        $(function () {
+//            $(window.parent.document).find(".toggleMenu .open").click(function () {
+//                $('#detail_table').width($('#detail_table').width()+140);
+//            })
+//            $(window.parent.document).find(".toggleMenu .he").click(function () {
+//                $('#detail_table').width($('#detail_table').width()-140);
+//            })
+            console.log($('#count_table').width());
+            resize()
+            $("#detail_table").resize(function(){
+                resize();
+            })
+            $(window).resize(function(){
+                resize();
+            })
+
+            function resize() {
+                var _width=$('#detail').width();
+                console.log(_width)
+                if(_width>1650){
+                    $('.detail_data').width(_width*0.14);
+                    $('.detail_app').width(_width*0.085);
+                    $('.detail_window').width(_width*0.09);
+                    $('.detail_self').width(_width*0.08);
+                    $('.detail_get').width(_width*0.08);
+                    $('.detail_back').width(_width*0.08);
+                    $('.detail_change').width(_width*0.08);
+                    $(".detail_money").width(_width*0.14);
+
+                    $("#detail_head").width($("#detail_main").width());
+                    $("#detail_bottom").width($("#detail_main").width())
+                    $(".detail_left").width("40%");
+                    $("#detail_left_chart").width($(".detail_left").width()).css("padding-left","0");
+
+                    $("#detail_left_chart").addClass("pull-right").removeClass("pull-left");
+//                    $("#count_right #echarts>div").width(_width*0.4);
+//                    $("#count_right #echarts>div>canvas").width(_width*0.4);
+                }
+                if(_width<1650){
+                    $('.detail_data').width(_width*0.15);
+                    $('.detail_app').width(_width*0.08);
+                    $('.detail_window').width(_width*0.06);
+                    $('.detail_self').width(_width*0.06);
+                    $('.detail_get').width(_width*0.08);
+                    $('.detail_back').width(_width*0.06);
+                    $('.detail_change').width(_width*0.06);
+                    $(".detail_money").width(_width*0.15);
+                    $("#detail_head").width($("#detail_main").width());
+
+                    $(".detail_left").width($("#detail_main").width());
+                    $("#detail_left_chart").width($(".detail_left").width());
+                    $("#detail_left_chart").removeClass("pull-right").addClass("pull-left");
+                    $(".detail_bottom").width($(".detail_left").width());
+//                    $("#detail_left_chart").width(_width);
+//                    $("#detail_left_chart canvas").width("100%");
+//                    $("#count_right #echarts>div").width(_width);
+//                    $("#count_right #echarts>div>canvas").width(_width);
+                }
+
+                if(_width<1240){
+                    $('.detail_data').width(_width*0.1);
+                    $('.detail_app').width(_width*0.06);
+                    $('.detail_window').width(_width*0.06);
+                    $('.detail_self').width(_width*0.06);
+                    $('.detail_get').width(_width*0.06);
+                    $('.detail_back').width(_width*0.06);
+                    $('.detail_change').width(_width*0.06);
+                    $(".detail_money").width(_width*0.1);
+                    $("#detail_head").width($("#detail_main").width());
+
+                    $(".detail_left").width($("#detail_main").width());
+                    $("#detail_left_chart").width($(".detail_left").width());
+                    $("#detail_left_chart").removeClass("pull-right").addClass("pull-left");
+                    $(".detail_bottom").width($(".detail_left").width());
+//                    $("#detail_left_chart").width(_width);
+//                    $("#detail_left_chart canvas").width("100%");
+//                    $("#count_right #echarts>div").width(_width);
+//                    $("#count_right #echarts>div>canvas").width(_width);
+                }
+
+            }
+
+
+
+            countDetail();
+            pieChange();
+
+        })
+    </script>
+
+</body>
+</html>

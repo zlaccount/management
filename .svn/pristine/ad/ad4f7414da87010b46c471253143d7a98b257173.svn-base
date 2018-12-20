@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>统计分析</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="assets/laydate/need/laydate.css"/>
+    <link rel="stylesheet" href="lib/myPagination/page.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+    <style>
+        .table thead>tr>th, .table tbody>tr>th, .table tfoot>tr>th, .table thead>tr>td, .table tbody>tr>td, .table tfoot>tr>td{
+            padding: 0;
+            line-height: 50px;
+        }
+        #detail_main thead td{
+            height: 51px;
+        }
+        .detail_data{
+            display: inline-block;
+            line-height: 50px;
+            border-left: 1px solid #ddd;
+        }
+        .takeNum{
+            display: inline-block;
+            line-height: 50px;
+            border-left: 1px solid #ddd;
+
+        }
+        .changeNum{
+            display: inline-block;
+            line-height: 50px;
+            border-left: 1px solid #ddd;
+        }
+        .backNum{
+            display: inline-block;
+            line-height: 50px;
+            border-left: 1px solid #ddd;
+        }
+        .num_count{
+            display: inline-block;
+            width:12.5% !important;
+            line-height: 50px;
+            border-left: 1px solid #ddd;
+        }
+        .money_count{
+            display: inline-block;
+            width:12.5% !important;
+            line-height: 50px;
+            border-left: 1px solid #ddd;
+        }
+        .bgcolor_f2 tr td .money_count:last-child{
+            width: 25% !important;
+        }
+    </style>
+</head>
+<body>
+<div id="detail">
+    <div class="schedule_head">统计分析</div>
+    <div id="detail_table">
+        <div id="detail_head">
+            <p></p>
+           <!--  <div class="pull-left">
+                <img src="images/mess_01.png" alt=""/>
+                <span>导出表格</span>
+            </div> -->
+            <button onclick="window.location='new_count.html'" class="pull-right">返回</button>
+        </div>
+        <div id="detail_main">
+            <table style="height: 400px" class="table table-bordered table-responsive text-center">
+                <thead class="bgcolor_f2 color_b2">
+                <tr>
+                    <td class="detail_data">日期</td>
+                    <td class="detail_app">APP预约挂号</td>
+                    <!-- <td class="color_fe detail_money"></td> -->
+                    <td class="detail_self">窗口预约挂号</td>
+                    <!-- <td class="color_fe detail_money"></td> -->
+                    <td class="color_fe detail_money">总结算金额</td>
+                </tr>
+                <tr>
+                    <td class="detail_data"></td>
+                    <td class="detail_app"><span class="takeNum">挂号</span><span class="changeNum">改签</span><span class="backNum">退号</span><span class="takeNum color_fe">结算</span></td>
+                    <!-- <td class="detail_data color_fe">结算</td> -->
+                    <td class="detail_app"><span class="takeNum">挂号</span><span class="changeNum">改签</span><span class="backNum">退号</span><span class="takeNum color_fe">结算</span></td>
+                     <!-- <td class="detail_data color_fe">结算</td> -->
+                     <td class="detail_data"></td>
+                </tr>
+                <tr>
+                    <td class="detail_data"></td>
+                    <td class="detail_app"><span class="num_count">个数</span><span class="money_count">金额</span><span class="num_count">个数</span><span class="money_count">金额</span><span class="num_count">个数</span><span class="money_count">金额</span><span class="color_fe money_count">金额</span></td>
+                    <!-- <td class="color_fe detail_money">金额</td> -->
+                     <td class="detail_app"><span class="num_count">个数</span><span class="money_count">金额</span><span class="num_count">个数</span><span class="money_count">金额</span><span class="num_count">个数</span><span class="money_count">金额</span><span class="color_fe money_count">金额</span></td>
+                     <!-- <td class="color_fe detail_money">金额</td> -->
+                     <td class="color_fe detail_money"></td>
+
+                    
+
+                </tr>
+               <!--  <tr>
+                   <td class="detail_data"></td>
+                   <td class="detail_app"><span class="num_count">个数</span><span class="money_count">金额</span></td>
+                   <td class="detail_window"><span class="num_count">个数</span><span class="money_count">金额</span></td>
+                   <td class="detail_data"></td>
+                   <td class="detail_self"><span class="num_count">个数</span><span class="money_count">金额</span></td>
+                  <td class="detail_get"><span class="num_count">个数</span><span class="money_count">金额</span></td>
+                  <td class="detail_data"></td>
+                   <td class="detail_back"><span class="num_count">个数</span><span class="money_count">金额</span></td>
+                   <td class="detail_change"><span class="num_count">个数</span><span class="money_count">金额</span></td>
+                   <td class="color_fe detail_money"></td>
+               </tr> -->
+                </thead>
+                <tbody id="detail_body">
+                    <!-- <tr>
+                        <td class="bgcolor_f2 detail_data">2017.05.30</td>
+                        <td class="detail_app"><span class="num_count">100</span><span class="money_count">100.00</span></td>
+                        <td class="detail_window"><span class="num_count">200</span><span class="money_count">100.00</span></td>
+                        <td class="detail_self"><span class="num_count">200</span><span class="money_count">100.00</span></td>
+                        <td class="detail_get"><span class="num_count">300</span><span class="money_count">100.00</span></td>
+                        <td  class="detail_back"><span class="num_count">400</span><span class="money_count">100.00</span></td>
+                        <td  class="detail_change"><span class="num_count">500</span><span class="money_count">100.00</span></td>
+                        <td class="color_fe detail_money">13533.00</td>
+                    </tr>
+                    <tr>
+                        <td class="bgcolor_f2 detail_data">2017.05.30</td>
+                        <td class="detail_app"><span class="num_count">100</span><span class="money_count">100.00</span></td>
+                        <td class="detail_window"><span class="num_count">200</span><span class="money_count">100.00</span></td>
+                        <td class="detail_self"><span class="num_count">200</span><span class="money_count">100.00</span></td>
+                        <td class="detail_get"><span class="num_count">300</span><span class="money_count">100.00</span></td>
+                        <td  class="detail_back"><span class="num_count">400</span><span class="money_count">100.00</span></td>
+                        <td  class="detail_change"><span class="num_count">500</span><span class="money_count">100.00</span></td>
+                        <td class="color_fe detail_money">13533.00</td>
+                    </tr>
+                    <tr>
+                        <td class="bgcolor_f2 detail_data">2017.05.30</td>
+                        <td class="detail_app"><span class="num_count">100</span><span class="money_count">100.00</span></td>
+                        <td class="detail_window"><span class="num_count">200</span><span class="money_count">100.00</span></td>
+                        <td class="detail_self"><span class="num_count">200</span><span class="money_count">100.00</span></td>
+                        <td class="detail_get"><span class="num_count">300</span><span class="money_count">100.00</span></td>
+                        <td  class="detail_back"><span class="num_count">400</span><span class="money_count">100.00</span></td>
+                        <td  class="detail_change"><span class="num_count">500</span><span class="money_count">100.00</span></td>
+                        <td class="color_fe detail_money">13533.00</td>
+                    </tr>
+                    <tr>
+                        <td class="bgcolor_f2 detail_data">2017.05.30</td>
+                        <td class="detail_app"><span class="num_count">100</span><span class="money_count">100.00</span></td>
+                        <td class="detail_window"><span class="num_count">200</span><span class="money_count">100.00</span></td>
+                        <td class="detail_self"><span class="num_count">200</span><span class="money_count">100.00</span></td>
+                        <td class="detail_get"><span class="num_count">300</span><span class="money_count">100.00</span></td>
+                        <td  class="detail_back"><span class="num_count">400</span><span class="money_count">100.00</span></td>
+                        <td  class="detail_change"><span class="num_count">500</span><span class="money_count">100.00</span></td>
+                        <td class="color_fe detail_money">13533.00</td>
+                    </tr>
+                    <tr>
+                        <td class="bgcolor_f2 detail_data">2017.05.30</td>
+                        <td class="detail_app"><span class="num_count">100</span><span class="money_count">100.00</span></td>
+                        <td class="detail_window"><span class="num_count">200</span><span class="money_count">100.00</span></td>
+                        <td class="detail_self"><span class="num_count">200</span><span class="money_count">100.00</span></td>
+                        <td class="detail_get"><span class="num_count">300</span><span class="money_count">100.00</span></td>
+                        <td  class="detail_back"><span class="num_count">400</span><span class="money_count">100.00</span></td>
+                        <td  class="detail_change"><span class="num_count">500</span><span class="money_count">100.00</span></td>
+                        <td class="color_fe detail_money">13533.00</td>
+                    </tr>
+                    <tr>
+                        <td class="bgcolor_f2 detail_data">2017.05.30</td>
+                        <td class="detail_app"><span class="num_count">100</span><span class="money_count">100.00</span></td>
+                        <td class="detail_window"><span class="num_count">200</span><span class="money_count">100.00</span></td>
+                        <td class="detail_self"><span class="num_count">200</span><span class="money_count">100.00</span></td>
+                        <td class="detail_get"><span class="num_count">300</span><span class="money_count">100.00</span></td>
+                        <td  class="detail_back"><span class="num_count">400</span><span class="money_count">100.00</span></td>
+                        <td  class="detail_change"><span class="num_count">500</span><span class="money_count">100.00</span></td>
+                        <td class="color_fe detail_money">13533.00</td>
+                    </tr>
+                    <tr>
+                        <td class="bgcolor_f2 detail_data">2017.05.30</td>
+                        <td class="detail_app"><span class="num_count">100</span><span class="money_count">100.00</span></td>
+                        <td class="detail_window"><span class="num_count">200</span><span class="money_count">100.00</span></td>
+                        <td class="detail_self"><span class="num_count">200</span><span class="money_count">100.00</span></td>
+                        <td class="detail_get"><span class="num_count">300</span><span class="money_count">100.00</span></td>
+                        <td  class="detail_back"><span class="num_count">400</span><span class="money_count">100.00</span></td>
+                        <td  class="detail_change"><span class="num_count">500</span><span class="money_count">100.00</span></td>
+                        <td class="color_fe detail_money">13533.00</td>
+                    </tr>
+                    <tr>
+                        <td class="bgcolor_f2 detail_data">2017.05.30</td>
+                        <td class="detail_app"><span class="num_count">100</span><span class="money_count">100.00</span></td>
+                        <td class="detail_window"><span class="num_count">200</span><span class="money_count">100.00</span></td>
+                        <td class="detail_self"><span class="num_count">200</span><span class="money_count">100.00</span></td>
+                        <td class="detail_get"><span class="num_count">300</span><span class="money_count">100.00</span></td>
+                        <td  class="detail_back"><span class="num_count">400</span><span class="money_count">100.00</span></td>
+                        <td  class="detail_change"><span class="num_count">500</span><span class="money_count">100.00</span></td>
+                        <td class="color_fe detail_money">13533.00</td>
+                    </tr>
+                    <tr>
+                        <td class="bgcolor_f2 detail_data">2017.05.30</td>
+                        <td class="detail_app"><span class="num_count">100</span><span class="money_count">100.00</span></td>
+                        <td class="detail_window"><span class="num_count">200</span><span class="money_count">100.00</span></td>
+                        <td class="detail_self"><span class="num_count">200</span><span class="money_count">100.00</span></td>
+                        <td class="detail_get"><span class="num_count">300</span><span class="money_count">100.00</span></td>
+                        <td  class="detail_back"><span class="num_count">400</span><span class="money_count">100.00</span></td>
+                        <td  class="detail_change"><span class="num_count">500</span><span class="money_count">100.00</span></td>
+                        <td class="color_fe detail_money">13533.00</td>
+                    </tr>
+                    <tr>
+                        <td class="bgcolor_f2 detail_data">2017.05.30</td>
+                        <td class="detail_app"><span class="num_count">100</span><span class="money_count">100.00</span></td>
+                        <td class="detail_window"><span class="num_count">200</span><span class="money_count">100.00</span></td>
+                        <td class="detail_self"><span class="num_count">200</span><span class="money_count">100.00</span></td>
+                        <td class="detail_get"><span class="num_count">300</span><span class="money_count">100.00</span></td>
+                        <td  class="detail_back"><span class="num_count">400</span><span class="money_count">100.00</span></td>
+                        <td  class="detail_change"><span class="num_count">500</span><span class="money_count">100.00</span></td>
+                        <td class="color_fe detail_money">13533.00</td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+        <!-- <div id="detail_bottom" class="clearfix">
+            <div style="width: 50%" class="detail_left pull-left">
+                <p>中医药科挂号数据情况(2017.06.01-06.30)</p>
+                <div id="detail_left_table">
+                    <table class="table table-bordered table-responsive text-center">
+                        <tbody>
+                        <tr class="bgcolor_f2 color_b2 info_head">
+                            <td class="color_fa">上午</td>
+                            <td class="color_fa">男性</td>
+                            <td >app预约挂号</td>
+                            <td >自助取号</td>
+                            <td >退号</td>
+                            <td  class="color_fe">金额</td>
+                        </tr>
+                        <tr class="info_tr tr_top">
+                        <td class="dateAM">10</td><td class="man">10</td><td class="appType">10</td><td class="selfTake">12</td><td>10</td>
+        
+        
+                        </tr>
+                        <tr class="bgcolor_f2 color_b2 info_head">
+                            <td class="color_fa">下午</td>
+                            <td class="color_fa">女性</td>
+                            <td >窗口预约挂号</td>
+                            <td >窗口取号</td>
+                            <td >改签</td>
+                            <td  class="color_fe">金额</td>
+                        </tr>
+                        <tr class="info_tr tr_down">
+                           <td class="datePM">140</td><td class="woman">130</td><td class="windowType">120</td><td class="windowTake">100</td><td>10</td>
+        
+                            <td class="color_fe">515.005146</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div style="width:40%" class="pull-right" id="detail_left_chart">
+                <p>中医药科饼状图(2017.06.01-06.30)</p>
+                <div id="pie_choose">
+                    <lable>筛选:</lable>
+                    <select id="pie_method">
+                        <option value="1">上/下午</option>
+                        <option value="2">性别</option>
+                        <option value="3">挂号方式</option>
+                        <option value="4">取号方式</option>
+                    </select>
+                </div> -->
+                <div style="width:100%; min-width: 480px ;height:212px;" id="pie_table">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="public/js/jquery-1.11.3.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/laydate/laydate.js"></script>
+<!-- <script src="public/js/echarts.js"></script> -->
+<script src="js/schedule.js"></script>
+<script>
+//     $(function () {
+// //        假数据
+
+//         var myChart = echarts.init(document.getElementById('pie_table'));
+//         var data1=['上午','下午'];
+//         var name1="上/下午";
+//         var data2=[{value:'2', name:'上午'},{value:'4', name:'下午'}];
+
+//         var option = {
+//             tooltip: {
+//                 trigger: 'item',
+//                 formatter: "{a} <br/>{b}: {c} ({d}%)"
+//             },
+//             legend: {
+//                 orient: 'vertical',
+//                 x: 'left',
+//                 data:data1
+//             },
+//             color:["#06a0f8","#fe5252"],
+//             series: [
+//                 {
+//                     name:name1,
+//                     type:'pie',
+//                     radius: ['40%', '80%'],
+//                     avoidLabelOverlap: false,
+//                     label: {
+//                         normal: {
+//                             show: false,
+//                             position: 'center'
+//                         },
+//                         emphasis: {
+//                             show: true,
+//                             textStyle: {
+//                                 fontSize: '16',
+//                                 fontWeight: 'bold'
+//                             }
+//                         }
+//                     },
+//                     labelLine: {
+//                         normal: {
+//                             show: false
+//                         }
+//                     },
+//                     data:data2
+//                 }
+//             ]
+//         };
+//         myChart.clear();
+//         myChart.setOption(option);
+
+//     })
+</script>
+<script>
+    $(function () {
+//            $(window.parent.document).find(".toggleMenu .open").click(function () {
+//                $('#detail_table').width($('#detail_table').width()+140);
+//            })
+//            $(window.parent.document).find(".toggleMenu .he").click(function () {
+//                $('#detail_table').width($('#detail_table').width()-140);
+//            })
+        // console.log($('#count_table').width());
+        resize()
+        $("#detail_table").resize(function(){
+            resize();
+        })
+        $(window).resize(function(){
+            resize();
+        })
+
+        function resize() {
+            var _width=$('#detail').width();
+            // console.log(_width)
+            if(_width>1650){
+                $('.detail_data').width(_width*0.1);
+                $('.detail_app').width(_width*0.12);
+                $('.detail_window').width(_width*0.12);
+                $('.detail_self').width(_width*0.1);
+                $('.detail_get').width(_width*0.1);
+                $('.detail_back').width(_width*0.1);
+                $('.detail_change').width(_width*0.1);
+                $(".detail_money").width(_width*0.1);
+
+                $("#detail_head").width($("#detail_main").width());
+                $("#detail_bottom").width($("#detail_main").width());
+                $(".detail_left").width("40%");
+                $("#detail_left_chart").width($(".detail_left").width()).css("padding-left","0");
+
+                $("#detail_left_chart").addClass("pull-right").removeClass("pull-left");
+//                    $("#count_right #echarts>div").width(_width*0.4);
+//                    $("#count_right #echarts>div>canvas").width(_width*0.4);
+            }
+            if(_width<1650){
+                $('.detail_data').width(_width*0.08);
+                $('.detail_app').width(_width*0.1);
+                $('.detail_window').width(_width*0.1);
+                $('.detail_self').width(_width*0.1);
+                $('.detail_get').width(_width*0.1);
+                $('.detail_back').width(_width*0.1);
+                $('.detail_change').width(_width*0.1);
+                $(".detail_money").width(_width*0.11);
+                $("#detail_head").width($("#detail_main").width());
+
+                $(".detail_left").width($("#detail_main").width());
+                $("#detail_left_chart").width($(".detail_left").width());
+                $("#detail_left_chart").removeClass("pull-right").addClass("pull-left");
+                $(".detail_bottom").width($(".detail_left").width());
+//                    $("#detail_left_chart").width(_width);
+//                    $("#detail_left_chart canvas").width("100%");
+//                    $("#count_right #echarts>div").width(_width);
+//                    $("#count_right #echarts>div>canvas").width(_width);
+            }
+
+            if(_width<1240){
+                $('.detail_data').width(_width*0.08);
+                $('.detail_app').width(_width*0.1);
+                $('.detail_window').width(_width*0.1);
+                $('.detail_self').width(_width*0.08);
+                $('.detail_get').width(_width*0.08);
+                $('.detail_back').width(_width*0.08);
+                $('.detail_change').width(_width*0.08);
+                $(".detail_money").width(_width*0.1);
+                $("#detail_head").width($("#detail_main").width());
+
+                $(".detail_left").width($("#detail_main").width());
+                $("#detail_left_chart").width($(".detail_left").width());
+                $("#detail_left_chart").removeClass("pull-right").addClass("pull-left");
+                $(".detail_bottom").width($(".detail_left").width());
+//                    $("#detail_left_chart").width(_width);
+//                    $("#detail_left_chart canvas").width("100%");
+//                    $("#count_right #echarts>div").width(_width);
+//                    $("#count_right #echarts>div>canvas").width(_width);
+            }
+
+        }
+
+
+
+        countDetail();
+        // pieChange();
+
+    })
+</script>
+
+</body>
+</html>

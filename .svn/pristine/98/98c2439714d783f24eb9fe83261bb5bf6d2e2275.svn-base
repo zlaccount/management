@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN" >
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1"/>
+    <meta name="keywords" content="E2306后台管理系统" />
+    <meta name="description" content="E2306后台管理系统" />
+    <title>登录</title>
+    <link rel="shortcut icon" href="images/small.ico" type="image/x-icon"/> 
+    <link href="public/css/base.css" rel="stylesheet" type="text/css">
+    <link href="css/login.css" rel="stylesheet" type="text/css">
+    	<style type="text/css">
+.head div,.head1 div,.head2 div,.head3 div,.head4 div{
+    width: 250px;
+    height: 240px;
+    line-height: 355px;
+    float: left;
+    text-align: center;
+    position: absolute;
+    font-size: 24px;
+    color: #fff;
+    font-weight: bold;
+}
+.head div{
+    bottom: 14px;
+    left: 321px;
+}
+.head1 div{
+    bottom: 14px;
+    left: 575px;
+}
+.head2 div{
+    position: absolute;
+    bottom: 14px;
+    left: 830px;
+}
+.head3 div{
+    bottom: 14px;
+    left: 1085px;
+}
+.head4 div{
+    bottom: 14px;
+    right: 330px;
+}
+    	</style>
+</head>
+<body style="background: url(images/ALL.png) no-repeat scroll center;">
+	<div id="all">
+	<div class="head">
+		<a href="gh/login.html" role = '医院管理员'><div>医院挂号系统</div></a>
+	</div>
+	<div class="head1">
+		<a href="pb/login.html" role = '医院管理员'><div>科室排班系统</div></a>
+	</div>
+	<div class="head2">
+		<a href="mb/login.html" role = '医院管理员'><div>门办审核系统</div></a>
+	</div>
+	<div class="head3">
+		<a href="gl/login.html" role = '医院管理员'><div>医院管理系统</div></a>
+	</div>
+	<div class="head4">
+		<a href="zz/login.html" role = '医院管理员'><div>自助取号系统</div></a>
+	</div>
+	</div>
+	
+	
+	
+    <!--<div class="loginBox">
+        <div class="welcome">
+            欢迎使用<span>E号通挂号系统</span>
+        </div>  
+        <div class="loginMes">
+             <div class="loginInner">-->
+                <!-- <h3>登录界面</h3> -->
+                <!--<ul>
+                    <li>
+                        <img src="images/user.png" alt="">
+                        <input type="text" class="username" placeholder="用户名">
+                    </li>
+                    <p class="userTip red">123132</p>
+                    <li>
+                        <img src="images/psw.png" alt="">
+                        <input type="password" class="password" placeholder="密码">
+                        <div class="eyesTip">
+                            <span class="grayeyes"></span>
+                            <span class="eyes"></span>
+                        </div>
+                    </li>
+                    <p class="pwdTip red">123545654</p>
+                </ul> 
+                <a class="enter">登录</a>
+            </div>  
+        </div>-->
+        <!-- <div class="foot">
+            <p>湖 北 百 穗 健 康 科 技 有 限 公 司</p>
+            <p>Hubei fortune Health Technology Co., Ltd.</p>
+        </div> -->
+   <!-- </div>-->
+    <!--[if lt IE10]> 
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="assets/js/jquery-1.10.2.min.js"></script>
+    <script src="js/login.js"></script>
+    <script type="text/javascript">
+        // document.documentElement.addBehavior('#default#userdata');
+    </script>
+</body>
+</html>
+

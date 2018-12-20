@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>医生信息</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="lib/myPagination/page.css"/>
+    <link rel="stylesheet" href="assets/laydate/need/laydate.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body>
+    <div id="doctor">
+        <div class="schedule_head">医生信息管理</div>
+        <div class="schedule_search">
+            <div class="schedule_name pos_rel">
+                <lable>姓名:</lable>
+                <input class="expert" type="text" placeholder="请填写" id="doctor_name"/>
+                <div class="name_suggest">
+                    <ul>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="schedule_name">
+                <lable>职称:</lable>
+                <select class="doctor_title" id="doctor_duty">
+                    <option value=" ">全部</option>
+                    <option value="4">主任医师</option>
+                    <option value="3">副主任医师</option>
+                    <option value="2">主治医师</option>
+                    <option value="1">医师</option>
+                    <option value="0">其他</option>
+                </select>
+            </div>
+            <div class="schedule_name">
+                <lable>性别:</lable>
+                <select  class="doctor_sex">
+                    <option value="">请选择</option>
+                    <option value="0">男</option>
+                    <option value="1">女</option>
+                </select>
+            </div>
+            <!--<div class="schedule_name">-->
+                <!--<lable>医生年龄:</lable>-->
+                <!--<input id="doctor_age" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="3" type="text" placeholder="请填写"/>-->
+            <!--</div>-->
+            <!-- <button onclick="doctor('1');">查询</button> -->
+            <button class="queryDocs">查询</button>
+            <button onclick="resetSearch();">重置</button>
+        </div>
+        <div class="table-responsive doctor_table">
+            <table class="table table-responsive doctor_mess table-bordered" >
+                <caption><p>XX科室值班表</p></caption>
+                <tbody>
+                    <tr class="doctor_mess">
+                        <td colspan="7">
+                            <div class="pull-left">
+                                <i></i>
+                                <!-- <img src="images/mess_03.png" > -->
+                                <a onclick="build()" href="javascript:void(0)">添加医生</a>
+                            </div>
+                            <div class="pull-left" style="margin-left:20px;">
+                                <i></i>
+                                <!-- <img src="images/mess_03.png" > -->
+                                <a onclick="setFee()" href="javascript:void(0)">诊查费/挂号费设置</a>
+                            </div>
+                            <div class="pull-left" style="margin-left:20px;">
+                                <i></i>
+                                <a href="javascript:void(0)" onclick="setAddress()">科室地址设置</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="doctor_tr">
+                        <td rowspan="2" style="width: 70px">序号</td>
+                        <td rowspan="2" style="width: 90px">姓名</td>
+                        <td rowspan="2" style="width: 70px">性别</td>
+                        <td rowspan="2" style="width: 120px">科室</td>
+                        <td rowspan="2" style="width: 90px">职称</td>
+                        <td rowspan="2" style="width: 100px">职务</td>
+                        <td rowspan="2" style="width: 340px">擅长</td>
+                        <td colspan="3">诊疗费</td>
+                        <td rowspan="2" style="width: 185px">操作</td>
+                    </tr>
+                    <tr class="doctor_money">
+                        <td>普通门诊</td>
+                        <td>专家门诊</td>
+                        <td>特需门诊</td>
+                    </tr>
+                    <!-- <tr class="fee_tr">
+                        <td>医生职称</td>text-align: center;
+                        <td>普通门诊</td>
+                        <td>专家艾门诊</td>
+                        <td>特需门诊</td>
+                    </tr> -->
+                </tbody>
+                <tbody id="doctor_amount">
+                <input type="hidden" class="expertMoney" value="'+val.expertMoney+'"/>
+                <input type="hidden" class="plainMoney" value="'+val.plainMoney+'"/>
+                <input type="hidden" class="specialMoney" value="'+val.specialMoney+'"/><!--<tr class="doctor_list">-->
+
+                </tbody>
+            </table>
+            <div class="doctor_page page_style"></div>
+        </div>
+
+        <div class="schedule_time_down">
+            <!-- 2017-06-27&nbsp;&nbsp;12:20:26 -->
+        </div>
+    </div>
+    <div id="alertPop">
+        <!-- 遮罩层 -->
+        <div class="alertMask"></div>
+        <!-- 消息框 -->
+        <div class="alertBox" style="width:800px;height:660px">
+            <div class="alertBox_top">
+                <p class="alert-title">
+                    医生信息
+                    <i class="alert-close"></i>
+                </p>
+            </div>
+            <div class="alertBox_main">
+                <div class="alert-img">
+                    <lable class="pull-left"><span style="color:red;margin-left: -9px;padding-right: 4px">*</span>医生头像:</lable>
+                    <div class="img_content pull-left">
+                        <!--<input type="hidden" class="doc_head_way"/>-->
+                        <!--<img class="doc_head" src="images/doctor_03.png" alt=""/>-->
+                        <!--<img class="doc_head_del" src="images/shanchu.png" alt=""/>-->
+                    </div>
+                    <div class="imgDiv imghide pull-left">
+                        <input type="file" class="doctor_img_input" id="doctor_img" onchange="doctorImg()"/>
+                    </div>
+                    <span style="color: #b2b2b2; margin-top: 18px;display: inline-block;margin-left: 10px;">(只能上传1张2寸免冠彩色登记照，每张图大小不能超过3M)</span>
+                </div>
+                <div class="main_top clearfix">
+                    <div class="alertBox_name pull-left">
+                        <span style="color:red;margin-left: -9px;">*</span>
+                        <lable>医生姓名:</lable>
+                        <input type="hidden" class="list_id"/>
+                        <input type="hidden" class="doctorId"/>
+                        <input  class="doc_name" type="text"/>
+                    </div>
+                    <div class="alertBox_name pull-left" style="margin-left: 120px;">
+                        <span style="color:red;margin-left: -9px;">*</span>
+                        <lable>手机号码:</lable>
+                        <input type="hidden" class="tell_id"/>
+                        <input type="hidden" class="tellId"/>
+                        <input placeholder="对外联络电话" class="doc_tell" type="text" onkeyup="value=value.replace(/[^\d]/g,'')" onblur="test_mob();" />
+                        <span class="doc_tellTip"></span>
+                    </div>
+                </div>
+                <div class="main_top clearfix">
+                    <!--<div class="alertBox_name pull-left">-->
+                        <!--<lable>医生姓名:</lable>-->
+                        <!--<input type="hidden" class="list_id"/>-->
+                        <!--<input type="hidden" class="doctorId"/>-->
+                        <!--<input  class="doc_name" type="text"/>-->
+                    <!--</div>-->
+                    <div class="alertBox_duty pull-left">
+                        <span style="color:red;margin-left: -9px;">*</span>
+                        <lable>医生职称:</lable>
+                        <select id="duty">
+                            <option value="4">主任医师</option>
+                            <option value="3">副主任医师</option>
+                            <option value="2">主治医师</option>
+                            <option value="1">医师</option>
+                            <option value="0">其他</option>
+                        </select>
+                         <select id="position">
+                            <option value="1">教授</option>
+                            <option value="2">副教授</option>
+                            <option value="3">博士生导师</option>
+                            <option value="4">硕士生导师</option>
+                            <option value="0">其他</option>
+                        </select> 
+                    </div>
+                    <div class="alertBox_depart pull-left">
+                        <lable>医生职务:</lable>
+                        <input class="doc_job"  type="text"/>
+                    </div>
+                    <div  class="alertBox_title  pull-left" style="margin-left: -300px;margin-top: -54px;">
+                        <span style="color:red;margin-left: -9px;">*</span>
+                        <lable>医生性别:</lable>
+                        <select id="doc_sex">
+                            <option value="0">男</option>
+                            <option value="1">女</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="main_top clearfix money_doctor">
+                    <div class="alertBox_duty pull-left">
+                        <span style="color:red;margin-left: -9px;">*</span>
+                        <lable>诊疗费:</lable>
+                    </div>
+                    <div class="alertBox_duty pull-left">
+                        <lable>普通门诊:</lable>
+                        <input class="normal_money" onkeyup="clearNoNum(this)"  type="text"/>
+                    </div>
+                    <div class="alertBox_duty pull-left">
+                        <lable>专家门诊:</lable>
+                        <input class="expert_money" onkeyup="clearNoNum(this)"  type="text"/>
+                    </div>
+                    <div class="alertBox_duty pull-left">
+                        <lable>特需门诊:</lable>
+                        <input class="special_money"  onkeyup="clearNoNum(this)" type="text"/>
+                    </div>
+                </div>
+                <div class="skill">
+                    <span style="color:red;margin-left: -9px;">*</span>
+                    <lable>擅长领域: <span>(字数不超过150字)</span></lable>
+                    <textarea maxlength="150" onblur="limit_skill();"></textarea>
+                </div>
+                <div class="self_mess">
+                    <span style="color:red;margin-left: -9px;">*</span>
+                    <lable>个人简介: <span>(字数不超过200字)</span></lable>
+                    <textarea maxlength="200" onblur="limit_intro();"></textarea>
+                </div>
+                <div  class="alert_btn">
+                    <button  onclick="addDoctor();" id="doctor_btn">保存</button>
+                    <button  onclick="repairDoctor();" id="doctor_remark">修改</button>
+                </div>
+            </div>
+        </div>
+        <div class="alertFeeBox">
+            <div class="alertBox_top">
+                <p class="alert-title">
+                    挂号费用
+                    <i class="alert-close"></i>
+                </p>
+            </div>
+            <div class="alertBox_main">
+                <table class="fee_table table-responsive table-bordered">
+                    <tbody>
+                        <tr class="fee_tr">
+                            <td style="width: 90px">医生职称</td>
+                            <td style="width: 90px">普通门诊</td>
+                            <td style="width: 90px">专家门诊</td>
+                            <td style="width: 90px">特需门诊</td>
+                            <!-- <td style="width: 170px">操作</td> -->
+                        </tr>
+                        <tr>
+                            <td style="width: 90px" duty="4">主任医师</td>
+                            <td style="width: 90px">
+                                <input type="text" name="" class="normal_money" onkeyup="clearNoNum(this)">
+                            </td>
+                            <td style="width: 90px">
+                                <input type="text" name="" class="expert_money" onkeyup="clearNoNum(this)">
+                            </td>
+                            <td style="width: 90px">
+                                <input type="text" name="" class="special_money" onkeyup="clearNoNum(this)">
+                            </td>
+                            <!-- <td style="width: 170px">
+                                <button class="btn_saveFee">保存</button>
+                                <button class="btn_changeFee">修改</button>
+                            </td> -->
+                        </tr>
+                        <tr>
+                            <td duty="3">副主任医师</td>
+                            <td>
+                                <input type="text" name="" class="normal_money" onkeyup="clearNoNum(this)">
+                            </td>
+                            <td>
+                                <input type="text" name="" class="expert_money" onkeyup="clearNoNum(this)">
+                            </td>
+                            <td>
+                                <input type="text" name="" class="special_money" onkeyup="clearNoNum(this)">
+                            </td>
+                            <!-- <td>
+                                <button class="btn_saveFee">保存</button>
+                                <button class="btn_changeFee">修改</button>
+                            </td> -->
+                        </tr>
+                        <tr>
+                            <td duty="2">主治医师</td>
+                            <td>
+                                <input type="text" name="" class="normal_money" onkeyup="clearNoNum(this)">
+                            </td>
+                            <td style="background-color: #eee;">
+                                <input type="hidden" name="" class="expert_money" disabled="disabled" value="0">
+                            </td>
+                            <td style="background-color: #eee;">
+                                <input type="hidden" name="" class="special_money" disabled="disabled" value="0">
+                            </td>
+                            <!-- <td>
+                                <button class="btn_saveFee">保存</button>
+                                <button class="btn_changeFee">修改</button>
+                            </td> -->
+                        </tr>
+                        <tr>
+                            <td duty="1">医师</td>
+                            <td>
+                                <input type="text" name="" class="normal_money" onkeyup="clearNoNum(this)">
+                            </td>
+                            <td style="background-color: #eee;">
+                                <input type="hidden" class="expert_money" name="" disabled="disabled" value="0">
+                            </td>
+                            <td style="background-color: #eee;">
+                                <input type="hidden" name="" class="special_money" disabled="disabled" value="0">
+                            </td>
+                            <!-- <td>
+                                <button class="btn_saveFee">保存</button>
+                                <button class="btn_changeFee">修改</button>
+                            </td> -->
+                        </tr>
+                        <tr>
+                            <td duty="0">其他</td>
+                            <td>
+                                <input type="text" name="" class="normal_money" onkeyup="clearNoNum(this)">
+                                <!-- <input type="text" name="" disabled="disabled"> -->
+                            </td>
+                            <td style="background-color: #eee;">
+                                <input type="hidden" class="expert_money" name="" disabled="disabled" value="0">
+                                <!-- <input type="text" name="" disabled="disabled"> -->
+                            </td>
+                            <td style="background-color: #eee;">
+                                <input type="hidden" name="" class="special_money" disabled="disabled" value="0">
+                                <!-- <input type="text" name="" disabled="disabled"> -->
+                            </td>
+                            <!-- <td>
+                                <button class="btn_saveFee">保存</button>
+                                <button class="btn_changeFee">修改</button>
+                            </td> -->
+                        </tr>
+                    </tbody>
+                    <!-- <tbody >
+                        
+                    </tbody> -->
+                </table> 
+                <!-- <div class="main_top clearfix">
+                    <div class="alertBox_duty pull-left">
+                        <span style="color:red;margin-left: -9px;">*</span>
+                        <lable>医生职称:</lable>
+                        <select class="duty_set">
+                            <option value="4">主任医师</option>
+                            <option value="3">副主任医师</option>
+                            <option value="2">主治医师</option>
+                            <option value="1">医师</option>
+                            <option value="0"></option>
+                        </select>
+                        <span>(请根据医生职称填写对应的门诊诊疗费用)</span>
+                    </div>
+                </div>
+                <div class="main_top clearfix money_doctor">
+                    <div class="alertBox_duty pull-left">
+                        <span style="color:red;margin-left: -9px;">*</span>
+                        <lable>诊疗费:</lable>
+                    </div>
+                    <div class="alertBox_duty pull-left">
+                        <lable>普通门诊:</lable>
+                        <input class="normal_money" onkeyup="clearNoNum(this)"  type="text"/>
+                    </div>
+                    <div class="alertBox_duty pull-left">
+                        <lable>专家门诊:</lable>
+                        <input class="expert_money" onkeyup="clearNoNum(this)"  type="text"/>
+                    </div>
+                    <div class="alertBox_duty pull-left">
+                        <lable>特需门诊:</lable>
+                        <input class="special_money"  onkeyup="clearNoNum(this)" type="text"/>
+                    </div>
+                </div>
+                <div class="alert_btn">
+                    <button id="fee_btn" style="margin-right:20px;" onclick="saveFee()">保存</button>
+                    <button id="fee_repair">修改</button>
+                </div> -->
+            </div>
+            <div class="alertBox_bottom">
+                <button>保存</button>
+            </div>
+        </div>
+        <div class="alertAddrBox">
+            <div class="addressTop">
+                科室地址设置
+                <i class="alert-close"></i>
+            </div>
+            <div class="addressMain">
+                <label>科室地址:</label>
+                <input type="text" class="address_set">
+            </div>
+            <div class="addressBottom">
+                <button>保 存</button>
+            </div>
+        </div>
+        <div id="smallAlert">
+            <!-- 遮罩层 -->
+            <div class="smallMask"></div>
+            <!--消息框-->
+            <div class="smallBox">
+                <div class="alertBox_top">
+                    <p class="small-title">
+                        温馨提示
+                    </p>
+                </div>
+                <div class="small_main">
+                    <p class="small_text">确认修改?</p>
+                </div>
+                <div class="small_btn">
+                    <button class="btn_return">取消</button>
+                    <button class="btn_sure">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="public/js/jquery-1.11.3.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/laydate/laydate.js"></script>
+    <script src="lib/myPagination/jquery.myPagination6.0.js"></script>
+    <script src="js/schedule.js"></script>
+    <script >
+       //alert(sessionStorage.getItem('subjectName'));
+        $('caption>p').text(sessionStorage.getItem('subjectName')+"医生信息");
+         setInterval("time()",100);
+        $(function () {
+            doctor(1);
+            searchSuggest();
+            $('.smallMask').hide();
+            $('.smallBox').hide();
+            var h=document.documentElement.clientHeight;
+            var w=document.documentElement.clientWidth;
+            var smallW=$('.smallBox').width();
+            var smallH=$('.smallBox').height();
+            $('.smallBox').css({ 'top': (h-smallH) / 2 + 'px', 'left': (w-smallW) / 2 + 'px' });
+            $('.btn_return').click(function(){
+                $('.smallMask').hide();
+                $('.smallBox').hide();
+            })
+
+//            var goodsStartTime={
+//                elem: '#doc_age',
+//                event: 'focus',
+//                istime: true,
+//                istoday: false,
+//                min: "1900-01-01", //-1代表昨天，-2代表前天，以此类推
+//                max: laydate.now()
+//            };
+//            laydate(goodsStartTime);
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>个人信息</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="css/information.css">
+    <script  src="js/information.js"></script>
+    <script src="public/js/jquery-1.11.3.js"></script>
+</head>
+<body onload="show()">
+    <div id="information">
+        <div class="schedule_head">医院信息</div>
+        <div class="information">
+            <div class="hospital">
+                <div class="mation_tit">医院基本信息</div>
+                <div class="hospital_main">
+                    <div class="hos_name">
+                        <div class="f_l hos_left">医院第一名称: <input class="hos_all" type="text"  id = "hos_all"/></div>
+                        <div class="f_l hos_left">医院第二名称: <input class="hos_all" type="text"  id="hos_send"/></div>
+                    </div>
+                    <div class="hos_name">
+                            <div class="f_l hos_grade">医院等级:     
+                                    <select  id="hos_leve">
+                                        <option value="1">一级</option>
+                                        <option value="2">二级</option>
+                                        <option value="3">三级</option>
+                                    </select>
+                                    <select id="hos_grade">
+                                            <option value="1">甲等</option>
+                                            <option value="2">乙等</option>
+                                            <option value="">未定</option>
+                                    </select>
+        
+                                </div>
+                                <div class="f_l">
+                                    医院性质:
+                                    <select  id="hos_natu">
+                                        <option value="公办">公办</option>
+                                        <option value="民办">民办</option>
+                                    </select>
+                                </div>
+                    </div>
+                   <div class="hos_img">
+                        <span class="f_l">许可证书:</span>
+                        <div class="img_list f_l">
+                            <!--<div class="img_act f_l">-->
+                                <!--<img class="img_pic" src="images/1.png" alt=""/>-->
+                                <!--<img class="pic_del" src="images/shanchu.png" alt=""/>-->
+                            <!--</div>-->
+
+                        </div>
+                        <div class="img_file f_l">
+                            <input class="file_input file_allow" type="file" onchange="dicussImg()"/>
+
+                        </div>
+                        <span class="f_l img_limit">(只能上传5张图片)</span>
+                    </div>
+                    <div class="hos_img">
+                        <span class="f_l">医院logo:</span>
+                        <div class="img_logo f_l">
+                            <!--<div class="img_act f_l">-->
+                                <!--<img class="img_pic" src="images/1.png" alt=""/>-->
+                                <!--<img class="pic_del" src="images/shanchu.png" alt=""/>-->
+                            <!--</div>-->
+                        </div>
+                        <div class="img_file f_l">
+
+                            <input class="file_input file_logo" type="file" onchange="dicussLogo()"/>
+
+                        </div>
+                        <span class="f_l img_limit">(只能上传1张图片)</span>
+                    </div>
+                    <div class="hos_name hos_introduce">
+                        <div class="f_l">
+                            医院简介:
+                            <textarea class="hos_text" max-lenght="1000" cols="30"  rows="10"  id="introduce"></textarea>
+                        </div>
+                    </div>
+                    <div class="hos_name hos_address">
+                        <div class="f_l">
+                            医院地址:
+                            <select  id="provice" onchange="query(this.value , 2)">
+                            </select>
+                            <select  id="city"  onchange="query(this.value , 1)">
+                            </select>
+                            <select  id="country">
+                            </select>
+                            <input type="text" maxlength="50" id="address"/>
+                        </div>
+                    </div>
+                    <div class="hos_name ">
+                        <div class="f_l">
+                            地址定位:
+                            <div class="lati_long">
+                                经度: <input type="text" class="longitude"/>
+                                纬度: <input type="text" class="latitude"/>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="hos_name">
+                        <div class="f_l">
+                            医院电话: <input class="hos_tel" type="text"/>联系人: <input class="hos_pep" type="text"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="duty">
+                <div class="mation_tit">科室设置</div>
+                <div class="duty_main">
+                    <div class="duty_name">
+                        <span style="width: 117px;text-align: center;" class="f_l"> <span>门诊科室科室设置:</span><span>(附加科室除外)</span> </span>
+                        <div class="f_l duty_list">
+                            <div class="list_main">
+                                <!--<div class="list_name f_l"><span>神经内科</span></div>-->
+                                <!--<div class="list_name f_l">-->
+                                    <!--<span>神经外科</span>-->
+
+                                <!--</div>-->
+                            </div>
+                            <!-- <div class="list_bottom">
+                                <input  class="add_text"  type="text" placeholder="新增科室名称"/>
+                                <button class="add_btn">增加科室</button>
+                            </div> -->
+                            <div class="list_bottom">
+                                如需增加科室,请本联系系统管理员
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="btn_sub">
+                <button class="hos_sub" onclick="subMess()">提交</button>
+
+            </div>
+        </div>
+    </div>
+    <div id="smallAlert">
+        <!-- 遮罩层 -->
+        <div class="smallMask"></div>
+        <!--消息框-->
+        <div class="smallBox">
+            <div class="alertBox_top">
+                <p class="small-title">
+                    温馨提示
+                </p>
+            </div>
+            <div class="small_main">
+                <p class="small_text">确认修改?</p>
+            </div>
+            <div class="small_btn">
+                <button class="btn_return">取消</button>
+                <button class="btn_sure">确认</button>
+            </div>
+        </div>
+    </div>
+    <script src="lib/jquery-1.11.3.js"></script>
+    <script>
+        $(".pic_del").click(function () {
+            $(this).parent().remove();
+        })
+//        $(".add_btn").click(function () {
+//            var text=$(".add_text").val();
+//            if(text){
+//                var html='<div class="list_name f_l"><span>'+text+'</span><img src="images/shanchu.png" alt=""></div>';
+//                $(".list_main").append(html);
+//                $(".add_text").val("");
+//                $(".list_name img").click(function () {
+//                    $(this).parent().remove();
+//                })
+//            }
+//        })
+    </script>
+
+    <script>
+            $(function () {
+                clickHas();
+                clickNon();
+                dutyList();
+                $('.smallMask').hide();
+                $('.smallBox').hide();
+                // 获取弹窗宽高
+                var width=$('.alertBox').width();
+                var height=$('.alertBox').height();
+                // 获取浏览器窗口宽高
+                var h=document.documentElement.clientHeight;
+                var w=document.documentElement.clientWidth;
+                var smallW=$('.smallBox').width();
+                var smallH=$('.smallBox').height();
+                $('.alertBox').css({ 'top': (h-height) / 2 + 'px', 'left': (w-width) / 2 + 'px' });
+                $('.alert-close').click(function(){
+                    $('.alertMask').hide();
+                    $('.alertBox').hide();
+                })
+                $('.smallBox').css({ 'top': (h-smallH) / 2 + 'px', 'left': (w-smallW) / 2 + 'px' });
+                $('.btn_return').click(function(){
+                    $('.smallMask').hide();
+                    $('.smallBox').hide();
+                })
+            })
+
+    </script>
+</body>
+</html>

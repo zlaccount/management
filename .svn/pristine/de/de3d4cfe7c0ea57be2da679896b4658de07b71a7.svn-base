@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>门诊排班-排版信息</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="assets/laydate/need/laydate.css"/>
+    <link rel="stylesheet" href="lib/myPagination/page.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body>
+<div id="schedule">
+	<div class="schedule_head">排班信息</div>
+	<div class="schedule_search">
+	    <div class="schedule_name pos_rel">
+	        <lable>医生姓名:</lable>
+	        <input class="expert" type="text" placeholder="请填写" id="doctor_name" />
+            <div class="name_suggest">
+                <ul>
+
+                </ul>
+            </div>
+	    </div>
+	    <div class="schedule_name">
+	        <lable>医生职称:</lable>
+            <select class="doctor_title" id="doctor_duty">
+                <option value=" ">全部</option>
+                <option value="4">主任医师</option>
+                <option value="3">副主任医师</option>
+                <option value="2">主治医师</option>
+                <option value="1">医师</option>
+                <option value="0">其他</option>
+            </select>
+	    </div>
+	    <div class="schedule_name">
+	        <lable>值班日期:</lable>
+            <input class="doctor_time inline laydate-icon search_beginDate" id="start">
+	    </div>
+	    <button onclick="searchBtn(1)" class="search_btn">查询</button>
+	</div>
+	<div class="col-xs-12 schedule_table">
+	    <div class="table-responsive">
+	        <table class="table table-striped table-bordered table-responsive table-hover row">
+	<caption><p>XX科室值班表</p><span>(2017-06-22)</span></caption>
+	<tbody>
+	<tr class="schedule_mess">
+	    <td colspan="13">
+	        <div class="mess_left">
+	            <!--<div class="pull-left ">-->
+	                <!--<img src="images/mess_03.png" alt=""/><a class="new_schedule"  href="javascript:void(0);">新建排班</a>-->
+	            <!--</div>-->
+	            <div class="pull-left">
+	                <img src="images/mess_01.png" alt=""/><a class="export_table" href="javascript:void(0);">导出表格</a>
+	            </div>
+	            <div class="pull-left">
+	                <img src="images/mess_08.png" alt=""/><a class="urgent_make"  href="javascript:void(0);">应急修改</a>
+	            </div>
+	            <!--<div class="pull-left ">-->
+	                <!--<img src="images/mess_10.png" alt=""/><a class="modify_record" href="javascript:void(0);">修改记录</a>-->
+	            <!--</div>-->
+	        </div>
+	        <div class="pull-right mess_right">
+	            <div class="pull-right no_line ">
+	                <i></i>
+	                <span>无号源</span>
+	            </div>
+	            <div class="pull-right nervous_line">
+	                <i></i>
+	                <span>号源紧张</span>
+	            </div>
+	            <div class="pull-right has_line">
+	                <i></i>
+	                <span>有号源</span>
+	            </div>
+	            <div class="pull-right none_line">
+	                <i></i>
+	                <span>未排号</span>
+	            </div>
+	        </div>
+
+	    </td>
+
+	</tr>
+	<tr class="schedule_tr">
+	    <td style="width: 70px">序号</td>
+	    <td style="width: 140px">专家姓名</td>
+	    <td style="width: 160px">专家职称</td>
+        <td style="width: 140px">门诊类别</td>
+	    <td style="width: 120px">上/下午</td>
+        <td colspan="7">
+            <table class="schedule_tr_table">
+                <tr>
+                </tr>
+            </table>
+        </td>
+        <td style="width: 120px">操作</td>
+	</tr>
+	</tbody>
+	<tbody class="doc_mess">
+
+	</tbody>
+	</table>
+            <!--分页-->
+            <div class="schedule_page page_style"> </div>
+	    </div>
+	</div>
+	<div class="schedule_time_down">
+	    2017-06-27&nbsp;&nbsp;12:20:26
+	</div>
+</div>
+<div id="alertPop">
+    <!-- 遮罩层 -->
+    <div class="alertMask"></div>
+    <!-- 消息框 -->
+    <div class="alertBox">
+        <div class="alertBox_top">
+            <p class="alert-title">
+                修改排班信息
+                <i class="alert-close"></i>
+            </p>
+        </div>
+        <div class="alertBox_main">
+            <div class="main_top clearfix">
+                <div class="alertBox_name pull-left">
+                    <lable>医生姓名:</lable>
+                    <input id="alert_id" type="hidden"/>
+                    <!--<input id="outpatientType" type="hidden"/>-->
+                    <input id="alert_name" disabled type="text"/>
+                </div>
+                <div class="alertBox_title pull-left">
+                    <lable>医生职称:</lable>
+                    <input id="alert_duty" disabled type="text"/>
+                    <input id="alert_num"  type="hidden"/>
+                </div>
+                <div class="alertBox_name pull-left">
+                    <lable>门诊类别:</lable>
+                    <select style="height: 33px" id="outpatientType">
+                        <option value="0">普通门诊</option>
+                        <option value="1">专家门诊</option>
+                        <option value="2">特需门诊</option>
+                    </select>
+                </div>
+            </div>
+            <div class="main_table">
+                <table id="alert_table" class="table table-responsive table-bordered">
+                    <tbody>
+                        <tr class="alert_tr">
+                            <td style="width:70px">序号</td>
+                            <td style="width:200px">盘版日期</td>
+                            <td style="width:103px">上/下午</td>
+                            <td style="width:150px">号源</td>
+
+                        </tr>
+                        <tr class="schedule_detail_up">
+                            <td rowspan="2" class="schedule_num">
+                               1
+                            </td>
+                            <td rowspan="2" class="alert_day">2017-06-27 星期二</td>
+                            <td class="schedule_time">上午</td>
+                            <td class="alert_source">
+                                <input onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="输入号源" maxlength="2" type="text"/>
+                            </td>
+                        </tr>
+                        <tr class="schedule_detail_down">
+                            <td class="schedule_time">下午</td>
+                            <td class="alert_source">
+                                <input onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="输入号源" maxlength="2" type="text"/>
+                            </td>
+                        </tr>
+                        <tr class="schedule_detail_up">
+                            <td rowspan="2" class="schedule_num">
+                              2
+                            </td>
+                            <td rowspan="2" class="alert_day">2017-06-27 星期二</td>
+                            <td class="schedule_time">上午</td>
+                            <td class="alert_source">
+                                <input onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="输入号源" maxlength="2" type="text"/>
+                            </td>
+                        </tr>
+                        <tr class="schedule_detail_down">
+                            <td class="schedule_time">下午</td>
+                            <td class="alert_source">
+                                <input onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="输入号源" maxlength="2" type="text"/>
+                            </td>
+                        </tr>
+                        <tr class="schedule_detail_up">
+                            <td rowspan="2" class="schedule_num">
+                               3
+                            </td>
+                            <td rowspan="2" class="alert_day">2017-06-27 星期二</td>
+                            <td class="schedule_time">上午</td>
+                            <td class="alert_source">
+                                <input onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="输入号源" maxlength="2" type="text"/>
+                            </td>
+
+                        </tr>
+                        <tr class="schedule_detail_down">
+                            <td class="schedule_time">下午</td>
+                            <td class="alert_source">
+                                <input onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="输入号源" maxlength="2" type="text"/>
+                            </td>
+                        </tr>
+                        <tr class="schedule_detail_up">
+                            <td rowspan="2" class="schedule_num">
+                              4
+                            </td>
+                            <td rowspan="2" class="alert_day">2017-06-27 星期二</td>
+                            <td class="schedule_time">上午</td>
+                            <td class="alert_source">
+                                <input onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="输入号源" maxlength="2" type="text"/>
+                            </td>
+
+                        </tr>
+                        <tr class="schedule_detail_down">
+                            <td class="schedule_time">下午</td>
+                            <td class="alert_source">
+                                <input onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="输入号源" maxlength="2" type="text"/>
+                            </td>
+                        </tr>
+                        <tr class="schedule_detail_up">
+                            <td rowspan="2" class="schedule_num">
+                               5
+                            </td>
+                            <td rowspan="2" class="alert_day">2017-06-27 星期二</td>
+                            <td class="schedule_time">上午</td>
+                            <td class="alert_source">
+                                <input onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="输入号源" maxlength="2" type="text"/>
+                            </td>
+
+                        </tr>
+                        <tr class="schedule_detail_down">
+                            <td class="schedule_time">下午</td>
+                            <td class="alert_source">
+                                <input onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="输入号源" maxlength="2" type="text"/>
+                            </td>
+                        </tr>
+                        <tr class="schedule_detail_up">
+                            <td rowspan="2" class="schedule_num">
+                               6
+                            </td>
+                            <td rowspan="2" class="alert_day">2017-06-27 星期二</td>
+                            <td class="schedule_time">上午</td>
+                            <td class="alert_source">
+                                <input onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="输入号源" maxlength="2" type="text"/>
+                            </td>
+
+                        </tr>
+                        <tr class="schedule_detail_down">
+                            <td class="schedule_time">下午</td>
+                            <td class="alert_source">
+                                <input onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="输入号源" maxlength="2" type="text"/>
+                            </td>
+                        </tr>
+                        <tr class="schedule_detail_up">
+                            <td rowspan="2" class="schedule_num">
+                                7
+                            </td>
+                            <td rowspan="2" class="alert_day">2017-06-27 星期二</td>
+                            <td class="schedule_time">上午</td>
+                            <td class="alert_source">
+                                <input onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="输入号源" maxlength="2" type="text"/>
+                            </td>
+
+                        </tr>
+                        <tr class="schedule_detail_down">
+                            <td class="schedule_time">下午</td>
+                            <td class="alert_source">
+                                <input onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="输入号源" maxlength="2" type="text"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="alert_btn">
+                <button id="remark_btn">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="smallAlert">
+    <!-- 遮罩层 -->
+    <div class="smallMask"></div>
+    <!--消息框-->
+    <div class="smallBox">
+        <div class="alertBox_top">
+            <p class="small-title">
+                温馨提示
+            </p>
+        </div>
+        <div class="small_main">
+            <p class="small_text">确认修改?</p>
+        </div>
+        <div class="small_btn">
+            <button class="btn_return">取消</button>
+            <button class="btn_sure">确认</button>
+        </div>
+    </div>
+</div>
+<script src="public/js/jquery-1.11.3.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/laydate/laydate.js"></script>
+<script src="lib/myPagination/jquery.myPagination6.0.js"></script>
+<script src="js/schedule.js"></script>
+<script>
+    $('caption>p').text(sessionStorage.getItem('subjectName')+"值班表");
+    $(function(){
+        $('.alertMask').hide();
+        $('.alertBox').hide();
+        $('.smallMask').hide();
+        $('.smallBox').hide();
+        // 获取弹窗宽高
+        var width=$('.alertBox').width();
+        var height=$('.alertBox').height();
+        // 获取浏览器窗口宽高
+        var h=document.documentElement.clientHeight;
+        var w=document.documentElement.clientWidth;
+        var smallW=$('.smallBox').width();
+        var smallH=$('.smallBox').height();
+        $('.alertBox').css({ 'top': (h-height) / 2 + 'px', 'left': (w-width) / 2 + 'px' });
+        $('.alert-close').click(function(){
+            $('.alertMask').hide();
+            $('.alertBox').hide();
+        })
+        $('.smallBox').css({ 'top': (h-smallH) / 2 + 'px', 'left': (w-smallW) / 2 + 'px' });
+        $('.btn_return').click(function(){
+            $('.smallMask').hide();
+            $('.smallBox').hide();
+        })
+    })
+   console.log($(".main_table").height());
+
+    if($(".main_table").height()>463){
+        $(".main_table").css("overflow-y","scroll");
+        $(".main_table").css("height","463px");
+    }
+
+</script>
+<script>
+    $(function () {
+        searchSuggest()
+        listTop(1,0,'undefined','undefined','undefined');
+//日期选择
+        var goodsStartTime={
+            elem: '#start',
+            event: 'focus',
+            istime: true,
+            istoday: false,
+            min: laydate.now(), //-1代表昨天，-2代表前天，以此类推
+            max: laydate.now(+28)
+        };
+        laydate(goodsStartTime);
+
+    })
+    setInterval("time()",100);
+
+</script>
+</body>
+</html>

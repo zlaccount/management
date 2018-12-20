@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>自助终端</title>
+		<link rel="stylesheet" href="css/terminals.css">
+		<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+		<!--<script src="js/jquery.pagination.min.js"></script>	</head>-->
+	<body>
+		<!-- 头部 -->
+	<div class="header clearfix">
+		<div class="header_title fl">
+			<a href="#" class="home">
+				<span class="hospital_title">武昌武警医院</span>
+			</a>
+		</div>
+		<div class="header_title_right fr">
+			就诊时间：<span id="timer"></span>
+		</div>
+	</div>
+		<!--登录界面-->
+		<div class="logining">
+			
+		<div class="login-terminals none">
+			<ul>
+				<li class="clearfix"><div class="title">姓名</div><div class="maohao">:</div><input class="name" maxlength="10" placeholder="请输入你的姓名"/></li>
+				<li class="clearfix"><div class="title">身份证</div><div class="maohao">:</div><input class="nameid" maxlength="18" placeholder="请输入你的身份证号码"/></li>
+				<li class="clearfix"><div class="title">订单号</div><div class="maohao">:</div><input class="nameorder" placeholder="请输入你的订单号"/></li>
+				<li
+					 	class="button_li clearfix"><button>查询</button>
+						<input class="return" type="button" value="返回" onclick="javascript:window.location.href ='terminals.html';">
+				</li>
+			</ul>
+		</div>
+			<!--另一页挂号方式-->
+		<div id="circle_boss" class="show none">
+		<div id="circle1">
+			<a href="#"><img src="images/icon3.png" alt="" />
+			<p>
+				就诊卡充值
+			</p>
+			</a>
+		</div>
+		<div id="circle2">
+			<a href="#">
+			<img src="images/icon4.png" alt="" />
+			<p>
+				个人查询
+			</p>	
+			</a>
+		</div>
+		<div id="circle">
+			<a href="#">
+			<img src="images/icon.png" alt="" />
+			<p>
+				自助流程
+			</p>
+			</a>
+		</div>
+		<div id="circle3">
+			<a href="#">
+				<img src="images/icon1.png" alt="" />
+			<p>
+				自助取号
+			</p>
+			</a>
+		</div>
+		<div id="circle4" onclick="">
+			<a href="#">
+				<img src="images/icon2.png" alt="" />
+			<p>
+				预约挂号
+			</p>
+			</a>
+		</div>
+		</div>
+		</div>
+		<!--分页-->
+		<!--<div class="box">
+			<div id="pagination1" class="page fl">
+				<a href="#;" class="ui-pagination-page-item">首页</a>
+				<a href="#;" class="ui-pagination-page-item">上一页</a>
+				<a href="#;" class="ui-pagination-page-item">1</a>
+				<a href="#;" class="ui-pagination-page-item">2</a>
+				<a href="#;" class="ui-pagination-page-item">下一页</a>
+				<a href="#;" class="ui-pagination-page-item">尾页</a>
+			</div>
+		</div>-->
+		<!--底部-->
+		<div id="foot">
+			
+		</div>
+	<script type="text/javascript">
+		var d = new Date();
+		var str = d.getFullYear()+"年"+(d.getMonth()+1)+"月"+d.getDate()+"日";
+		document.getElementById("timer").innerHTML= str;
+/*分页*/
+//$("#pagination1 a").click(function(){
+//	$(this).addClass("active").siblings().removeClass("active");
+//	var i = $(this).index();
+//	console.log(i);
+//	if(i<=2){
+//		 $(".login-terminals").addClass("show").siblings().removeClass("show");
+//	}else{
+//		$("#circle_boss").addClass("show").siblings().removeClass("show");
+//	}
+//})
+	//点击到自助取号
+	$("#circle3 a").click(function (){
+		$(".login-terminals").addClass("show").siblings().removeClass("show");
+	});
+	//文本输入后其余不需要选择
+	
+	</script>
+	</body>
+</html>

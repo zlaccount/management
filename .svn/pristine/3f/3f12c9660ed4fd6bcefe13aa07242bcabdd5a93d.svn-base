@@ -1,0 +1,93 @@
+$(function(){
+      //登录验证
+      var baseUrl = 'http://www.51edoctor.cn/';
+//         var baseUrl = 'http://192.168.1.51:8333/';
+
+        //  var baseUrl = 'http://192.168.1.202:8110/';
+
+         
+
+
+          function login(){
+            var username = $('.username').val(),
+                psw = $('.password').val();
+                if(username == ''){
+                  $('.userTip').show();
+                  $('.userTip').text('用户名不能为空');
+                }
+                if(psw == ''){
+                  $('.pwdTip').show();
+                  $('.pwdTip').text('密码不能为空');
+                  return;
+                }
+              //  console.log('login了吗');
+              $.ajax({
+                  type:"post",
+                //  url:'http://192.168.1.202:8110/E2306_admin/admin/hospitalUser/login',
+                  //url:'http://192.168.1.138:8333/E2306_admin/admin/hospitalUser/login',
+                  url:baseUrl + 'E2306_admin/admin/hospitalUser/login',
+                  data:{
+                    username:username,
+                    password:psw
+                  },
+                  success:function(data){
+                      // console.log('support ajax?');
+                      console.log(data);
+                      if(data.result=="登录成功！"||data.result == 1){
+                        sessionStorage.setItem('username',data.name);
+                        sessionStorage.setItem('hospitalName',data.hospitalName); 
+                        sessionStorage.setItem('hospitalId',data.hospitalId); 
+                        sessionStorage.setItem('roleId',data.roleId);
+                        sessionStorage.setItem('subjectId',data.departmentId);
+                        sessionStorage.setItem('subjectName',data.departmentName);
+                        
+                       window.location.href= 'index.html';                  
+                      }
+                      else if(data.result == 0||data.result == -1){
+                            $('.pwdTip').show();
+                            $('.pwdTip').text('用户名或密码错误 请重新输入');
+                      }
+                  },
+                    error:function(data){
+                      console.log('request错误');
+                    }
+            });  
+              // console.log('ajax over');
+        };
+
+        $('.enter').click(function(){
+//          console.log('enter');
+              login();    
+      });
+
+      //文本框聚焦隐藏错误提示
+      $('.loginInner input').on('input',function(){
+          $('.loginInner .userTip').hide();
+          $('.loginInner .pwdTip').hide();
+      })
+     
+      //回车键登录
+    $('.loginInner input').keydown(function(){
+      if(event.keyCode == 13){
+           // console.log('回车键登录');
+              login();
+          }
+    });
+
+    //点击明文密文切换
+    $('.loginInner .eyesTip').click(function(){
+      if($(this).prev().attr('type') == 'password'){
+          $('.grayeyes').css({'display':'none'});
+          $('.eyes').css({'display':'block'});
+          $(this).prev().attr('type','text');
+      }else{
+        $('.grayeyes').css({'display':'block'});
+          $('.eyes').css({'display':'none'});
+        $(this).prev().attr('type','password'); 
+      }
+    });
+});
+      
+
+    
+  

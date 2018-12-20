@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>个人信息</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="css/information.css">
+    <script src="lib/jquery-1.11.3.js"></script>
+    <script src="js/information.js"></script>
+    <script src="plugin/laydate/laydate.js"></script>
+</head>
+<body onload="showMes()">
+<div id="information">
+    <div class="schedule_head">医院信息</div>
+    <div class="information" style="width: 1140px">
+       <!--  <div class="mation_tit">
+            <ul>
+                <li class="title_active">医院信息</li>
+                <li>本医院科室设置</li>
+            </ul>
+        </div> -->
+        <!-- <div class="tab_list"> -->
+            <div class="hospital show">
+                <div class="hospital_main">
+                    <div class="hos_name">
+                        <div class="f_l hos_left">医院名称: <input class="hos_all" type="text"  id = "hos_all"/ placeholder="输入医院名称(必填)"></div>
+                        <span class="redColor f_l hos_left">医院名称不能为空</span>
+                        <div class="f_l hos_left">医院简称: <input class="hos_all" type="text"  id="hos_send"/></div>
+                    </div>
+                    <div class="hos_name">
+                        <div class="f_l hos_grade">医院等级:
+                            <select id="hos_leve">
+                                <option value="3">三级</option>
+                                <option value="2">二级</option>
+                                <option value="1">一级</option>
+                                <option value="0">其它</option>
+                                <!-- <option value=""></option>
+                                <option value="0">其它</option>
+                                <option value=""></option>
+                                <option value="0">其他</option> -->
+                            </select>
+                            <select id="hos_grade">
+                                <option value="1">甲等</option>
+                                <option value="2">乙等</option>
+                                <option value="3">丙等</option>
+                                <option value="4">其他</option>
+                            </select>
+                        </div>
+                        <div class="f_l">
+                            医院性质:
+                            <select  id="hos_natu">
+                                <option value="公立">公立</option>
+                                <option value="民营">民营</option>
+                                <option value="外资">外资</option>
+                                <option value="合资">合资</option>       
+                            </select>
+                        </div>
+                    </div>
+                    <div class="hos_img">
+                        <span class="f_l">资质证书:</span>
+                        <div class="img_list f_l">
+                            <!--<div class="img_act f_l">-->
+                            <!--<img class="img_pic" src="images/1.png" alt=""/>-->
+                            <!--<img class="pic_del" src="images/shanchu.png" alt=""/>-->
+                            <!--</div>-->
+                        </div>
+                        <div class="img_file img_5hid f_l">
+                            <input class="file_input file_allow" type="file" onchange="dicussImg()"/>
+
+                        </div>
+                        <span class="f_l img_limit img_5hid">(只能上传5张图片，每张图大小不能超过3M)</span>
+                    </div>
+                    <div class="hos_img">
+                        <span class="f_l">医院logo:</span>
+                        <div class="img_logo f_l">
+                            <!--<div class="img_act f_l">-->
+                            <!--<img class="img_pic" src="images/1.png" alt=""/>-->
+                            <!--<img class="pic_del" src="images/shanchu.png" alt=""/>-->
+                            <!--</div>-->
+                        </div>
+                        <div class="img_file img_hid f_l">
+
+                            <input id="imgehid" class="file_input file_logo" type="file" onchange="dicussLogo()"/>
+
+                        </div>
+                        <span class="f_l img_limit img_hid">(只能上传1张图片，每张图大小不能超过3M)</span>
+                    </div>
+                    <div class="hos_img">
+                        <span class="f_l">外景图:</span>
+                        <div class="img_back f_l">
+                            <!--<div class="img_act f_l">-->
+                            <!--<img class="img_pic" src="images/1.png" alt=""/>-->
+                            <!--<img class="pic_del" src="images/shanchu.png" alt=""/>-->
+                            <!--</div>-->
+                        </div>
+                        <div class="img_file img_backHid f_l">
+
+                            <input id="imgeback" class="file_input file_back" type="file" onchange="dicussBack()"/>
+
+                        </div>
+                        <span class="f_l img_limit img_backHid">(只能上传1张图片，每张图大小不能超过3M)</span>
+                    </div>
+                    <div class="hos_name hos_introduce">
+                        <div class="f_l">
+                            <span>医院简介:</span>
+                            <textarea class="hos_text" max-lenght="1000" cols="30"  rows="10"  id="introduce"></textarea>
+                            <span class="tips">(医院简介字数不超过600字)</span>
+                        </div>
+                    </div>
+                    <div class="hos_name hos_address">
+                        <div class="f_l">
+                            医院地址:
+                            <select  id="provice" onchange="query(this.value , 2)">
+                            </select>
+                            <select  id="city"  onchange="query(this.value , 1)">
+                            </select>
+                            <select  id="country">
+                            </select>
+                            <input type="text" maxlength="50" id="address"/ placeholder="请输入具体地址">
+
+                           <!--  <a href="javascript:void(0);" onclick="copyUrl2()">复制地址</a> -->
+                        </div>
+                    </div>
+                    <div class="hos_name ">
+                        <div class="f_l">
+                            地址定位:<br>
+                            <div class="lati_long">
+                                纬&nbsp;&nbsp;&nbsp;度: <input type="text" class="latitude"/>
+                                经&nbsp;&nbsp;&nbsp;度: <input type="text" class="longitude"/>
+                                <a target="_blank" href="http://www.gpsspg.com/maps.htm" onclick="copyUrl2()">获取经纬度</a>
+                                <span>(在地图地址输入框可直接粘贴地址，将显示的经纬度复制。推荐您选择百度地图，请精确到小数点后6位)</span>
+                                <span class="redColor">经纬度不能为空</span>
+                            </div>
+
+                        </div>
+                        <!-- <input type="text" style="opacity: 0;" id="copyName"/> -->
+                    </div>
+                    <div class="hos_name">
+                        <div class="offwork">
+                            下班时间:  <input type="text" id="offworkTime">
+                        </div>
+                    </div>
+                    <div class="hos_name">
+                        <div class="f_l">
+                            医院电话: <input class="hos_tel" type="text"/>联系人: <input class="hos_pep" type="text"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+      <!--   </div> -->
+        <div class="btn_sub">
+            <button class="hos_sub" onclick="subMess()">提交</button>
+
+        </div>
+    </div>
+</div>
+<div id="smallAlert">
+    <!-- 遮罩层 -->
+    <div class="smallMask"></div>
+    <!--消息框-->
+    <div class="smallBox">
+        <div class="alertBox_top">
+            <p class="small-title">
+                温馨提示
+            </p>
+        </div>
+        <div class="small_main">
+            <p class="small_text">确认修改?</p>
+        </div>
+        <div class="small_btn">
+            <button class="btn_return">取消</button>
+            <button class="btn_sure">确认</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".pic_del").click(function () {
+        $(this).parent().remove();
+    })
+
+</script>
+
+<script>
+    $(function () {
+        //医院信息
+        //医院登记选择
+        $('#hos_leve').on('change',function(){
+            //alert($('#hos_leve option:selected').text()); 
+            if($('#hos_leve option:selected').text() == '其他'){
+                $('#hos_grade option:last').prevAll().remove();
+            }
+        });
+         $('#hos_all').on('input',function(){
+           $(this).parent().next().hide();
+         });
+         $('.lati_long input').on('input',function(){
+            //  alert('该消失了');
+            $(this).parent().find('span').hide();
+        });
+ 
+
+        $('.smallMask').hide();
+        $('.smallBox').hide();
+        // 获取弹窗宽高
+        var width=$('.alertBox').width();
+        var height=$('.alertBox').height();
+        // 获取浏览器窗口宽高
+        var h=document.documentElement.clientHeight; 
+        var w=document.documentElement.clientWidth;
+        var smallW=$('.smallBox').width();
+        var smallH=$('.smallBox').height();
+        $('.alertBox').css({ 'top': (h-height) / 2 + 'px', 'left': (w-width) / 2 + 'px' });
+        $('.alert-close').click(function(){
+            $('.alertMask').hide();
+            $('.alertBox').hide();
+        })
+        $('.smallBox').css({ 'top': (h-smallH) / 2 + 'px', 'left': (w-smallW) / 2 + 'px' });
+        $('.btn_return').click(function(){
+            $('.smallMask').hide();
+            $('.smallBox').hide();
+        })
+    })
+    function clearNoNum(obj){
+        obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符
+        obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的
+        obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');//只能输入两个小数
+        if(obj.value.indexOf(".")< 0 && obj.value !=""){//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
+            obj.value= parseFloat(obj.value);
+        }
+    }
+    $(function(){
+        $("input").focus(function(){
+            $(this).css("background-color","#FFFFCC");
+        });
+        $("input").blur(function(){
+            $(this).css("background-color","#fff");
+        });
+    });
+
+
+
+
+	
+</script>
+</body>
+</html>

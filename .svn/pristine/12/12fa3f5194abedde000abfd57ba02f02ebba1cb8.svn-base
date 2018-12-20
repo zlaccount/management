@@ -1,0 +1,201 @@
+   var date = new Date();
+    var month =  (date.getMonth() + 1)<10?'0'+(date.getMonth() + 1):(date.getMonth() + 1)
+        day = date.getDate()<10?'0'+date.getDate():date.getDate();
+    var currentDay = date.getFullYear()+ '-' + month + '-' + day;  //显示当天日期                     
+    var currentTime = currentDay + " "
+          + (date.getHours()<10?"0"+date.getHours():date.getHours()) +':' 
+          + (date.getMinutes()<10?"0"+date.getMinutes():date.getMinutes()) + ':'
+          +(date.getSeconds()< 10? "0"+ date.getSeconds():date.getSeconds()); //显示当前具体时间
+     
+          //获取当前星期
+    function getCurrentWeek(){
+        var week = ['星期天','星期一','星期二','星期三','星期四','星期五','星期六'][date.getDay()];  
+       return week;
+    };
+
+    function getWeek(aa) {
+        var now = new Date();
+        var day=now.getDay(); //拿到的当前周几的数字，如周四就是4
+        day=day+aa;
+        switch (day)
+        {
+            case 0:
+            case 7:
+            case -7:
+                week="星期天";
+                break;
+            case 1:
+            case 8:
+            case -6:
+                week="星期一";
+                break;
+            case 2:
+            case 9:
+            case -5:
+                week="星期二";
+                break;
+            case 3:
+            case 10:
+            case -4:
+                week="星期三";
+                break;
+            case 4:
+            case 11:
+            case -3:
+                week="星期四";
+                break;
+            case 5:
+            case 12:
+            case -2:
+                week="星期五";
+                break;
+            case 6:
+            case 13:
+            case -1:
+                week="星期六";
+                break;
+        }
+}
+
+    //获取年月日
+    function getYear(obj) {
+        var date1 = new Date();
+        var time1=date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();//time1表示当前时间
+        var date2 = new Date(date1);//当前标准时间
+        date2.setDate(date1.getDate()+obj);
+        var time2 = date2.getFullYear()+"-"+((date2.getMonth()+1)>9?(date2.getMonth()+1):"0"+(date2.getMonth()+1))+"-"+(date2.getDate()>9?date2.getDate():"0"+date2.getDate());
+        return time2;
+    }
+//alert(getYear(1)+getYear(2)+getYear(3)+getYear(4)+getYear(5)+getYear(6));
+     //获取n天后的日期的函数
+    function nextTime(day){
+    //    var date_next = new Date(date.getTime() + 7 * 24 * 3600 * 1000);
+       var date_next = new Date(date.getTime() + day * 24 * 3600 * 1000);
+       var year = date_next.getFullYear();
+       var month = (date_next.getMonth() + 1)>=10?(date_next.getMonth() + 1):'0'+(date_next.getMonth() + 1);
+       var day =  date_next.getDate()>10?date_next.getDate():'0'+date_next.getDate();
+       return year + '-' + month + '-' + day;
+    };
+
+      //获取n天前的日期的函数
+       function preTime(day){
+          var date_pre = new Date(date.getTime() - day * 24 * 3600 * 1000);  
+          date_pre =  date_pre.getFullYear()+ '-' + (date_pre.getMonth() + 1) + '-' + date_pre.getDate();
+            return date_pre;
+       };
+
+       /*日期相隔的天数*/
+        function  DateDiff(sDate1,  sDate2){    //sDate1和sDate2是2002-12-18格式
+            var  aDate,  oDate1,  oDate2,  iDays;
+            aDate  =  sDate1.split("-");
+            oDate1  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0]);    //转换为12-18-2002格式
+            aDate  =  sDate2.split("-");
+            oDate2  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0]);
+            iDays  =  parseInt((oDate1  -  oDate2)  /  1000  /  60  /  60  /24);  //把相差的毫秒数转换为天数
+            return  iDays;
+        }
+
+        //天数计算日期
+ function AddDays(dates,days){
+     var nd = new Date(dates);
+//     console.log(nd);
+        nd = nd.valueOf();
+        nd = nd + days * 24 * 60 * 60 * 1000;
+        nd = new Date(nd);
+        //alert(nd.getFullYear() + "年" + (nd.getMonth() + 1) + "月" + nd.getDate() + "日");
+        var y = nd.getFullYear();
+        var m = nd.getMonth()+1;
+        var d = nd.getDate();
+        if(m <= 9) m = "0"+m;
+        if(d <= 9) d = "0"+d;
+        var cdate = y+"-"+m+"-"+d;
+        return cdate;
+ }
+
+       // 格式化身份证出生日期**
+       function formatIdenticard(identicard){
+          //422129199310120562
+          var start = identicard.substring(0,6),
+            birthday = identicard.substring(6,14),
+            end = identicard.substring(14,identicard.length);
+            birthday = '********';
+            identicard = start + birthday + end;
+          return identicard;
+       };
+
+       //格式化费用
+       function formatFee(fee){
+          return (fee/100).toFixed(2);
+       };
+      // alert(formatFee(0))
+       function uniqueArr(oldArr){
+          var filterArr = [];
+          for(var i=0;i<oldArr.length;i++){
+              if(filterArr.indexOf(oldArr[i]) == -1){
+                  filterArr.push(oldArr[i]);
+              }
+          }
+          return filterArr;
+       };
+
+//IE存储
+function handleStorage(){
+   // if(!window.sessionStorage && /MSIE/.test(navigator.userAgent)){
+                 // alert('ie')
+                  //IE
+                  if(!window.UserData){
+                    window.UserData = function(file_name){
+                        var dom = document.createElement('input');
+                        dom.type = 'hidden';
+                        dom.addBehavior('#default#userData');
+                        document.body.appendChild(dom);
+                        dom.save(file_name);
+                        this.file_name = file_name;
+                        this.dom = dom;
+                        return this;
+                    };
+                    window.UserData.prototype = {
+                      setItem:function(k,v){
+                          this.dom.setAttribute(k,v);
+                          this.dom.save(this.file_name);
+                      },
+                      getItem:function(k){
+                        this.dom.load(this.file_name);
+                        return this.dom.getAttribute(k);
+                      },
+                      removeItem:function(k){
+                          this.dom.removeAttribute(k);
+                          this.dom.save(this.file_name);
+                      }
+                    };
+                  }
+                 var storage = new window.UserData('storage_files'); 
+                    storage.setItem('username',data.name);  
+                    storage.setItem('hospitalName',data.hospitalName); 
+                    storage.setItem('hospitalId',data.hospitalId); 
+                    storage.setItem('roleId',data.roleId);
+                    storage.setItem('subjectId',data.departmentId);
+                    storage.setItem('subjectName',data.departmentName);  
+                    // alert(storage.getItem('username'));
+                    // alert(storage.getItem('hospitalName'));
+                    //   alert(storage.getItem('roleId'));
+                    //     alert(storage.getItem('subjectId'));
+                    //       alert(storage.getItem('subjectName'));
+                  var storage_obj = {};
+                  storage_obj.username = storage.getItem('username');
+                   storage_obj.hospitalName = storage.getItem('hospitalName');
+                   storage_obj.hospitalId = storage.getItem('hospitalId');
+                    storage_obj.roleId = storage.getItem('roleId');
+                    storage_obj.subjectId = storage.getItem('subjectId');
+                    storage_obj.subjectName = storage.getItem('subjectName');
+                 return storage_obj;  
+        // }
+};
+   
+  
+    
+
+
+
+       
+        

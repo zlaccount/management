@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>个人信息</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="css/information.css">
+    <script src="lib/jquery-1.11.3.js"></script>
+    <script src="js/information.js"></script>
+</head>
+<body>
+<div id="subject">
+    <div class="schedule_head">科室信息</div>
+    <div class="information" style="width: 1100px">
+        <div class="duty">
+            <!--<div class="mation_tit">科室设置</div>-->
+            <div class="duty_main">
+                <div class="duty_name">
+                    <span style="width: 106px;text-align: center;" class="f_l"> <span>门诊科室模板:</span><span>(辅助科室除外)</span></span>
+                    <div class="f_l duty_list">
+                        <div class="list_top">
+                            <span style="font-size:16px">一级科室:</span>
+                           <!--  <input type="text" id="duty_list"/ placeholder="请输入具体科室名称搜索">
+                            <ul class="subject_list">
+
+                            </ul> -->
+                        </div>
+                        <div style="overflow: hidden" class="list_main">
+                            <!-- <div class="list_name f_l">
+                                <input class="duty_id" type="hidden" value="11786e16c057feca007850d7f40b3b27">
+                                <span>神经内科</span>
+                            </div> -->
+                        </div>
+                        <!-- <div class="list_bottom">
+                            <input  class="add_text"  type="text" placeholder="新增科室名称"/>
+                            <button class="add_btn">增加科室</button>
+                        </div> -->
+                        <div class="list_bottom">
+                            <!--如需增加科室,请联系系统管理员-->
+                        </div>
+                    </div>
+                    <div class="secondSubList f_l">
+                        <div class="list_top">
+                            <span style="font-size:16px">科室筛选:</span>
+                            <input type="text" id="duty_list"/ placeholder="输入名称">
+                            <ul class="subject_list">
+
+                            </ul>
+                        </div>
+                        <div class="showAll">
+                            <!-- <input type="radio" name="subjects" value="显示所有二级科室"> 显示所有二级科室 -->
+                            <input type="checkBox" value="显示所有二级科室" class="check_input" onclick="showSecond_sub();"> 显示所有二级科室
+                        </div>  
+                        <div style="overflow: hidden" class="secondSubList_main">
+                            <!-- <div class="list_name f_l">
+                                <input class="duty_id" type="hidden" value="11786e16c057feca007850d7f40b3b27">
+                                <span>神经内科</span>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sure_duty">
+                <!-- <span class="f_l ">本医院门诊科室:</span> -->
+                <span style="width: 106px;text-align: center;" class="f_l"> <span>门诊科室:</span><span>(已选科室)</span></span>
+                <div class="f_l sure_div">
+                    <!-- <div class="list_choose f_l">
+                        <input class="duty_id" type="hidden" value="11786e16c057feca007850d7f40b3b27">
+                        <span>神经内科</span>
+                        <img class="del_img" src="images/shanchu.png" onclick="delDuty(this)" alt=""/>
+                    </div> -->
+                    <div class="f_l sure_box">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btn_sub">
+            <button class="subject_sub" onclick="subMess_sub()">提交</button>
+        </div>
+    </div>
+</div>
+<div id="smallAlert">
+    <!-- 遮罩层 -->
+    <div class="smallMask"></div>
+    <!--消息框-->
+    <div class="smallBox">
+        <div class="alertBox_top">
+            <p class="small-title">
+                温馨提示
+            </p>
+        </div>
+        <div class="small_main">
+            <p class="small_text">确认修改?</p>
+            <input type="text" name="" class="small_textInput">
+        </div>
+        <div class="small_btn">
+            <button class="btn_sure">确认</button>
+            <button class="btn_return">取消</button>
+            <button class="btn_subsure">确认</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // $(".pic_del").click(function () {
+    //     $(this).parent().remove();
+    // })
+
+</script>
+
+<script>
+    $(function () {
+   
+     //   dutyMoney();
+      // clickDuty();
+       // clickHas();
+       // clickNon();
+        dutyList();
+        querySubjectsInput();
+
+        $('.smallMask').hide();
+        $('.smallBox').hide();
+        $('.small_textInput').hide();
+       // $('.btn_subsure').hide();
+        // 获取弹窗宽高
+        var width=$('.alertBox').width();
+        var height=$('.alertBox').height();
+        // 获取浏览器窗口宽高
+        var h=document.documentElement.clientHeight; 
+        var w=document.documentElement.clientWidth;
+        var smallW=$('.smallBox').width();
+        var smallH=$('.smallBox').height();
+        $('.alertBox').css({ 'top': (h-height) / 2 + 'px', 'left': (w-width) / 2 + 'px' });
+        $('.alert-close').click(function(){
+            $('.alertMask').hide();
+            $('.alertBox').hide();
+        })
+        $('.smallBox').css({ 'top': (h-smallH) / 2 + 'px', 'left': (w-smallW) / 2 + 'px' });
+        $('.btn_return').click(function(){
+            $('.smallMask').hide();
+            $('.smallBox').hide();
+        })
+    })
+    function clearNoNum(obj){
+        obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符
+        obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的
+        obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');//只能输入两个小数
+        if(obj.value.indexOf(".")< 0 && obj.value !=""){//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
+            obj.value= parseFloat(obj.value);
+        }
+    }
+
+   
+    $(function(){
+        $("input").focus(function(){
+            $(this).css("background-color","#FFFFCC");
+        });
+        $("input").blur(function(){
+            $(this).css("background-color","#fff");
+        });
+    });
+
+
+
+
+    
+</script>
+</body>
+</html>

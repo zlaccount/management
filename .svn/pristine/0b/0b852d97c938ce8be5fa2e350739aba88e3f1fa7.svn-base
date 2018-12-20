@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="shortcut icon" href="images/small.ico" type="image/x-icon"/> 
+		<link rel="stylesheet" type="text/css" href="lib/bootstrap.css">
+		<link rel="stylesheet" href="plugin/sweetalert-master/dist/sweetalert.css">
+		<link rel="stylesheet" href="lib/myPagination/page.css" />
+		<!--[if IE 7]>
+		  <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" />
+		<![endif]-->
+
+		<!-- page specific plugin styles -->
+		<link rel="stylesheet" type="text/css" href="public/css/base.css">
+		<link rel="stylesheet" href="css/terminals.css" />
+		<!--<link rel="stylesheet" type="text/css" href="css/register.css"/>-->
+		<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+		<![endif]-->
+
+		<!-- <script src="assets/js/ace-extra.min.js"></script> -->
+	
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+		<!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+		<div class="content">
+			<object classid="clsid:5EB842AE-5C49-4FD8-8CE9-77D4AF9FD4FF"
+			id="IdrControl1" width="0" height="0"> </object>
+			<div id="register_window">		
+			<div id="head" class="clear">
+				<div class="left_d">
+					<span></span>医院自助服务终端
+				</div>
+				<div class="right_w">
+					欢迎使用自助取票机
+				</div>
+			</div>
+			<div class="header" style="width: 360px;height: 360px; background: #50e6ca;border-radius: 10px;margin-top: 250px;">
+			<a href="javascript:void(0);" class="set_hide" >
+				<img src="images/help_book.png"/>
+				<p>自助取号</p>
+				</a>
+			</div>
+			
+			<div id="alertPop">
+				<!-- 遮罩层 -->
+				<div class="alert_one">
+					<div class="alert_head">
+						<div class="alert_l">
+							<!-- <button class="alert_off">取消取号</button> -->
+						</div>
+						<!--取号流程-->
+						<div class="help_take"></div>
+						<!--取号提示-->
+						<div class="help_ps">
+							<p> 扫描身份证<a>(或填写订单信息)</a> </p>
+							<p style="margin-left: 272px;"> 选择订单</p>
+							<p style="margin-left: 490px;"> 确认信息</p>
+							<p style="margin-left: 720px;"> 取票完成</p>
+						</div>
+						<div class="alert_r">
+							<button class="alert_head"><a href="takeNumber.html">首页</a></button>
+						</div>
+					</div>
+				</div>
+				<div class="alert_mian">
+					<div class="alert_mian_l">
+						<img src="images/help_idcard.png" />
+						<button type="submit" class="btn_scan" onclick="Idcard();">确认扫描</button>
+					</div>
+					<div class="alert_mian_r">
+						<h3>订单信息</h3>
+						<div class="alert_idmian clearfix">
+							<div class="id_set id_chan">
+							<p>姓&ensp;&ensp;名：</p>
+							<input  class="id_name" type="text" name="idCard_Name"/>
+							</div>
+							<div class="id_set">
+							<p>身份证：</p>
+							<input  class="id_card" type="text" name="idCard_No"/>
+							</div>
+							<div class="id_set">
+							<p>订单号：</p>
+							<input  class="id_number user_regisId" type="text"/>
+							</div>
+							<p>不知道订单号？试试用姓名+身份证号检索。</p>
+							<button class="btn_seek">查询</button>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			
+			<div class="table_info saomiaoMes">
+				<table class="table table-striped table-bordered table-hover center" id="sample-table">
+					<thead>
+						<tr class="thead_list">
+							<th>序号</th>
+							<th>订单编号</th>
+							<th>就诊日期</th>
+							<!-- <th>时间</th> -->
+							<th>科室</th>
+							<th>类别</th>
+							<th>医生姓名</th>
+							<th>就诊人</th>
+							<!-- <th>总计</th> -->
+							
+							<!-- <th>预约途径</th> -->
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody class="registerInfo center">
+					</tbody>
+				</table>
+			</div>
+			<!-- 订单右侧的东东-->
+			<div id="alert_two">
+				<div class="alert_number">
+					<a>选中张数/总张数</a>
+					<p></p>
+				</div>
+				<div class="alert_fot">
+					<button class="checkBtn">打印</button>
+				</div>
+			</div>
+			
+							<div class="mask">
+							<div class="check" index="0"> 
+								<div class="title clearfix">
+												
+									
+												
+									<!--<img src="images/close_04.png" alt="" class="close_checkMask">-->
+								</div>
+								<div class="checkMes_box">
+									<div class="checkMes">
+										<ul class="checkBtn_ul">
+											<!--数据动态填充-->
+										</ul>
+										<p class="mtb_5">请凭号就诊，谢谢配合!</p>
+										<p class="wish">预约挂号请用E大夫app，E大夫祝您身体健康！</p>
+										<div class="hospital_titles center"><span class='hospital_title'></span><span class="checkTime"></span></div>
+										<!-- <img class="hospi_logo fl" src="" alt="">  -->
+										<!-- <button class="confirmCheck">确认取号</button> -->
+									</div>
+								</div>
+							</div>		
+							
+			
+						</div>
+				
+					</div>					
+			<!--遮罩层-->
+	    	<div class="addMask"></div>
+			<div id="foot">
+				<span id="timer"></span>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script>
+ 	<script type="text/javascript" src="lib/bootstrap.js"></script>
+	<script src="plugin/sweetalert-master/dist/sweetalert.min.js"></script>
+	<script src="lib/myPagination/jquery.myPagination6.0.js"></script>
+	<script type="text/javascript" src="assets/js/jQuery.print.js"></script>
+	<script type="text/javascript" src="public/js/base.js"></script>
+	<script type="text/javascript" src="js/terminals.js"></script>
+	<script type="text/javascript">
+		var d = new Date();
+		var str = d.getFullYear()+"年"+(d.getMonth()+1)+"月"+d.getDate()+"日";
+		document.getElementById("timer").innerHTML= str;
+		
+		$('#head .left_d').children('span').text(sessionStorage.getItem('hospitalName'));
+	</script>
+	<script type="text/javascript">
+			$("#foot").hide();
+			$(".header>a").click(function (){
+			$(".header").hide();
+			$("#head").hide();
+			$("#alertPop").show();
+			$("#foot").show();
+
+		});
+
+//身份证扫描
+function Idcard() {
+	var result;
+	// 注意：第一个参数为对应的设备端口，USB型为1001，串口型为1至16
+	try {
+		result = IdrControl1.ReadCard("1001", "");
+		if(result == 1) {
+			$("input[name='idCard_Name']").val(IdrControl1.GetName());
+			$("input[name='idCard_No']").val(IdrControl1.GetCode());
+			$(".alert_mian").hide()
+			$(".table_info").show()
+			$(".alert_two").show()
+		} else {
+			if(result == -1)
+				alert("未检测到读卡器，请检查连接！");
+			if(result == -2)
+				alert("请重新将卡片放到读卡器上！");
+			if(result == -3)
+				alert("读取数据失败！");
+		}
+	} catch(e) {
+		alert("未检测到读卡器插件");
+	}
+	
+}
+	</script>
+</html>

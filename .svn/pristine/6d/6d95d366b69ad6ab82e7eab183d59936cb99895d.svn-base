@@ -1,0 +1,141 @@
+$(function(){
+        var baseUrl = 'http://www.51edoctor.cn/';
+  //角色限定
+    function displayPage(role){
+        if(role == '医院管理员'){
+            //管理员显示统计和设置         
+//            $('.nav-list .count').show();
+            $('.nav-list .user').show();
+//            var countSrc = $('.nav-list .count>a').attr('name'), //count.html
+              var userSrc = $('.nav-list .user>#new_infor').attr('name'); //new_infor.html
+                $('#iframe').attr('src',userSrc).ready();
+        }
+        if(role == '门办审核员'){
+            $('.nav-list .audit').show();
+            var auditSrc = $('.nav-list .audit>a').attr('name');
+            $('#iframe').attr('src',auditSrc).ready();
+        }
+        if(role == '科室排班员'){
+          //排班员:排班
+            $('.nav-list .scheduleMes').show();
+            var scheduleUrl =  $('.nav-list .scheduleMes>#doctorMes').attr('name'); //scheduleMes.html
+             $('#iframe').attr('src',scheduleUrl).ready(); 
+        }
+        if(role == '医院挂号员'){
+          //挂号员:挂号
+             $('.nav-list .register').show();
+            var registerUrl = $('.nav-list .register>a').attr('name');
+             $('#iframe').attr('src',registerUrl).ready(); 
+        }
+        if(role == '自助终端'){
+          //挂号员:挂号
+             $('.nav-list .terminals').show();
+            var registerUrl = $('.nav-list .terminals>a').attr('name');
+            // $('#iframe').attr('src',registerUrl).ready(); 
+             window.location.href= registerUrl;
+        } 
+    }
+  // displayPage(sessionStorage.getItem('roleId'));
+
+ if(!window.sessionStorage && /MSIE/.test(navigator.userAgent)){
+       // handleStorage();
+        // $('.header .hospital_title').text( storage.getItem('hospitalName'));
+        // $('.users .username').text(storage.getItem('username'));
+       //  alert('进入首页');
+          // $('.header .hospital_title').text(handleStorage().hospitalName);
+          // $('.header .hospital_title').text(handleStorage().username);
+          //  displayPage(handleStorage().roleId);
+       }else{
+          $('.header .hospital_title').text( sessionStorage.getItem('hospitalName'));
+          $('.users .username').text(sessionStorage.getItem('roleId')+'-'+sessionStorage.getItem('username'));
+
+           displayPage(sessionStorage.getItem('roleId'));
+       }
+  
+
+        //iframe设置
+      $('.iframeurl').click(function(){
+        var current_url = $(this).attr('name');
+        $('#iframe').attr('src',current_url).ready(); 
+      });
+       $(".contentBox").height($(window).height()- $(".header").height()); 
+      $('#iframe').height($(window).height() - $(".header").height());
+
+    //当文档窗口发生改变时 触发  
+        $(window).resize(function(){
+            $(".contentBox").height($(window).height()-60);
+            $("#iframe").height($(window).height()-60);
+            $(".slidebar").height($(window).height()-60);
+      });
+
+      //侧边菜单栏部分
+      $('.nav-list .dropdown_menu').addClass('hidden');
+      $('.nav-list>li').click(function(){
+        $(this).siblings().removeClass('active');
+        $(this).addClass('active');
+        $(this).siblings().next('ul').addClass('hidden');
+         $(this).next('ul').toggleClass('hidden');
+      });
+        //点击收缩 展开侧边菜单
+        function changeLeft(ele,leftNum,newLeftNum){
+          if($(ele).offset().left == leftNum){
+            $(ele).offset({left:newLeftNum});
+          }else{
+            $(ele).offset({left:leftNum});
+          }     
+        };
+
+          function changeLeftCont(ele,leftNum,newLeftNum){
+              if($(ele).offset().left == leftNum){
+                $(ele).offset({left:newLeftNum});
+
+                $(ele).width( $(ele).width()+(Math.abs(leftNum-newLeftNum)));
+              }else{
+                $(ele).offset({left:leftNum});
+                  $(ele).width( $(ele).width()-(Math.abs(leftNum-newLeftNum)));
+              }     
+        };
+     
+      $('.toggleMenu').click(function(){
+          changeLeft($('.toggleMenu'),190,50);
+          changeLeftCont($('.content'),190,50);
+          $(window).resize(
+              function () {
+                  $("#iframe").width($(window).width());
+                  console.log($("#iframe").width());
+              }
+          )
+
+          $(window).on('resize',function(){
+            //alert(12);
+              $('#iframe').width($(window).width());
+          });
+          if($(this).children('.he').hasClass('hidden')){
+              $(this).children('.he').removeClass('hidden');
+              $(this).children('.open').addClass('hidden');
+          }else{
+              $(this).children('.open').removeClass('hidden');
+              $(this).children('.he').addClass('hidden');
+          }      
+      });
+
+    //退出当前index页面 E2306_admin/admin/hospitalUser/logout
+//参数： userId=b9ef4e97c057feca766d63c59e382b55 用户id userId
+    $('.dropDown_title').click(function(){
+          window.location.href= 'login.html';
+          //清空所有session
+          sessionStorage.clear();
+           $.ajax({
+              url:'http://192.168.1.51:8333/E2306_admin/admin/hospitalUser/logout',
+               //   url:baseUrl + 'E2306_admin/admin/hospitalUser/logout',
+                  type:"post", 
+                  data:{
+                    userId:sessionStorage.getItem('userId')
+                  },
+               success:function(data){
+                 console.log(data);  //1 - ok
+
+               }
+          });
+    });
+});

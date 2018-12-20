@@ -1,0 +1,709 @@
+
+/*
+2017-10-11
+*/
+
+
+function time(){
+    var date = new Date();
+    var year = date.getFullYear();
+    var month=date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+    var data=date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+    var hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+    var minute = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+    var second = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+    var currentTime = year + "-" + month + "-" + data + "&nbsp;&nbsp;" + hour + ":" + minute + ":" +second;
+    $(".schedule_time_down").html(currentTime);
+    //$("caption span").html("("+year + "-" + month + "-" + data+")" +'~' + getYear(6));
+}
+
+$(function(){
+    $('.alertMask').hide();
+    $('.alertBox').hide();
+
+    var width=$('.alertBox').width();
+    var height=$('.alertBox').height();
+
+    var h=document.documentElement.clientHeight;
+    var w=document.documentElement.clientWidth;
+    $('.alertBox').css({ 'top': (h-height) / 2 + 'px', 'left': (w-width) / 2 + 'px' });
+    $('.alert-close').click(function(){
+        $('.alertMask').hide();
+        $('.alertBox').hide();
+    })
+})
+
+ var baseUrl = 'http://www.51edoctor.cn/';
+    //  var baseUrl = 'http://192.168.1.51:8333/';
+
+   $('.schedule_name .department').keyup(function(){
+       querySubjects();
+   });
+    //科室模糊查询
+    function querySubjects(){
+      console.log($('.schedule_name .department').val());
+        $.ajax({
+           // url:baseUrl + 'eht/admin/Information/queryDepartment',
+           url:baseUrl+"eht/admin/scheduling/getSubByname",
+            type:'post',
+            data:{
+                 hospitalId:sessionStorage.getItem("hospitalId"),     
+                // departmentName:$('.schedule_name .department').val()
+                name:$('.schedule_name .department').val(),
+                type:1,
+                parentcode:''
+            },
+            success:function(data){
+              console.log(data);
+                if(data== [] || data.length == 0 ){
+                        return false;
+                }
+                var list = '';
+                for(var i =0;i<data.length;i++){
+                    list += '<li subjectId='+data[i].departmentId+'>'+data[i].subjectName+'</li>';
+                }
+                $('.schedule_name .queryDepart').slideDown();
+                $('.schedule_name .queryDepart').html(list);   
+                $('.schedule_name .queryDepart').on('click','li',function(){
+                    $('.schedule_name .department').val($(this).text());
+                    $('.schedule_name .department').attr('subjectId',$(this).attr('subjectId'));
+                     $('.schedule_name .queryDepart').slideUp();
+                    // renderList();
+                });
+                $('.schedule_name .department').on('blur',function(){
+                       // renderList();
+                    $('.schedule_name .queryDepart').slideUp();
+                });
+            },
+        });
+    };
+
+
+    var currentpage = 1;
+
+   $('.audit_query').bind('click').click(function(){
+        var subjectName = $('.schedule_name .department').val();
+        //alert(subjectName)
+        var time=$("#start").val();//
+        var date1 = new Date();
+        var time1=date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();//
+        time==""?time=time1:time;
+        var getday = DateDiff(time,time1); //
+       // alert(getday);
+        if(!subjectName || subjectName =='' || subjectName ==' ' || subjectName == undefined){
+             $('.smallMask').show();
+                $('.smallBox').show();
+                $(".small_text").html("请输入具体的科室名称");
+                $(".btn_return").hide();
+                $(".btn_sure").click(function () {
+                    $('.smallMask').hide();
+                    $('.smallBox').hide();
+                })
+                return false;
+        }
+        if($('.schedule_name .department').attr('subjectId')){
+            listTop(currentpage,getday,time);
+           //  querySchedule(currentpage,$('.schedule_name .department').attr('subjectId'),startTime);
+             
+        }
+        if($('.schedule_name .department').attr('subjectId') == undefined || !($('.schedule_name .department').attr('subjectId'))){
+        
+             $.ajax({
+                   // url:baseUrl + '/eht/admin/Information/queryDepartment',
+                   url:baseUrl+"eht/admin/scheduling/getSubByname",
+                    type:'post',
+                    data:{
+                         hospitalId:sessionStorage.getItem("hospitalId"),     
+                        // departmentName:$('.schedule_name .department').val()
+                        name:$('.schedule_name .department').val(),
+                        type:1,
+                        parentcode:''
+                    },
+                    beforeSend:function(XMLHttpRequest){
+
+                    },
+                    success:function(data){
+                        $(".table_schedule_list").hide().prev().show();
+                        $(".table_submit_1").hide();
+                        $(".table_submit").show();
+                        if(data== [] || data.length == 0 ){
+                                return false;
+                        }
+                        for(var i=0;i<data.length;i++){
+                            if($('.schedule_name .department').val() === data[i].subjectName){
+                             // alert($('.schedule_name .department').val());
+                                $('.schedule_name .department').attr('subjectId',data[i].departmentId);
+                                 listTop(currentpage,getday,time);  
+                               // querySchedule(currentpage,$('.schedule_name .department').attr('subjectId'),startTime);
+                            break;
+                            }
+                        }
+                    },
+             });
+        }
+   });
+   
+   function querySchedule(page,subID,startTime){
+       var list=[{}];
+         getYear(1);
+        list[0].CurrentPage=page;
+        list[0].totalPages="8";
+        list[0].hospitalId = sessionStorage.getItem('hospitalId');  
+        list[0].subjectId = subID;
+        //list[0].subjectId = $('.schedule_name .department').attr('subjectId');
+        //doctor_name doctor_duty
+         list[0].doctor_name ='';
+        list[0].doctor_duty ='';
+        startTime=="undefined"||startTime==undefined||startTime==''?list[0].sourceDate="":list[0].sourceDate=startTime;
+        if(!list[0].subjectId || list[0].subjectId == undefined){
+            return false;
+        } 
+       // $('.schedule_table').show();
+        $.ajax({
+           // url:'http://192.168.1.51:8333/eht/admin/scheduling/CurrentSchedulingQuery',
+            url:baseUrl + 'eht/admin/scheduling/CurrentSchedulingQuery',
+            type:'get',
+            data:{jsonObj:JSON.stringify(list)},
+            dataType: "json",
+            async:false,
+            success: function (data) {
+                console.log(data);
+               // alert($('.schedule_name .department').val());
+                $('caption>p').text($('.schedule_name .department').val() +'门诊排班表');
+                //$("caption span").html("("+startTime+"~"+AddDays(startTime,6)+")");
+                $("#doc_ques").attr("title","");
+                $("#doc_ques").html("");
+                $(".doc_mess").empty();
+                var totalNum = data[0].num;
+                var count = Math.ceil(totalNum/8);
+                //展示是否有排班的表格信息
+                var html;
+                var i =1;
+                $.each(data,function(index,val){
+                    var objList = JSON.parse(val.objSource);
+                    console.log(objList)
+                    var duty;
+                    switch(parseInt(val.duty)){
+                        case 0:
+                            duty='其他';
+                            break;
+                        case 1:
+                            duty='医师';
+                            break;
+                        case 2:
+                            duty='主治医师';
+                            break;
+                        case 3:
+                            duty='副主任医师';
+                            break;
+                        case 4:
+                            duty='主任医师';
+                            break;
+                    } // 转变职称
+                    var type=val.outpatientType;
+                    var text;
+                    if(val.doctorname=="普通门诊"){
+                            text='<select style="height: 30px" class="sle_type"><option  value="0">普通门诊</option></select>';
+                        }else{
+                            switch(parseInt(val.duty)){
+                                case 0:
+                                    //text='<select style="height: 30px" class="sle_type"><option  value="0">普通门诊</option></select>';
+                                    text='<div>普通门诊</div>';
+                                    break;
+                                case 1:
+                                    //text='<select style="height: 30px" class="sle_type"><option value="0">普通门诊</option></select>';
+                                    text='<div>普通门诊</div>';
+                                    break;
+                                case 2:
+                                    //text='<select style="height: 30px" class="sle_type"><option value="0">普通门诊</option></select>';
+                                    text='<div>普通门诊</div>';
+                                    break;
+                                case 3:
+                                    //text='<select style="height: 30px" class="sle_type"><option value="0">普通门诊</option><option value="1">专家门诊</option><option value="2">特需门诊</option></select>';
+                                    text='<div>专家门诊</div>';
+                                    break;
+                                case 4:
+                                    //text='<select style="height: 30px" class="sle_type"><option value="0">普通门诊</option><option value="1">专家门诊</option><option value="2">特需门诊</option></select>';
+                                    text='<div>专家门诊</div>';
+                                    break;
+                            }
+                        }
+                     html='<tr class="schedule_detail_up"><td class="schedule_num"><input class="input_type" type="hidden" value="'+val.outpatientType+'"/><input class="doc_state" type="hidden" value="'+val.state+'"/><input class="doctorID" type="hidden" value="'+val.doctorID+'"/><b>'+i+'</b><img onclick="modify(this,\''+val.doctorID+'\',\''+val.doctorname+'\',\''+duty+'\',\''+type+'\',\''+i+'\')" src="images/mess_08.png" alt=""></td><td  class="schedule_name">'+val.doctorname+'</td><td  class="schedule_title">'+duty+'</td><td  class="schedule_title schedule_text">'+text+'</td><td  class="schedule_time"><p>上午</p><p>下午</p></td><td colspan="7"><table class="schedule_detail_table table-responsive"><tr class="detail_top"><td  class="time_tus"><input maxlength="2" onkeyup="value=value.replace(/[^\\d]/g,\'\')" readonly class="input_text"  type="text"/></td><td  class="time_wed"><input maxlength="2" onkeyup="value=value.replace(/[^\\d]/g,\'\')" readonly class="input_text"  type="text"/></td><td  class="time_thu"><input maxlength="2" onkeyup="value=value.replace(/[^\\d]/g,\'\')" readonly class="input_text"  type="text"/></td><td  class="time_fri"><input maxlength="2" onkeyup="value=value.replace(/[^\\d]/g,\'\')" readonly class="input_text"  type="text"/></td><td  class="time_sat"><input maxlength="2" onkeyup="value=value.replace(/[^\\d]/g,\'\')" readonly class="input_text"  type="text"/></td><td  class="time_sun"><input maxlength="2" onkeyup="value=value.replace(/[^\\d]/g,\'\')" readonly class="input_text"  type="text"/></td><td  class="time_mon"><input maxlength="2" onkeyup="value=value.replace(/[^\\d]/g,\'\')" readonly class="input_text"  type="text"/></td></tr><tr class="detail_bot"><td  class="time_tus"><input maxlength="2" onkeyup="value=value.replace(/[^\\d]/g,\'\')" readonly class="input_text"  type="text"/></td><td  class="time_wed"><input maxlength="2" onkeyup="value=value.replace(/[^\\d]/g,\'\')" readonly class="input_text"  type="text"/></td><td  class="time_thu"><input maxlength="2" onkeyup="value=value.replace(/[^\\d]/g,\'\')" readonly class="input_text"  type="text"/></td><td  class="time_fri"><input maxlength="2" onkeyup="value=value.replace(/[^\\d]/g,\'\')" readonly class="input_text"  type="text"/></td><td  class="time_sat"><input maxlength="2" onkeyup="value=value.replace(/[^\\d]/g,\'\')" readonly class="input_text"  type="text"/></td><td  class="time_sun"><input maxlength="2" onkeyup="value=value.replace(/[^\\d]/g,\'\')" readonly class="input_text"  type="text"/></td><td  class="time_mon"><input maxlength="2" onkeyup="value=value.replace(/[^\\d]/g,\'\')" readonly class="input_text"  type="text"/></td></tr></table></td><td class="audit_button"><button class="auditBtn"></button></td></tr>'
+                     i++;
+                     var num = index;
+                      $(".doc_mess").append(html);
+                      if(objList == [] || objList.length == 0){
+           
+                         $('.doc_mess .audit_button').eq(index).empty();
+                      }
+                      if(objList && objList.length > 0){
+                              if(objList[0].auditState == 0){
+                            //   alert(objList[0].auditState);
+                                $('.doc_mess .audit_button').eq(index).children('.auditBtn').addClass('mainBg');
+                                $('.doc_mess .audit_button').eq(index).children('.auditBtn').text('待审核');
+                                $('.doc_mess .audit_button').eq(index).children('.auditBtn').attr('auditStatus',0);
+                                $('.doc_mess .audit_button').eq(index).children('.auditBtn').css({'cursor':'pointer'});
+                            }else if(objList[0].auditState == 1){
+                                //    alert(objList[0].auditState);
+                                $('.doc_mess .audit_button').eq(index).children('.auditBtn').removeClass('mainBg');
+                                $('.doc_mess .audit_button').eq(index).children('.auditBtn').text('已审核');
+                                    $('.doc_mess .audit_button').eq(index).children('.auditBtn').attr('auditStatus',1);
+                                $('.doc_mess .audit_button').eq(index).children('.auditBtn').attr('disabled',true);
+                            }
+                      }  
+                      $.each(objList,function(index,time){
+                         for(var i=0;i<$(".table_day").length;i++){
+                              if($(".table_day").eq(i).html()==time.sourcedate){
+                                  var count='';
+                                  var inventorynum=parseInt(time.totalNum)+parseInt(time.newNum?time.newNum:0);
+                                  var state=time.state;
+                                  if(state == 1){
+                                        var duty='';
+                                        if(time.outpatientType==0){
+                                            if(inventorynum==0){
+                                                var txt="无";
+                                            }else{
+                                                var txt="有";
+                                            }
+                                            duty='<input maxlength="2" onkeyup="value=value.replace(/[^\\d]/g,\'\')"   readonly class="input_text back_ddd color_black" value="'+txt+'" type="text"/>'
+                                        }
+                                         if(time.outpatientType==1){
+                                            duty='<input maxlength="2" onkeyup="value=value.replace(/[^\\d]/g,\'\')"   readonly class="input_text back_ddd color_blue" value="'+inventorynum+'" type="text"/>'
+                                        }
+                                        if(time.outpatientType==2){
+                                            duty='<input maxlength="2" onkeyup="value=value.replace(/[^\\d]/g,\'\')"   readonly class="input_text back_ddd color_red" value="'+inventorynum+'" type="text"/>'
+                                        }
+                                        count='<input type="hidden" class="sourceId" value="'+time.sourceId+'"><input  class="input_outType" value="'+time.outpatientType+'" type="hidden"  ><input  class="input_state" value="'+state+'" type="hidden"  >'+duty;
+                                  }
+                                 if(time.sourcetime=="am"){
+                                      $('.doc_mess>.schedule_detail_up:eq('+num+') .detail_top>td:eq('+i+')').html(count);
+                                 }else if(time.sourcetime=="pm"){
+                                      $('.doc_mess>.schedule_detail_up:eq('+num+') .detail_bot>td:eq('+i+')').html(count);
+                                 }
+                              }
+                         }
+                      });
+                });
+                   $(document.documentElement).animate({ scrollTop: 0 }, 300);
+                    //支持chrome
+                    $(document.body).animate({ scrollTop: 0 }, 300);
+                    schedulepage(page,startTime,count);
+                   //  outTable(page,subId,time)
+                    outTable(page,$('.schedule_name .department').attr('subjectId'))
+            }
+         });
+   }; 
+  
+
+//获取医院所有有排班的科室信息
+// /admin/scheduling/getAllSubSchduling
+  function getAllSchduling(){
+    $(".list_mess").html("");
+     $.ajax({
+            //url:'http://192.168.1.51:8333/eht/admin/scheduling/getAllSubSchduling',
+            url:baseUrl + 'eht/admin/scheduling/getAllSubSchduling',
+            type:'get',
+            dataType: "json",
+            data:{
+              hospitalId:sessionStorage.getItem('hospitalId')
+            },
+            success: function (data) {
+              console.log(data);
+              if(data.length==0){
+                return;
+              }
+              var html="";
+              //后台暂时未设置排班员用户名
+              for(var i=0;i<data.length;i++){
+                var checkState;
+                switch(parseInt(data[i].state)){
+                  case 4:
+                  	checkState="已审核";
+                  	//审核按钮添加class=checkSucc
+                    html+=`
+                      <tr><td subject="${data[i].subjectcontents}" class="subjectId">${i+1}</td><td class="subName">${data[i].subName}</td><td>${data[i].createtime}</td><td>${checkState}</td><td><button class="audit_detail">查看详情</button><button class="checkState checkSucc">审核</button></td></tr>
+                    `;
+                    break;
+                  case 1:
+                    //审核按钮添加class=checkFail
+                    checkState="未审核";
+                    html+=`
+                      <tr><td subject="${data[i].subjectcontents}" class="subjectId">${i+1}</td><td class="subName">${data[i].subName}</td><td>${data[i].createtime}</td><td>${checkState}</td><td><button class="audit_detail">查看详情</button><button class="checkState checkFail">审核</button></td></tr>
+                    `;
+                    break;
+                }
+              }
+              $(".list_mess").html(html);
+            }
+      });
+  };
+
+  //一级界面科室点击查看详情 查看排班员排班信息 
+  $(".list_mess").on("click","button.audit_detail,button.checkFail",function(){
+  	  var subName=$(this).parent().siblings(".subName").text();
+	  var subjectId = $(this).parent().siblings(".subjectId").attr("subject");
+  	  if($(this).attr("class")=="audit_detail"){
+	      if(subName!==""&&subName!==undefined&&subName!=="undefined"&&subjectId!==""&&subjectId!==undefined&&subjectId!=="undefined"){
+	        $(".table_schedule_list").hide().prev().show();
+	        $(".table_submit_1").hide();
+	        $.ajax({
+	           	//url:"http://192.168.1.51:8333/eht/admin/scheduling/getSubSchdulingList",
+	           	url:baseUrl+"eht/admin/scheduling/getSubSchdulingList",
+	    		type:"get",
+	    		data:{
+	        		hospitalId:sessionStorage.getItem("hospitalId"),
+	        		subjectcontents:subjectId
+	   			},
+	            beforeSend:function(XMLHttpRequest){
+
+	            },
+	            success:function(data){
+	                if(data== [] || data.length == 0 ){
+	                    return;
+	                }
+	                var html;
+	                for(var i=0;i<data.length;i++){
+	                	var checkState;
+	                	switch(parseInt(data[i].state)){
+		                	case 4:
+			                	checkState="已审核";
+			                	break;
+			                case 1:
+			                	checkState="未审核";
+			                	break;
+		                }
+	                	html+='<tr><td subject='+data[i].subjectcontents+' class="subjectId" ><input type="hidden" value="'+data[i].subName+'" /><span>'+(i+1)+'</span></td><td>'+data[i].userName+'</td><td>'+data[i].userMobileno+'</td><td>'+data[i].createtime+'</td><td>'+checkState+'</td><td><button class="audit_detail_list">审核</button></td></tr>';
+	                }
+	                $(".user_mess").html(html);
+	            }
+	        });
+	      }
+	    }else{
+	    	//一级界面科室点击查看审核 查看医生排班信息
+	    	getSubByname(subName,subjectId);
+	    }
+  	});
+
+  //点击查看详情 查看排班信息  //调用
+  function getSubByname(subName,subjectId){
+      $(".schedule_search").css("visibility","visible");
+	  var time=$("#start").val();//
+      var date1 = new Date();
+      var time1=date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();//
+      time==""?time=time1:time;
+      var getday = DateDiff(time,time1); //
+      if(subName !== ""&&subName !== undefined&&subName!=="undefined"){
+        $(".table_schedule_user").hide().prev().show();
+        $(".table_schedule_user").next().hide();
+        $(".table_submit_1").hide();
+        $(".table_submit").show();
+        $(".table_back").show();
+        var time=$("#start").val();//
+        var date1 = new Date();
+        var time1=date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();//
+        time==""?time=time1:time;
+        var getday = DateDiff(time,time1); //
+        if(subjectId){
+            listTop1(currentpage,getday,time,subjectId);
+           //  querySchedule(currentpage,$('.schedule_name .department').attr('subjectId'),startTime);
+            $('caption>p').text(subName +'门诊排班表');
+        }
+        if(subjectId =="undefined" || subjectId == undefined || !subjectId){
+            var subName=$(this).parent().siblings(".subName").text();
+            $.ajax({
+                   // url:baseUrl + '/eht/admin/Information/queryDepartment',
+                   url:baseUrl+"eht/admin/scheduling/getSubByname",
+                    type:'post',
+                    data:{
+                         hospitalId:sessionStorage.getItem("hospitalId"),     
+                        // departmentName:$('.schedule_name .department').val()
+                        name:subName,
+                        type:1,
+                        parentcode:''
+                    },
+                    beforeSend:function(XMLHttpRequest){
+
+                    },
+                    success:function(data){
+                        if(data== [] || data.length == 0 ){
+                            return;
+                        }
+                        for(var i=0;i<data.length;i++){
+                            if($('.schedule_name .department').val() === data[i].subjectName){
+                             // alert($('.schedule_name .department').val());
+                                $('.schedule_name .department').attr('subjectId',data[i].departmentId);
+                                 listTop1(currentpage,getday,time,subjectId);  
+                               // querySchedule(currentpage,$('.schedule_name .department').attr('subjectId'),startTime);
+                                $('caption>p').text(subName +'门诊排班表');
+                                break;
+                            }
+                        }
+                    }
+             });
+        }
+      }
+  }
+  //二级界面排班员信息点击查看详情 查看医生排班信息 
+  $(".user_mess").on("click","button.audit_detail_list",function(){
+  	  if($(this).attr("class")=="audit_detail_list"){
+	      var subName=$(this).parent().siblings(".subjectId").children("input[type=hidden]").val();
+	      var subjectId = $(this).parent().siblings(".subjectId").attr("subject");
+	      getSubByname(subName,subjectId);
+      }
+  });
+
+function schedulepage(page,date,count){
+    if(count > 1){
+         $('.schedule_page').show();
+         $('.schedule_page').myPagination({
+             currPage: page,
+             pageCount: count,
+             pageSize: 8,
+             panel: {
+                tipInfo_on: true,
+                tipInfo: '&nbsp;&nbsp;跳转至{input}/{sumPage}页',
+                tipInfo_css: {
+                    width: '25px',
+                    height: "20px",
+                    border: "2px solid #f0f0f0",
+                    padding: "0 0 0 5px",
+                    margin: "0 5px 0 5px",
+                    color: "#01cdb2"
+                }
+             },
+            ajax:{
+                on: false,
+                onClick :function(pageNu){
+                     var date=$(".schedule_tr_table>tbody>tr>td:first-child .table_day").html();//获取起始时间
+                    var val = Date.parse(date); 
+                    var newDate = new Date(val);
+                    var date1 = new Date();
+                    var time1=date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();//time1表示当前时间
+                    var time=newDate.getFullYear()+"-"+(newDate.getMonth()+1)+"-"+newDate.getDate();//
+                    time==""?time=time1:time;
+                    var getday=DateDiff(time,time1);//查询的起始时间和当前时间的间隔天数
+                     page = pageNu;
+                     listTop(page,getday,date);
+                    }
+            }
+         });
+    }else {
+        $('.schedule_page').hide();
+    }
+};
+
+
+function listTop(page,day_interval,date_start){
+       //     $('.schedule_table').show();
+    $(".schedule_tr_table tr").html("");
+    for(var i=day_interval;i<day_interval+7;i++){
+        getWeek(i%7);
+      //  alert(i);
+        var html='<td><p class="table_week">'+week+'</p><p class="table_day">'+getYear(i)+'</p></td>'
+        $(".schedule_tr_table tr").append(html);
+    }
+    if(day_interval>6){
+        var left="<a id='list_left' onclick='listTop("+page+","+(day_interval-7)+","+getYear(i-35)+")' href='javascript:void(0);'></a>";
+        $(".schedule_tr_table tr td:first-child").addClass("point_left").prepend(left);
+    }
+        var right="<a id='list_right' onclick='listTop("+page+","+(day_interval+7)+","+getYear(i+35)+")' href='javascript:void(0);'></a>";
+        $(".schedule_tr_table tr td:last-child").addClass("point_right").append(right);
+
+   //alert(getYear(i-7))
+    querySchedule(page,$('.schedule_name .department').attr('subjectId'),getYear(i-7));
+}
+
+//相对listTop  增加通过科室id获得排班信息
+function listTop1(page,day_interval,date_start,subjectId){
+       //     $('.schedule_table').show();
+    $(".schedule_tr_table tr").html("");
+    for(var i=day_interval;i<day_interval+7;i++){
+        getWeek(i%7);
+      //  alert(i);
+        var html='<td><p class="table_week">'+week+'</p><p class="table_day">'+getYear(i)+'</p></td>'
+        $(".schedule_tr_table tr").append(html);
+    }
+    if(day_interval>6){
+        var left="<a id='list_left' onclick='listTop1("+page+","+(day_interval-7)+","+getYear(i-35)+","+subjectId+")' href='javascript:void(0);'></a>";
+        $(".schedule_tr_table tr td:first-child").addClass("point_left").prepend(left);
+    }
+        var right="<a id='list_right' onclick='listTop1("+page+","+(day_interval+7)+","+getYear(i+35)+","+subjectId+")' href='javascript:void(0);'></a>";
+        $(".schedule_tr_table tr td:last-child").addClass("point_right").append(right);
+   //alert(getYear(i-7))
+    querySchedule(page,subjectId,getYear(i-7));
+}
+
+
+
+function showDepart(){
+    $.ajax({
+        url:baseUrl + 'eht/admin/hospitalUser/selectSub',
+        type:'post',
+        data:{
+            hospitalId:sessionStorage.getItem('hospitalId')
+        },
+        success:function(data){
+           $('caption p').text(data[0].subName + '门诊排班表');
+           $('caption p').attr('departId',data[0].departmentId);
+          // alert($('caption p').attr('departId'))
+           $('caption span').text('('+ $('#start').val()+'~'+nextTime(6)+')');
+        },
+        // complete:function(){
+        //      schedule_list(1,$('#start').val());
+        // }
+    });
+};
+
+
+$('.doc_mess').on('click','.auditBtn ',function(){
+    //alert($(this).attr('auditStatus') == '0')
+    var self = this;
+    if($(self).attr('auditStatus') == '0'){
+            $('.smallMask').show();
+            $('.smallBox').show();
+            $(".small_text").html("确认审核？");
+              $(".btn_return").show();
+             $(".btn_sure").show();
+            $('.btn_return').click(function(){
+                $('.smallMask').hide();
+                $('.smallBox').hide();
+               // return false; 
+            });
+            $(".btn_sure").unbind('click').click(function () {
+                //schedule_name
+                //alert($(self).parent().siblings('.schedule_num').children('.doctorID').val() +'-'+$(self).parent().siblings('.schedule_name').text());
+                $.ajax({
+                   // url:'http://192.168.1.51:8333/eht/admin/scheduling/updateAudit',
+                    url:baseUrl+'eht/admin/scheduling/updateAudit',
+                    type:'post',
+                    data:{
+                       doctorIds: $(self).parent().siblings('.schedule_num').children('.doctorID').val(),
+                       beginTime: $(".schedule_tr_table>tbody>tr>td:first-child .table_day").html(),//获取起始时间
+                       endTime:AddDays($(".schedule_tr_table>tbody>tr>td:first-child .table_day").html(),6)
+                    },
+                    beforeSend:function(XMLHttpRequest){
+                        $('.smallMask').show();
+                        $('.waitingBox').show();
+                    },
+                    success:function(data){
+                        console.log(data);
+                        if(data.type == 1){
+                             $('.smallMask').hide();
+                            $('.smallBox').hide();
+                            $('.waitingBox').hide();
+                            $(self).removeClass('mainBg');
+                            $(self).text('已审核');
+                            $(self).attr('auditStatus',1);
+                            $(self).attr('disabled',true); 
+                            $(self).css('cursor',none);  
+                        }else if(data.type == 0){
+                            $(".small_text").html("审核失败 请重新审核！");
+                            $(".btn_return").hide();
+                            $(".btn_sure").hide();
+                            setTimeout(function(){
+                                   $('.smallMask').hide();
+                                    $('.smallBox').hide();
+                                    $('.waitingBox').hide();
+                            },3000);
+
+                        }
+                    }
+                });
+            });
+    }
+});
+
+
+$('.table_submit').click(function(){
+        $('.smallMask').show();
+        $('.smallBox').show();
+        $(".small_text").html("确认审核全部信息吗？");
+        $('.btn_return').click(function(){
+            $('.smallMask').hide();
+            $('.smallBox').hide();
+        });
+        $(".btn_sure").unbind('click').click(function () {
+            var doctorIdsArr = $('.doctorID');
+            var doctorIds = '';
+            $.each(doctorIdsArr,function(index,doctorId){
+                doctorIds += $(doctorId).val() +',';
+            });
+              // console.log(doctorIds.split(','));
+              var arr = [];
+              for(var i=0;i<doctorIds.split(',').length-1;i++){
+                arr.push(doctorIds.split(',')[i])
+              }
+         //  console.log(arr +'---' +doctorIds)
+           doctorIds = arr.join(',');
+             $.ajax({
+                   // url:'http://192.168.1.51:8333/eht/admin/scheduling/updateAudit',
+                   url:baseUrl+'eht/admin/scheduling/updateAudit',
+                    type:'post',
+                    data:{
+                       doctorIds:doctorIds,
+                       beginTime: $(".schedule_tr_table>tbody>tr>td:first-child .table_day").html(),//获取起始时间
+                       endTime:AddDays($(".schedule_tr_table>tbody>tr>td:first-child .table_day").html(),6)
+                    },
+                   beforeSend:function(XMLHttpRequest){
+                        $('.smallMask').show();
+                        $('.waitingBox').show();
+
+                    },
+                    success:function(data){
+                        console.log(data);
+                        if(data.type == 1){
+                             $('.smallMask').hide();
+                            $('.smallBox').hide();
+                              $('.waitingBox').hide();
+                            $('.auditBtn').removeClass('mainBg');
+                            $('.auditBtn').text('已审核');
+                            $('.auditBtn').attr('auditStatus',1);
+                            $('.auditBtn').attr('disabled',true);  
+                        }else if(data.type == 0){
+                            $(".small_text").html("审核失败 请重新审核！");
+                            $(".btn_return").hide();
+                            $(".btn_sure").hide();
+                            setTimeout(function(){
+                                   $('.smallMask').hide();
+                                    $('.smallBox').hide();
+                                    $('.waitingBox').hide();
+                            },3000);
+
+                        }
+                    }
+             });  
+        });
+});
+$(".table_back").click(function(){
+        $(".schedule_search").css("visibility","hidden");
+		$(".table_schedule_list").show().prev().hide().prev().hide();
+        $(".table_submit_1").show();
+        $(".table_submit").hide();
+        $(".table_back").hide();
+});
+
+function outTable(page,subId) {
+    var list = [{}];
+    list[0].CurrentPage = page;
+    list[0].totalPages = "6";
+    list[0].subjectId = subId;
+    list[0].hospitalId = sessionStorage.getItem('hospitalId'); 
+    list[0].sourceDate = $(".schedule_tr_table>tbody>tr>td:first-child .table_day").html();//获取起始时间
+    $(".export_table").unbind('click').click(function () {
+          list[0].sourceDate = $(".schedule_tr_table>tbody>tr>td:first-child .table_day").html();
+        $.ajax({
+            //url:'http://192.168.1.51:8333/eht/admin/scheduling/CurrentSchedulingExcel',
+            url:baseUrl+'eht/admin/scheduling/CurrentSchedulingExcel',
+            type:'post',
+            data:{jsonObj:JSON.stringify(list)},
+            dataType: "json",
+            success: function (data) {
+               // alert("导出成功");
+              //  console.log(data);
+              //  window.location.href= "http://192.168.1.51:8333/eht/uploadFile/"+data;
+              window.location.href= baseUrl+"eht/uploadFile/"+data;
+//                $(".modify_record").attr("href","..\SchedulingExcl2017-08-03.xls");
+            }
+        });
+    });
+}
