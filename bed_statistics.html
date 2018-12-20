@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>统计</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="lib/myPagination/page.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+    <style>
+        .set_content tr{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="set">
+        <div class="schedule_head">统计<i class="fa fa-angle-right fr" style="margin: 10px"></i>租床统计</div>
+        <div class="schedule_search clearfix">
+            <div class="schedule_name">
+                <lable>年份:</lable>
+                <select name="" id="">
+                    <option value="">2018年</option>
+                </select>
+            </div>
+            
+            <!-- <button class="search_btn">搜索</button> -->
+        </div>
+        <div class="set_table">
+            <table style="min-width: 950px" class="table table-bordered table-hover table-responsive text-center" id="set_table">
+                <tbody>
+                    <tr class="bgcolor_f2">
+                        <td style="width: 10%">序号</td>
+                        <td style="width: 20%">年份</td>
+                        <td style="width: 20%">总使用次数</td>
+                        <td style="width: 20%">总使用时间</td>
+                    </tr>
+                </tbody>
+                <tbody class="set_content">
+                    <tr>
+                        <td>1</td>
+                        <td>2018</td>
+                        <td>13326</td>
+                        <td>6154:00:00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="width:60%" class="page_style set_page"></div>
+    </div>
+
+
+<script src="public/js/jquery-1.11.3.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/laydate/laydate.js"></script>
+<script src="lib/myPagination/jquery.myPagination6.0.js"></script>
+<script src="js/bed_statistics.js"></script>
+<script>
+    $('.set_btn').css("margin-top","10px")
+    $(function(){
+        $('.alertMask').hide();
+        $('.alertBox').hide();
+        // setUp(1,"","");
+        // dapart();
+        $('.smallMask').hide();
+        $('.smallBox').hide();
+        // 获取弹窗宽高
+        var width=$('.alertBox').width();
+        var height=$('.alertBox').height();
+        // 获取浏览器窗口宽高
+        var h=document.documentElement.clientHeight;
+        var w=document.documentElement.clientWidth;
+        var smallW=$('.smallBox').width();
+        var smallH=$('.smallBox').height();
+        $('.alertBox').css({ 'top': (h-height) / 2 + 'px', 'left': (w-width) / 2 + 'px' });
+        $('.alert-close').click(function(){
+            $('.alertMask').hide();
+            $('.alertBox').hide();
+        })
+        $('.smallBox').css({ 'top': (h-smallH) / 2 + 'px', 'left': (w-smallW) / 2 + 'px' });
+        $('.btn_return').click(function(){
+            $('.smallMask').hide();
+            $('.smallBox').hide();
+        })
+    })
+</script>
+</body>
+</html>

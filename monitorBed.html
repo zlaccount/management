@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>陪护床使用检测</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="lib/myPagination/page.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body>
+    <div id="set">
+        <div class="schedule_head">陪护床使用检测</div>
+        <div class="schedule_search">
+            <div class="schedule_name">
+                <select name="" id="">
+                    <option value="">正常开启</option>
+                </select>
+            </div>
+            <div class="schedule_name pos_rel">
+                <select name="" id="">
+                    <option value="">使用时间</option>
+                </select>
+            </div>
+            <div class="schedule_name pos_rel">
+                <select name="" id="">
+                    <option value="">电池电量</option>
+                </select>
+            </div>
+            <div class="schedule_name pos_rel">
+                <select name="" id="">
+                    <option value="">流量</option>
+                </select>
+            </div>
+            <button class="search_btn">搜索</button>
+        </div>
+        <div class="set_table">
+            <table style="min-width: 950px" class="table table-bordered table-hover table-responsive text-center" id="set_table">
+                <tbody>
+                    <tr class="bgcolor_f2">
+                        <td style="width: 5%">序号</td>
+                        <td>床位号</td>
+                        <td>陪护床编号</td>
+                        <td>开始时间</td>
+                        <td>结束时间</td>
+                        <td>使用时间</td>
+                        <td>状态</td>
+                        <td>当前电量</td>
+                        <td>流量</td>
+                    </tr>
+                </tbody>
+                <tbody class="set_content">
+                    <tr>
+                        <td>1</td>
+                        <td>1001</td>
+                        <td>1003154648</td>
+                        <td>2018-11-28 10:24:36</td>
+                        <td>2018-11-28 12:21:47</td>
+                        <td>10:00:00</td>
+                        <td>正常开启</td>
+                        <td>50%</td>
+                        <td>100M</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="width: 60%" class="page_style set_page"></div>
+    </div>
+
+
+<script src="public/js/jquery-1.11.3.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/laydate/laydate.js"></script>
+<script src="lib/myPagination/jquery.myPagination6.0.js"></script>
+<!-- <script src="js/schedule.js"></script> -->
+<script>
+    $('.set_btn').css("margin-top","10px")
+    $(function(){
+        $('.alertMask').hide();
+        $('.alertBox').hide();
+        // setUp(1,"","");
+        // dapart();
+        $('.smallMask').hide();
+        $('.smallBox').hide();
+        // 获取弹窗宽高
+        var width=$('.alertBox').width();
+        var height=$('.alertBox').height();
+        // 获取浏览器窗口宽高
+        var h=document.documentElement.clientHeight;
+        var w=document.documentElement.clientWidth;
+        var smallW=$('.smallBox').width();
+        var smallH=$('.smallBox').height();
+        $('.alertBox').css({ 'top': (h-height) / 2 + 'px', 'left': (w-width) / 2 + 'px' });
+        $('.alert-close').click(function(){
+            $('.alertMask').hide();
+            $('.alertBox').hide();
+        })
+        $('.smallBox').css({ 'top': (h-smallH) / 2 + 'px', 'left': (w-smallW) / 2 + 'px' });
+        $('.btn_return').click(function(){
+            $('.smallMask').hide();
+            $('.smallBox').hide();
+        })
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>自助取号</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<link rel="stylesheet" type="text/css" href="lib/bootstrap.css">
+<link rel="stylesheet" href="plugin/sweetalert-master/dist/sweetalert.css">
+<link rel="stylesheet" href="lib/myPagination/page.css" />
+<link rel="stylesheet" type="text/css" href="public/css/base.css">
+<link rel="stylesheet" type="text/css" href="css/terminals.css"/>
+</head>
+<body>
+			<!-- 头部 -->
+		<div class="header clearfix">
+			<div class="header_title fl">
+				<a href="#" class="home">
+					<span class="hospital_title"></span>
+				</a>
+		</div>
+		<div class="header_title_right fr">
+			就诊时间：<span id="timer"></span>
+		</div>
+	</div>
+	<div id="register_window">	
+	    <div id="substance">
+	        <!-- <div id="myTabContent"  class="tab-content"> -->
+		    <div id="circle_boss" class="show none">
+			<div id="circle1">
+				<a href="#"><img src="images/icon3.png" alt="" />
+				<p>
+					就诊卡充值
+				</p>
+				</a>
+			</div>
+			<div id="circle2">
+				<a href="#">
+				<img src="images/icon4.png" alt="" />
+				<p>
+					个人查询
+				</p>	
+				</a>
+			</div>
+			<div id="circle">
+				<a href="#">
+				<img src="images/icon.png" alt="" />
+				<p>
+					自助流程
+				</p>
+				</a>
+			</div>
+			<div id="circle3">
+				<a href="#">
+					<img src="images/icon1.png" alt="" />
+				<p>
+					自助取号
+				</p>
+				</a>
+			</div>
+			<div id="circle4">
+				<a href="#">
+					<img src="images/icon2.png" alt="" />
+				<p>
+					预约挂号
+				</p>
+				</a>
+			</div>
+			</div>
+			<!--返回-->
+				<input class="return_home" type="button" value="返回首页" onclick="javascript:window.location.href ='terminals.html';">
+				<!--默认的挂号取号页面内容-->
+				<div class="regis_box none" id="register">
+					<!--默认step1内容-->
+					<div class="step1">						
+						<!--扫描身份证信息展示-->
+						<ul class="identify clearfix">
+							<li class="fl">
+								<label>姓&nbsp;&nbsp;&nbsp;名：</label>
+								<input type="text" class="user_name" name="idCard_Name">
+							</li>
+							<li class="fl">
+								<label>身份证：</label>
+								<input type="text" class="user_id" name="idCard_No">
+							</li>
+							<li class="fl">
+								<label>订单号：</label>
+								<input type="text" class="user_regisId" placeholder="输入单号">
+							</li>  
+							<button class="btn_scan" onclick="Idcard();">扫描身份证</button>
+							<input class="return" type="button" value="返回" onclick="javascript:window.location.href ='terminals.html';">
+						</ul>					
+						<!--表格信息（扫描身份证展示）-->
+						<div class="table_info saomiaoMes">
+							 <table class="table table-striped table-bordered table-hover center" id="sample-table"> 
+							 	<thead>
+									<tr class="thead_list">
+										<th style="width: 172px;">序号</th>
+										<th style="width: 172px;">订单编号</th>
+										<th style="width: 172px;">就诊日期</th>
+										<th style="width: 172px;">时间</th>
+										<th style="width: 172px;">科室</th>
+										<th style="width: 172px;">类别</th>
+										<th style="width: 172px;">医生姓名</th>
+										<th style="width: 172px;">总计</th>
+										<th style="width: 172px;">就诊人</th>
+										<th style="width: 172px;">预约途径</th>
+										<th style="width: 172px;">操作</th>
+									</tr>
+								</thead> 
+								<tbody class="registerInfo center">	 
+								</tbody>
+							</table>
+						</div>
+						<!--表格信息 根据挂号条件搜索展示-->
+							<!--表格信息分页-->
+							<div id="guahaoPage" class="page_style">
+							</div>
+						</div>
+					</div>
+					<!--点击取号 改签 退号出现的弹窗信息-->
+					<div class="mask">
+						<div class="check" index="0"> 
+							<div class="title clearfix">
+								<span class="smalltitle">挂号单</span>
+								<img src="images/close_04.png" alt="" class="close_checkMask">
+							</div>
+							<div class="checkMes_box">
+								<div class="checkMes">
+									<ul class="checkBtn_ul">
+										<!--数据动态填充-->
+									</ul>
+									<p class="mtb_5">请凭号就诊，谢谢配合!</p>
+									<p class="wish">预约挂号请用E大夫app，E大夫祝您身体健康！</p>
+									<div class="hospital_titles center"><span class='hospital_title'></span><span class="checkTime"></span></div>
+									<img class="hospi_logo fl" src="" alt=""> 
+									<button class="confirmCheck">确认取号</button>
+								</div>
+							</div>
+						</div>		
+					</div>
+				</div>
+			</div>
+	<script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script>
+ 	<script type="text/javascript" src="lib/bootstrap.js"></script>
+	<script src="plugin/sweetalert-master/dist/sweetalert.min.js"></script>
+	<script src="lib/myPagination/jquery.myPagination6.0.js"></script>
+	<script type="text/javascript" src="public/js/base.js"></script>
+	<script src="js/terminals.js"></script>
+
+<script>
+$(function(){
+		$('.addMask').hide();
+        $('.messBox').hide();
+	 var h=document.documentElement.clientHeight;
+        var w=document.documentElement.clientWidth;
+		 var alertW=$('.messBox').width();
+        var alertH=$('.messBox').height();
+        $('.messBox').css({ 'top': (h-alertH) / 2 + 'px', 'left': (w-alertW) / 2 + 'px' });
+	
+	$('.hospital_title').text(sessionStorage.getItem('hospitalName'));
+	$('#register_window>h3').children('span').text(sessionStorage.getItem('hospitalName'));
+	var showTime = function() {
+		var date = new Date();
+		var month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1)
+				: (date.getMonth() + 1)
+		day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+		var currentDay = date.getFullYear() + '-' + month + '-' + day; //显示当天日期  
+		var currentTime = currentDay
+				+ " "
+				+ (date.getHours() < 10 ? "0" + date.getHours() : date
+						.getHours())
+				+ ':'
+				+ (date.getMinutes() < 10 ? "0" + date.getMinutes() : date
+						.getMinutes())
+				+ ':'
+				+ (date.getSeconds() < 10 ? "0" + date.getSeconds() : date
+						.getSeconds()); //显示当前具体时间
+		$('.currenttime').html(currentTime);
+		//设置取号弹窗的系统时间        
+		$('.checkMes .checkTime').html("(" + currentTime + ")");
+		$('.takenumMes .checkTime').html("(" + currentTime + ")");
+	};
+	setInterval(showTime, 1000);
+});
+	//身份证扫描
+	function Idcard() {
+		var result;
+		// 注意：第一个参数为对应的设备端口，USB型为1001，串口型为1至16
+		try {
+			result = IdrControl1.ReadCard("1001", "");
+			if (result == 1) {
+
+				$("input[name='idCard_Name']").val(IdrControl1.GetName());
+				$("input[name='idCard_No']").val(IdrControl1.GetCode());
+
+			} else {
+				if (result == -1)
+					alert("未检测到读卡器，请检查连接！");
+				if (result == -2)
+					alert("请重新将卡片放到读卡器上！");
+				if (result == -3)
+					alert("读取数据失败！");
+			}
+		} catch (e) {
+			alert("未检测到读卡器插件");
+		}
+	}
+$("#circle3 a").click(function (){
+		$("#substance .regis_box").addClass("show").siblings().removeClass("show");
+		$("#substance #circle_boss").removeClass("show");
+});
+		var d = new Date();
+		var str = d.getFullYear()+"年"+(d.getMonth()+1)+"月"+d.getDate()+"日";
+		document.getElementById("timer").innerHTML= str;
+</script>
+</body>
+	
+
+</html>

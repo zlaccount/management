@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>统计分析</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="assets/laydate/need/laydate.css"/>
+    <link rel="stylesheet" href="lib/myPagination/page.css"/>
+    <link rel="stylesheet" href="css/401.css"/>
+</head>
+<body>
+<div id="count">
+    <div class="schedule_head">统计分析</div>
+    <div class="schedule_search">
+        <div class="schedule_name audit_time pos_rel">
+            <lable>日期:</lable>
+            <input  class="inline laydate-icon search_beginDate" id="count_start">
+        </div>
+        <div class="schedule_name">
+            <lable>—</lable>
+            <input class="inline laydate-icon search_endDate" id="count_end">
+        </div>
+        <button onclick="" class="search_btn">查询</button>
+    </div>
+    <div id="count_table">
+        <div id="count_left" class="pull-left">
+            <div class="count_tit">
+                <p>挂号统计分析数据汇总表</p>
+                <div >
+                    <img src="images/mess_01.png" alt=""/>
+                    <span>导出表格</span>
+                </div>
+            </div>
+            <div id="t_head" class="pull-left">
+                <table  class="table table-bordered table-responsive text-center">
+                    <thead class="count_head">
+                    <tr>
+                        <td class="table_depart">科室</td>
+                        <td class="register_num">挂号数(位)</td>
+                        <td class="visit_num">就诊数(位)</td>
+                        <td class="change_num">改签</td>
+                        <td class="back_num">退号</td>
+                        <td class="count_money">金额(元)</td>
+                        <td class="operation">操作</td>
+                    </tr>
+                    </thead>
+                    <tbody class="count_main">
+                    <!--<tr>-->
+                    <!--<td class="table_depart">内科</td>-->
+                    <!--<td class="register_num">1000</td>-->
+                    <!--<td class="visit_num">20000</td>-->
+                    <!--<td class="change_num">100</td>-->
+                    <!--<td class="back_num">60012</td>-->
+                    <!--<td class="count_money">90000.00</td>-->
+                    <!--<td class="operation"><a href="#">查看</a></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table_depart">内科</td>-->
+                    <!--<td class="register_num">1000</td>-->
+                    <!--<td class="visit_num">20000</td>-->
+                    <!--<td class="change_num">100</td>-->
+                    <!--<td class="back_num">60012</td>-->
+                    <!--<td class="count_money">90000.00</td>-->
+                    <!--<td class="operation"><a href="#">查看</a></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table_depart">内科</td>-->
+                    <!--<td class="register_num">1000</td>-->
+                    <!--<td class="visit_num">20000</td>-->
+                    <!--<td class="change_num">100</td>-->
+                    <!--<td class="back_num">60012</td>-->
+                    <!--<td class="count_money">90000.00</td>-->
+                    <!--<td class="operation"><a href="#">查看</a></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table_depart">内科</td>-->
+                    <!--<td class="register_num">1000</td>-->
+                    <!--<td class="visit_num">20000</td>-->
+                    <!--<td class="change_num">100</td>-->
+                    <!--<td class="back_num">60012</td>-->
+                    <!--<td class="count_money">90000.00</td>-->
+                    <!--<td class="operation"><a href="#">查看</a></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table_depart">内科</td>-->
+                    <!--<td class="register_num">1000</td>-->
+                    <!--<td class="visit_num">20000</td>-->
+                    <!--<td class="change_num">100</td>-->
+                    <!--<td class="back_num">60012</td>-->
+                    <!--<td class="count_money">90000.00</td>-->
+                    <!--<td class="operation"><a href="#">查看</a></td>-->
+                    <!--</tr>-->
+                    </tbody>
+                    <tbody class="count_total">
+                    <!--<tr>-->
+                    <!--<td style="width: 135px">总计</td>-->
+                    <!--<td style="width: 125px">1000</td>-->
+                    <!--<td style="width: 125px">20000</td>-->
+                    <!--<td style="width: 105px">100</td>-->
+                    <!--<td style="width: 105px">60012</td>-->
+                    <!--<td style="width: 125px">90000.00</td>-->
+                    <!--<td style="width: 105px"><a href="detail.html">查看</a></td>-->
+                    <!--</tr>-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="count_right" class="pull-right">
+            <div class="count_info">
+                <div class="info_tit">
+                    <p>挂号总数据</p>
+                </div>
+                <div id="info_table">
+                    <table class="table table-bordered table-responsive text-center">
+                        <tbody>
+                        <tr class="bgcolor_f2 color_b2 info_head">
+                            <td class="color_fa">上午</td>
+                            <td class="color_fa">男性</td>
+                            <td>app预约挂号</td>
+                            <td>自助取号</td>
+                            <td>退号</td>
+                        </tr>
+                        <tr class="info_tr info_tr_1">
+                            <!--<td>2564</td>-->
+                            <!--<td>2354</td>-->
+                            <!--<td>2136</td>-->
+                            <!--<td>33651</td>-->
+                            <!--<td>56465</td>-->
+
+                        </tr>
+                        <tr class="bgcolor_f2 color_b2 info_head">
+                            <td class="color_fa">下午</td>
+                            <td class="color_fa">女性</td>
+                            <td >窗口预约挂号</td>
+                            <td >窗口取号</td>
+                            <td >改签</td>
+                        </tr>
+                        <tr class="info_tr info_tr_2">
+                            <!--<td>2136</td>-->
+                            <!--<td>3361</td>-->
+                            <!--<td>2136</td>-->
+                            <!--<td>33651</td>-->
+                            <!--<td>56465</td>-->
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="info_chart">
+                <div class="chart_top">
+                    <p>预约挂号数量统计</p>
+                    <div class="chart-search clearfix">
+                        <div class="register_method pull-left">
+                            <lable>筛选:</lable>
+                            <select id="choice">
+                                <option value="1">上/下午</option>
+                                <option value="2">性别</option>
+                                <option value="3">挂号方式</option>
+                                <option value="4">取号方式</option>
+                            </select>
+                        </div>
+                        <div class="register_data pull-left">
+                            <lable>日期:</lable>
+                            <select id="year"></select>
+                        </div>
+                        <!--<div class="register_color pull-right">-->
+                        <!--<div class="register_app">-->
+                        <!--<i></i>-->
+                        <!--<span>app挂号</span>-->
+                        <!--</div>-->
+                        <!--<div class="register_window">-->
+                        <!--<i></i>-->
+                        <!--<span>窗口挂号</span>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+                <div id="echarts">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="smallAlert">
+        <!-- 遮罩层 -->
+        <div class="smallMask"></div>
+        <!--消息框-->
+        <div class="smallBox">
+            <div class="alertBox_top">
+                <p class="small-title">
+                    温馨提示
+                </p>
+            </div>
+            <div class="small_main">
+                <p class="small_text">确认修改?</p>
+            </div>
+            <div class="small_btn">
+                <button class="btn_return">取消</button>
+                <button class="btn_sure">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="public/js/jquery-1.11.3.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/laydate/laydate.js"></script>
+<script src="public/js/echarts.js"></script>
+<script src="js/schedule.js"></script>
+<script>
+    $(function () {
+        $('.smallMask').hide();
+        $('.smallBox').hide();
+        var h=document.documentElement.clientHeight;
+        var w=document.documentElement.clientWidth;
+        var smallW=$('.smallBox').width();
+        var smallH=$('.smallBox').height();
+        $('.smallBox').css({ 'top': (h-smallH) / 2 + 'px', 'left': (w-smallW) / 2 + 'px' });
+        $('.btn_return').click(function(){
+            $('.smallMask').hide();
+            $('.smallBox').hide();
+        })
+        countList(getYear(-1),getYear(0));
+        selChange();
+        $.ms_DatePicker();
+    })
+</script>
+<script>
+    $(document).ready(function(){
+        console.log($('#count_table').width());
+        resize()
+       $("#count").resize(function(){
+           resize();
+
+    })
+        $(window).resize(function(){
+            resize();
+
+        })
+
+
+        function resize() {
+            var _width=$('#count_table').width();
+            console.log(_width)
+            if(_width>1500){
+                $('.table_depart').width(_width*0.06);
+                $('.register_num').width(_width*0.08);
+                $('.change_num').width(_width*0.06);
+                $('.back_num').width(_width*0.06);
+                $('.visit_num').width(_width*0.08);
+                $('.count_money').width(_width*0.08);
+                $('.operation').width(_width*0.06);
+                $("#count_right").width(_width*0.4);
+                $("#count_right #echarts>div").width(_width*0.4);
+                $("#count_right #echarts>div>canvas").width(_width*0.4);
+            }
+            if(_width<1500){
+                $('.table_depart').width(_width*0.1);
+                $('.register_num').width(_width*0.2);
+                $('.change_num').width(_width*0.1);
+                $('.back_num').width(_width*0.1);
+                $('.visit_num').width(_width*0.2);
+                $('.count_money').width(_width*0.2);
+                $('.operation').width(_width*0.1);
+                $("#count_right").width(_width);
+                $("#count_right #echarts>div").width(_width);
+                $("#count_right #echarts>div>canvas").width(_width);
+            }
+        }
+
+    });
+
+
+
+    var goodsStartTime={
+        elem: '#count_start',
+        event: 'focus',
+        min: laydate.now(-730),
+        max: laydate.now(),
+        choose: function(datas){
+            goodsEndTime.min = datas; //开始日选好后，重置结束日的最小日期
+            goodsEndTime.start = datas //将结束日的初始值设定为开始日
+        }
+    };
+    var goodsEndTime={
+        elem: '#count_end',
+        event: 'focus',
+        istime: true,
+        istoday: false,
+        max: laydate.now(),
+        choose: function(datas){
+            goodsStartTime.max = datas; //结束日选好后，重置开始日的最大日期
+        }
+    };
+    laydate(goodsStartTime);
+    laydate(goodsEndTime);
+</script>
+</body>
+</html>
